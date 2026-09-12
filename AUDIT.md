@@ -389,3 +389,36 @@ only which branch they enter changes.
 Nothing was deleted from Shopify. The four uploaded images remain in product
 media, and the theme will switch back to them automatically once each product
 has a full set.
+
+### Round 2 deployed to the preview theme — verified by checksum
+
+`themeFilesUpsert` again returned an empty `upsertedThemeFiles` array with no
+`userErrors`, so every file was read back and compared. All five match the local
+copies byte for byte:
+
+| File | Size | md5 |
+| --- | --- | --- |
+| `sections/main-product.liquid` | 83,271 | `77e0a277…` |
+| `snippets/nur-product-card.liquid` | 21,694 | `489de1d0…` |
+| `snippets/nur-product-data-json.liquid` | 11,318 | `47938a2e…` |
+| `snippets/nur-product-image.liquid` | 2,787 | `5812f7fd…` |
+| `snippets/nur-product-use-assets.liquid` | 1,187 | `d25c4a66…` |
+
+Live theme `/t/36` re-confirmed untouched — `main-product.liquid` `41c4a859…`,
+`nur-product-card.liquid` `7ea8c03a…`, `nur-product-data-json.liquid`
+`c00e7623…`, `nur-product-image.liquid` `c68780731…`, all still dated
+2026-07-19, and `nur-product-use-assets.liquid` does not exist there at all.
+
+### Check on the preview
+
+Product cards — homepage carousel and collection grid. The four products below
+should now show the same real bottle photography as the other twelve, not the
+NUR-branded render:
+
+```
+https://www.nur-fragrance.com/collections/all?preview_theme_id=206267023685
+https://www.nur-fragrance.com/?preview_theme_id=206267023685
+```
+
+Then re-check the four product pages from round 1 still show 6–8 gallery images,
+and that `khamrah` is unchanged.
