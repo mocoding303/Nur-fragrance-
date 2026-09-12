@@ -291,3 +291,48 @@ Reference copies committed unchanged for diffing: `previous-theme/sections/main-
 
 **Nothing has been written to the Shopify store.** The fix exists only in this
 repository and awaits approval before being applied to a theme.
+
+---
+
+## Applied to Shopify — 2026-09-12
+
+The fix is live on an **unpublished preview theme**. The live storefront is
+untouched.
+
+| | Theme | Role | `sections/main-product.liquid` |
+| --- | --- | --- | --- |
+| Live | NUR Programmatic SEO AEO – July 19 (`/t/36`, `202894508357`) | `MAIN` | 82,539 b · md5 `41c4a859…` · unchanged since 2026-07-19 |
+| Preview | **NUR Gallery Fix — Sept 12 (preview)** (`/t/37`, `206267023685`) | `UNPUBLISHED` | 83,170 b · md5 `bb7ec238…` · written 2026-09-12 21:55 UTC |
+
+Applied via `themeDuplicate` then `themeFilesUpsert` using a commit-pinned raw
+URL (`ace7a3a`) so Shopify fetched the exact bytes reviewed here. Note
+`themeFilesUpsert` returned an empty `upsertedThemeFiles` array with no
+`userErrors`; the write was therefore confirmed by reading the file back — its
+size and md5 match the local file exactly, so the empty array was not a failure.
+
+Writes to the `MAIN` theme are blocked by the tooling regardless, so duplicating
+was the only available route.
+
+`snippets/nur-product-fallback-gallery.liquid` is md5 `571e77dc…` / 2,556 b in
+**both** themes, confirming the curated image lists were not touched and the six
+orphaned assets remain excluded as decided. That same md5 also matches the copy
+transcribed into this repository, independently confirming it is byte-exact.
+
+### Preview these four pages (each should now show 6–8 images, not 1)
+
+```
+https://www.nur-fragrance.com/products/club-de-nuit-precieux?preview_theme_id=206267023685   (expect 6)
+https://www.nur-fragrance.com/products/yulali?preview_theme_id=206267023685                  (expect 8)
+https://www.nur-fragrance.com/products/rose-01?preview_theme_id=206267023685                 (expect 8)
+https://www.nur-fragrance.com/products/melodie?preview_theme_id=206267023685                 (expect 8)
+```
+
+Also worth spot-checking one untouched product — e.g. `khamrah` (expect 8,
+exactly as today) — to confirm nothing regressed.
+
+If the storefront is password-protected or restricted under "Pause and Build",
+preview instead from Shopify admin: Online Store → Themes → *NUR Gallery Fix —
+Sept 12 (preview)* → Preview.
+
+Publishing is deliberately not automated and is blocked by the tooling. Publish
+from Shopify admin once the four pages check out.
