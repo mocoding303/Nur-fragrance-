@@ -1,0 +1,36 @@
+{%- liquid
+  assign lookup = ''
+  if product != blank
+    assign lookup = product.handle | append: ' ' | append: product.title | downcase
+  elsif handle != blank
+    assign lookup = handle | downcase
+  endif
+
+  assign gallery = ''
+  if lookup contains 'precieux' or lookup contains 'précieux'
+    assign gallery = 'club-de-nuit-precieux-1.jpg|club-de-nuit-precieux-2.jpg|club-de-nuit-precieux-3.jpg|club-de-nuit-precieux-4.jpg|club-de-nuit-precieux-5.jpg|club-de-nuit-precieux-hero.jpg'
+  elsif lookup contains 'club-de-nuit-intense' or lookup contains 'club de nuit intense'
+    assign gallery = 'club-de-nuit-intense-1.jpg|club-de-nuit-intense-2.jpg|club-de-nuit-intense-3.jpg|club-de-nuit-intense-4.jpg|club-de-nuit-intense-5.jpg|club-de-nuit-intense-6.jpg|club-de-nuit-intense-hero.jpg'
+  elsif lookup contains 'dahaab' or lookup contains 'dahab'
+    assign gallery = 'dahaab-safi-4.jpg|dahaab-safi-7.jpg|dahaab-safi-8.jpg|dahaab-safi-1.jpg|dahaab-safi-6.jpg|dahaab-safi-hero.jpg'
+  elsif lookup contains 'khamrah'
+    assign gallery = 'khamrah-1.jpg|khamrah-2.jpg|khamrah-3.jpg|khamrah-4.jpg|khamrah-5.jpg|khamrah-6.jpg|khamrah-7.jpg|khamrah-hero.jpg'
+  elsif lookup contains 'kismet'
+    assign gallery = 'kismet-angel-1.jpg|kismet-angel-2.jpg|kismet-angel-3.jpg|kismet-angel-4.jpg|kismet-angel-hero.jpg'
+  elsif lookup contains 'melodie' or lookup contains 'mélodie'
+    assign gallery = 'melodie-1.jpg|melodie-2.jpg|melodie-3.jpg|melodie-4.jpg|melodie-5.jpg|melodie-6.jpg|melodie-7.jpg|melodie-hero.jpg'
+  elsif lookup contains 'meydan'
+    assign gallery = 'meydan-4.jpg|meydan-1.jpg|meydan-2.jpg|meydan-3.jpg|meydan-5.jpg|meydan-6.jpg|meydan-7.jpg|meydan-hero.jpg'
+  elsif lookup contains 'rose 01' or lookup contains 'rose-01'
+    assign gallery = 'rose-01-5.jpg|rose-01-1.jpg|rose-01-4.jpg|rose-01-2.jpg|rose-01-3.jpg|rose-01-7.jpg|rose-01-8.jpg|rose-01-hero.jpg'
+  elsif lookup contains 'royal bleu' or lookup contains 'royal-bleu'
+    assign gallery = 'royal-bleu-4.jpg|royal-bleu-1.jpg|royal-bleu-2.jpg|royal-bleu-3.jpg|royal-bleu-7.jpg|royal-bleu-8.jpg|royal-bleu-hero.jpg'
+  elsif lookup contains 'turath'
+    assign gallery = 'turath-4.jpg|turath-1.jpg|turath-2.jpg|turath-3.jpg|turath-5.jpg|turath-6.jpg|turath-hero.jpg'
+  elsif lookup contains 'yulali'
+    assign gallery = 'yulali-1.jpg|yulali-2.jpg|yulali-3.jpg|yulali-4.jpg|yulali-5.jpg|yulali-6.jpg|yulali-7.jpg|yulali-hero.jpg'
+  elsif lookup contains 'asad'
+    assign gallery = 'asad-1.jpg|asad-2.jpg|asad-3.jpg|asad-4.jpg|asad-5.jpg|asad-hero.jpg'
+  endif
+-%}
+{{- gallery -}}

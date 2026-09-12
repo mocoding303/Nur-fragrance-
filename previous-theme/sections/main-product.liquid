@@ -1,0 +1,1423 @@
+{% render 'product-json-ld', product: product %}
+{%- liquid
+  assign nur_de = false
+  if request.locale.iso_code == 'de'
+    assign nur_de = true
+  endif
+  capture fallback_primary_asset
+    render 'nur-product-fallback-asset', product: product
+  endcapture
+  assign fallback_primary_asset = fallback_primary_asset | strip
+  capture fallback_gallery_names
+    render 'nur-product-fallback-gallery', product: product
+  endcapture
+  assign fallback_gallery_names = fallback_gallery_names | strip
+  assign fallback_gallery = fallback_gallery_names | split: '|'
+  assign force_bundle_image = false
+  assign bundle_lookup = product.handle | append: ' ' | append: product.title | downcase
+  if bundle_lookup contains 'arabian-introduction' or bundle_lookup contains 'arabian introduction' or bundle_lookup contains 'signature-masculine' or bundle_lookup contains 'signature masculine' or bundle_lookup contains 'oud-explorer' or bundle_lookup contains 'oud explorer'
+    assign force_bundle_image = true
+  endif
+  if force_bundle_image and fallback_primary_asset != blank
+    assign gallery_count = 1
+  else
+    assign gallery_count = product.images.size
+    if gallery_count == 0 and fallback_gallery_names != blank
+      assign gallery_count = fallback_gallery.size
+    endif
+    if gallery_count == 0
+      assign gallery_count = 1
+    endif
+  endif
+
+  assign preferred_variant = blank
+  for variant in product.variants
+    if variant.title contains '5ml'
+      assign preferred_variant = variant
+      break
+    endif
+  endfor
+  if preferred_variant == blank
+    assign preferred_variant = product.selected_or_first_available_variant
+  endif
+
+  assign product_short_description = product.metafields.custom.short_description | default: product.metafields.custom.scent_story | default: product.description | strip_html | strip
+  assign product_poetic_line = product.metafields.custom.poetic_description | default: product_short_description
+  assign product_top_notes = product.metafields.custom.top_notes
+  assign product_heart_notes = product.metafields.custom.heart_notes
+  assign product_base_notes = product.metafields.custom.base_notes
+  assign product_profile = product.metafields.custom.profile | default: 'Warm Arabian fragrance'
+
+  case product.handle
+    when 'khamrah'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'Warm amber poured over spiced dates, soft vanilla and golden woods. Rich, sweet and enveloping without feeling loud.'
+      assign product_top_notes = product_top_notes | default: 'Cinnamon · Nutmeg · Bergamot'
+      assign product_heart_notes = product_heart_notes | default: 'Dates · Praline · Tuberose'
+      assign product_base_notes = product_base_notes | default: 'Vanilla · Tonka · Amberwood · Myrrh'
+      assign product_profile = product.metafields.custom.profile | default: 'Sweet amber gourmand'
+    when 'asad'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'Dark spice, black amber and dry vanilla create a confident Arabian scent with a smoky, masculine edge.'
+      assign product_top_notes = product_top_notes | default: 'Black Pepper · Pineapple · Tobacco'
+      assign product_heart_notes = product_heart_notes | default: 'Coffee · Patchouli · Iris'
+      assign product_base_notes = product_base_notes | default: 'Amber · Vanilla · Dry Woods'
+      assign product_profile = product.metafields.custom.profile | default: 'Dark spicy amber'
+    when 'club-de-nuit-intense'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'A crisp citrus opening settles into smoky woods and musk, built for clean confidence and everyday compliments.'
+      assign product_top_notes = product_top_notes | default: 'Lemon · Blackcurrant · Apple'
+      assign product_heart_notes = product_heart_notes | default: 'Birch · Jasmine · Rose'
+      assign product_base_notes = product_base_notes | default: 'Musk · Ambergris · Vanilla · Patchouli'
+      assign product_profile = product.metafields.custom.profile | default: 'Fresh smoky woods'
+    when 'club-de-nuit-precieux'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'Bright bergamot and pepper over polished woods, amber and leather. Elegant, sharp and quietly luxurious.'
+      assign product_top_notes = product_top_notes | default: 'Bergamot · Pepper · Citrus'
+      assign product_heart_notes = product_heart_notes | default: 'Jasmine · Iris · Dry Woods'
+      assign product_base_notes = product_base_notes | default: 'Amber · Leather · Musk'
+      assign product_profile = product.metafields.custom.profile | default: 'Sophisticated woody amber'
+    when 'dahaab-safi'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'A soft golden fragrance with creamy sweetness, gentle florals and a polished Arabian warmth.'
+      assign product_top_notes = product_top_notes | default: 'Citrus · Sweet Fruits · Soft Spice'
+      assign product_heart_notes = product_heart_notes | default: 'White Florals · Rose · Creamy Accord'
+      assign product_base_notes = product_base_notes | default: 'Musk · Amber · Vanilla'
+      assign product_profile = product.metafields.custom.profile | default: 'Soft golden sweetness'
+    when 'meydan'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'Clean citrus, aromatic woods and a refined leather-green drydown inspired by Dubai elegance.'
+      assign product_top_notes = product_top_notes | default: 'Bergamot · Grapefruit · Apple'
+      assign product_heart_notes = product_heart_notes | default: 'Leather · Violet · Jasmine'
+      assign product_base_notes = product_base_notes | default: 'Amber · Woods · Musk'
+      assign product_profile = product.metafields.custom.profile | default: 'Fresh refined leather'
+    when 'kismet-angel'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'Honey, cinnamon and amber melt into chocolatey vanilla warmth. A sweet gourmand made for cosy evenings.'
+      assign product_top_notes = product_top_notes | default: 'Honey · Apricot · Vanilla'
+      assign product_heart_notes = product_heart_notes | default: 'Cinnamon · Amber · Caramel'
+      assign product_base_notes = product_base_notes | default: 'Chocolate · Tonka · Musk'
+      assign product_profile = product.metafields.custom.profile | default: 'Sweet warm gourmand'
+    when 'melodie'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'Turquoise freshness, soft florals and polished amber woods. Bright, smooth and easy to wear.'
+      assign product_top_notes = product_top_notes | default: 'Mandarin · Pear · Fresh Citrus'
+      assign product_heart_notes = product_heart_notes | default: 'Jasmine · Orange Blossom · Soft Florals'
+      assign product_base_notes = product_base_notes | default: 'Amber · Musk · Woods'
+      assign product_profile = product.metafields.custom.profile | default: 'Fresh floral amber'
+    when 'rose-01'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'A luminous rose fragrance with juicy fruit, graceful florals and a soft musky trail.'
+      assign product_top_notes = product_top_notes | default: 'Lychee · Bergamot · Pink Pepper'
+      assign product_heart_notes = product_heart_notes | default: 'Rose · Peony · Nutmeg'
+      assign product_base_notes = product_base_notes | default: 'Musk · Amber · Woods'
+      assign product_profile = product.metafields.custom.profile | default: 'Fruity rose musk'
+    when 'royal-bleu'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'A polished blue fragrance with aromatic freshness, smooth spice and a clean luxury drydown.'
+      assign product_top_notes = product_top_notes | default: 'Citrus · Lavender · Fresh Spice'
+      assign product_heart_notes = product_heart_notes | default: 'Geranium · Jasmine · Aromatic Woods'
+      assign product_base_notes = product_base_notes | default: 'Amber · Musk · Sandalwood'
+      assign product_profile = product.metafields.custom.profile | default: 'Fresh aromatic blue'
+    when 'turath'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'Sparkling citrus and warm woods with a smooth amber finish. Clean, bright and quietly addictive.'
+      assign product_top_notes = product_top_notes | default: 'Grapefruit · Mandarin · Citrus'
+      assign product_heart_notes = product_heart_notes | default: 'Spice · Vetiver · Fresh Woods'
+      assign product_base_notes = product_base_notes | default: 'Amber · Musk · Patchouli'
+      assign product_profile = product.metafields.custom.profile | default: 'Citrus amber woods'
+    when 'yulali'
+      assign product_poetic_line = product.metafields.custom.poetic_description | default: 'Soft pink florals, delicate sweetness and polished musk. Elegant, feminine and luminous.'
+      assign product_top_notes = product_top_notes | default: 'Citrus · Red Fruits · Fresh Florals'
+      assign product_heart_notes = product_heart_notes | default: 'Rose · Jasmine · Lily'
+      assign product_base_notes = product_base_notes | default: 'Musk · Amber · Soft Woods'
+      assign product_profile = product.metafields.custom.profile | default: 'Soft floral musk'
+  endcase
+
+  if nur_de
+    capture product_top_notes
+      render 'nur-de-terms', s: product_top_notes
+    endcapture
+    capture product_heart_notes
+      render 'nur-de-terms', s: product_heart_notes
+    endcapture
+    capture product_base_notes
+      render 'nur-de-terms', s: product_base_notes
+    endcapture
+    capture product_profile
+      render 'nur-de-terms', s: product_profile
+    endcapture
+    assign product_top_notes = product_top_notes | strip
+    assign product_heart_notes = product_heart_notes | strip
+    assign product_base_notes = product_base_notes | strip
+    assign product_profile = product_profile | strip
+    case product.handle
+      when 'khamrah'
+        assign product_poetic_line = 'Warmer Amber über gewürzten Datteln, weiche Vanille und goldene Hölzer. Reich, süß und umhüllend, ohne laut zu sein.'
+      when 'asad'
+        assign product_poetic_line = 'Dunkle Gewürze, schwarzer Amber und trockene Vanille ergeben einen selbstbewussten arabischen Duft mit rauchiger, maskuliner Kante.'
+      when 'club-de-nuit-intense'
+        assign product_poetic_line = 'Ein frischer Zitrus-Auftakt setzt sich in rauchige Hölzer und Moschus — gemacht für klare Souveränität und alltägliche Komplimente.'
+      when 'club-de-nuit-precieux'
+        assign product_poetic_line = 'Helle Bergamotte und Pfeffer über polierten Hölzern, Amber und Leder. Elegant, markant und leise luxuriös.'
+      when 'dahaab-safi'
+        assign product_poetic_line = 'Ein sanfter goldener Duft mit cremiger Süße, zarten Blüten und einer polierten arabischen Wärme.'
+      when 'meydan'
+        assign product_poetic_line = 'Klare Zitrus, aromatische Hölzer und ein raffinierter Leder-Grün-Nachklang, inspiriert von Dubais Eleganz.'
+      when 'kismet-angel'
+        assign product_poetic_line = 'Honig, Zimt und Amber verschmelzen zu schokoladiger Vanille-Wärme. Ein süßer Gourmand für gemütliche Abende.'
+      when 'melodie'
+        assign product_poetic_line = 'Türkisfrische, weiche Blüten und polierte Amberhölzer. Hell, geschmeidig und leicht zu tragen.'
+      when 'rose-01'
+        assign product_poetic_line = 'Ein leuchtender Rosenduft mit saftigen Früchten, anmutigen Blüten und einer sanften Moschus-Spur.'
+      when 'royal-bleu'
+        assign product_poetic_line = 'Ein polierter blauer Duft mit aromatischer Frische, geschmeidiger Würze und einem klaren Luxus-Nachklang.'
+      when 'turath'
+        assign product_poetic_line = 'Prickelnde Zitrus und warme Hölzer mit weichem Amber-Finish. Klar, hell und leise süchtig machend.'
+      when 'yulali'
+        assign product_poetic_line = 'Weiche rosa Blüten, zarte Süße und polierter Moschus. Elegant, feminin und leuchtend.'
+    endcase
+  endif
+-%}
+
+<!-- LIGHTBOX -->
+<div class="lb-overlay" id="lb" onclick="lbBgClick(event)">
+  <button class="lb-btn lb-close" onclick="closeLB()" aria-label="Close">&#x2715;</button>
+  <div class="lb-counter" id="lbCounter"></div>
+  <div class="lb-main" id="lbMain">
+    <button class="lb-btn lb-prev" onclick="lbStep(-1)" aria-label="Previous">&#x2039;</button>
+    <img id="lbImg" class="lb-img" src="{{ 'favicon-nur-logo.svg' | asset_url }}" alt="" draggable="false" width="1200" height="1200">
+    <button class="lb-btn lb-next" onclick="lbStep(1)" aria-label="Next">&#x203a;</button>
+    <button class="lb-btn lb-zoom-btn" id="lbZoomBtn" onclick="toggleZoom()" title="Zoom">&#x2295;</button>
+    <div class="lb-zoom-level" id="lbZoomLevel"></div>
+  </div>
+  <div class="lb-thumbs" id="lbThumbs"></div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="{{ routes.root_url }}">NUR Fragrances</a> &nbsp;/&nbsp;
+  <a href="{{ routes.all_products_collection_url }}">{% if nur_de %}Kollektion{% else %}Collection{% endif %}</a> &nbsp;/&nbsp;
+  <span>{{ product.title }}</span>
+</div>
+
+<!-- PDP HERO -->
+<section class="pdp-hero" aria-label="{{ product.title | escape }} product details">
+
+  <!-- GALLERY -->
+  <div class="gallery-outer">
+    <div class="main-img-wrap" id="mainWrap" onclick="openLB(_galIdx)">
+      {%- if force_bundle_image and fallback_primary_asset != blank -%}
+      <img id="mainImg" class="main-img"
+           src="{{ fallback_primary_asset | asset_url }}"
+           alt="{{ product.title | escape }}"
+           width="800"
+           height="800">
+      {%- elsif product.featured_image -%}
+      <img id="mainImg" class="main-img"
+           src="{{ product.featured_image | image_url: width: 800 }}"
+           srcset="{{ product.featured_image | image_url: width: 400 }} 400w,
+                   {{ product.featured_image | image_url: width: 800 }} 800w,
+                   {{ product.featured_image | image_url: width: 1200 }} 1200w"
+           sizes="(max-width:600px) calc(100vw - 2rem),(max-width:1024px) 48vw,520px"
+           width="{{ product.featured_image.width | default: 800 }}"
+           height="{{ product.featured_image.height | default: 800 }}"
+           alt="{{ product.featured_image.alt | default: product.title | escape }}">
+      {%- elsif fallback_primary_asset != blank -%}
+      <img id="mainImg" class="main-img"
+           src="{{ fallback_primary_asset | asset_url }}"
+           alt="{{ product.title | escape }}"
+           width="800"
+           height="800">
+      {%- else -%}
+      <img id="mainImg" class="main-img" src="{{ 'favicon-nur-logo.svg' | asset_url }}" alt="{{ product.title | escape }}" style="display:none" width="800" height="800">
+      {%- endif -%}
+      <button class="img-arrow prev" onclick="event.stopPropagation();stepImg(-1)" aria-label="Previous">&#x2039;</button>
+      <button class="img-arrow next" onclick="event.stopPropagation();stepImg(1)" aria-label="Next">&#x203a;</button>
+      <div class="img-counter" id="imgCounter">1 / {{ gallery_count }}</div>
+      <div class="zoom-hint">&#x1F50D;</div>
+    </div>
+    <div class="thumb-strip" id="thumbStrip">
+      {%- if force_bundle_image and fallback_primary_asset != blank -%}
+      <div class="thumb-item active"
+           onclick="setMain(this,'{{ fallback_primary_asset | asset_url }}',0)"
+           style="background-image:url('{{ fallback_primary_asset | asset_url }}')"></div>
+      {%- elsif product.images.size > 0 -%}
+      {%- for image in product.images -%}
+      <div class="thumb-item{%- if forloop.first %} active{%- endif -%}"
+           onclick="setMain(this,'{{ image | image_url: width: 1200 }}',{{ forloop.index0 }})"
+           style="background-image:url('{{ image | image_url: width: 160 }}')"></div>
+      {%- endfor -%}
+      {%- elsif fallback_gallery_names != blank -%}
+      {%- for fallback_asset in fallback_gallery -%}
+      <div class="thumb-item{%- if forloop.first %} active{%- endif -%}"
+           onclick="setMain(this,'{{ fallback_asset | asset_url }}',{{ forloop.index0 }})"
+           style="background-image:url('{{ fallback_asset | asset_url }}')"></div>
+      {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+
+  <!-- PRODUCT INFO -->
+  <div class="pdp-info">
+    <div class="pdp-brand">{{ product.vendor }}</div>
+    <h1 class="pdp-name">{{ product.title }} <span class="pdp-name-sub">{% if nur_de %}Echter Duft-Decant{% else %}Authentic Fragrance Decant{% endif %}</span></h1>
+    <p class="pdp-hero-copy">{{ product_poetic_line | strip_html | truncate: 220 }}</p>
+
+    <!-- SIZE SELECTOR -->
+    <div class="size-selector">
+      <div class="size-selector-label">{% if nur_de %}Größe wählen{% else %}Choose Size{% endif %}</div>
+	      <div class="size-tiles">
+	        {%- for variant in product.variants -%}
+          {%- assign vol_label = '' -%}
+          {%- assign note_label = '' -%}
+          {%- assign show_badge = false -%}
+          {%- assign size_key = '' -%}
+          {%- if variant.title contains '1ml' -%}
+            {%- assign vol_label = '1 ml' -%}
+            {%- assign note_label = 'Try It' -%}{%- if nur_de %}{%- assign note_label = 'Zum Testen' -%}{%- endif -%}
+            {%- assign size_key = '1ml' -%}
+          {%- elsif variant.title contains '2ml' -%}
+            {%- assign vol_label = '2 ml' -%}
+            {%- assign note_label = 'Tester' -%}{%- if nur_de %}{%- assign note_label = 'Tester' -%}{%- endif -%}
+            {%- assign size_key = '2ml' -%}
+          {%- elsif variant.title contains '5ml' -%}
+            {%- assign vol_label = '5 ml' -%}
+            {%- assign note_label = 'Decant' -%}{%- if nur_de %}{%- assign note_label = 'Decant' -%}{%- endif -%}
+            {%- assign show_badge = true -%}
+            {%- assign size_key = '5ml' -%}
+          {%- elsif variant.title contains '10ml' -%}
+            {%- assign vol_label = '10 ml' -%}
+            {%- assign note_label = 'Best value' -%}{%- if nur_de %}{%- assign note_label = 'Bester Preis' -%}{%- endif -%}
+            {%- assign size_key = '10ml' -%}
+          {%- else -%}
+            {%- assign vol_label = variant.title -%}
+            {%- assign note_label = '' -%}
+            {%- assign size_key = variant.title -%}
+          {%- endif -%}
+          {%- assign pml_cents = variant.price -%}
+          {%- if size_key == '1ml' -%}{%- assign pml_cents = variant.price -%}
+          {%- elsif size_key == '2ml' -%}{%- assign pml_cents = variant.price | divided_by: 2 -%}
+          {%- elsif size_key == '5ml' -%}{%- assign pml_cents = variant.price | divided_by: 5 -%}
+          {%- elsif size_key == '10ml' -%}{%- assign pml_cents = variant.price | divided_by: 10 -%}
+          {%- endif -%}
+          {%- assign v_img_index = '' -%}
+          {%- if variant.featured_image -%}
+            {%- for img in product.images -%}
+              {%- if img.id == variant.featured_image.id -%}
+                {%- assign v_img_index = forloop.index0 -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        <div class="size-tile{%- if variant.id == preferred_variant.id %} active{%- endif -%}"
+             data-variant-id="{{ variant.id }}"
+             data-price="{{ variant.price | money }}"
+             data-price-raw="{{ variant.price }}"
+             data-title="{{ variant.title }}"
+             data-size="{{ size_key }}"
+             data-pml="{{ pml_cents | money }}"
+             data-available="{{ variant.available }}"
+             {%- if v_img_index != '' -%}data-img-index="{{ v_img_index }}"{%- endif -%}
+             onclick="selectVariant(this)">
+          {%- if show_badge -%}<span class="st-badge">{% if nur_de %}Beliebt{% else %}Popular{% endif %}</span>{%- endif -%}
+          <span class="st-vol">{{ vol_label }}</span>
+          <span class="st-price">{{ variant.price | money }}</span>
+          {%- if note_label != '' -%}<span class="st-note">{{ note_label }}</span>{%- endif -%}
+	        </div>
+	        {%- endfor -%}
+	      </div>
+	      <div class="sample-guide" aria-label="Sample size guide">
+	        <span><strong>1ml</strong> {% if nur_de %}erster Hauttest{% else %}first skin test{% endif %}</span>
+	        <span><strong>2ml</strong> {% if nur_de %}Test für eine Woche{% else %}week-long tester{% endif %}</span>
+	        <span><strong>5ml</strong> {% if nur_de %}beliebter Decant{% else %}popular decant{% endif %}</span>
+	        <span><strong>10ml</strong> {% if nur_de %}bester Preis{% else %}best value{% endif %}</span>
+	      </div>
+	    </div>
+
+    <!-- STOCK METER -->
+    <div class="stock-meter">
+      <div class="sm-top">
+        <span class="stock-dot"></span>
+        {%- if product.available -%}
+          {% if nur_de %}Auf Lager &middot; <strong>auf Bestellung abgefüllt</strong> aus Originalflaschen{% else %}In stock &middot; <strong>filled to order</strong> from original bottles{% endif %}
+        {%- else -%}
+          {% if nur_de %}Bald wieder verfügbar{% else %}Restocking soon{% endif %}
+        {%- endif -%}
+      </div>
+      <div class="sm-bar"><div class="sm-fill" style="width:{% if product.available %}100{% else %}0{% endif %}%"></div></div>
+    </div>
+
+    <!-- PRICE BOX -->
+    <div class="price-box">
+      <div class="price-row">
+        <div class="pdp-price" id="pdpPrice">{{ preferred_variant.price | money }}</div>
+        <div class="price-per-ml" id="pricePerMl"></div>
+      </div>
+      {%- if product.metafields.custom.rrp != blank -%}
+      <div class="rrp-anchor">
+        {% if nur_de %}Ganze Flasche {% else %}Full bottle {% endif %}<span class="rrp-line-thru">{{ product.metafields.custom.rrp }}</span>
+        {%- if product.metafields.custom.rrp_save != blank -%}
+        &middot; <span class="rrp-save-badge">{% if nur_de %}Spare{% else %}Save{% endif %} {{ product.metafields.custom.rrp_save }}</span> {% if nur_de %}ggü. Boutique-Preis{% else %}vs boutique price{% endif %}
+        {%- endif -%}
+      </div>
+      {%- endif -%}
+      <div class="pdp-size" id="pdpSizeLabel">{{ preferred_variant.title }} Decant &middot; {% if nur_de %}von Hand abgefüllt{% else %}hand-filled{% endif %}</div>
+      <ul class="benefits">
+        <li>{% if nur_de %}Echter Duft, auf Bestellung von Hand abgefüllt{% else %}Authentic fragrance, hand-decanted to order{% endif %}</li>
+        <li id="spraySentence">{% if nur_de %}5&#x202F;ml &#x2248; 60&ndash;80&#x202F;Sprühstöße &mdash; testen, bevor du dich festlegst{% else %}5&#x202F;ml &#x2248; 60&ndash;80&#x202F;sprays &mdash; try before you commit{% endif %}</li>
+        <li>{% if nur_de %}Versand mit Tracking &middot; 3&ndash;5 Tage in Europa{% else %}Tracked shipping &middot; 3&ndash;5 days across Europe{% endif %}</li>
+        <li>{% if nur_de %}30 Tage Zufriedenheitsgarantie{% else %}30-day satisfaction guarantee{% endif %}</li>
+        <li>{% if nur_de %}Gratis 1-ml-Probe bei jeder Bestellung{% else %}Free 1 ml sample included with every order{% endif %}</li>
+      </ul>
+      <div class="gift-addon">
+        <label>
+          <span class="gift-icon">&#x1F381;</span>
+          <input type="checkbox" id="giftWrap">
+          <span>{% if nur_de %}Luxus-Geschenkverpackung &amp; handgeschriebene Karte &mdash; <strong>+&#x20AC;2,90</strong>{% else %}Add luxury gift packaging &amp; handwritten card &mdash; <strong>+&#x20AC;2.90</strong>{% endif %}</span>
+        </label>
+      </div>
+      {%- liquid
+        assign best_for_chips = 'First-timer|Cold weather'
+        case product.handle
+          when 'club-de-nuit-intense', 'asad', 'royal-bleu', 'yulali'
+            assign best_for_chips = 'Office|First-timer'
+          when 'khamrah', 'dahaab-safi', 'kismet-angel', 'melodie'
+            assign best_for_chips = 'Date night|Cold weather|First-timer'
+          when 'meydan', 'club-de-nuit-precieux', 'rose-01', 'turath'
+            assign best_for_chips = 'Date night|Cold weather|Bold oud'
+        endcase
+        assign best_for_list = best_for_chips | split: '|'
+      -%}
+      <div class="pdp-best-for" aria-label="Best for">
+        <span class="pdp-best-for-label">{% if nur_de %}Ideal für{% else %}Best for{% endif %}</span>
+        {%- for chip in best_for_list -%}
+          <span class="pdp-best-chip">{{ chip }}</span>
+        {%- endfor -%}
+      </div>
+	      <button class="btn-cart" id="btnCart" onclick="addToShopifyCart()">{% if nur_de %}Probe in den Warenkorb{% else %}Add Sample to Cart{% endif %}</button>
+	      <a class="btn-secondary" href="{{ routes.root_url }}pages/build-your-own-bundle">{% if nur_de %}Entdeckungs-Trio zusammenstellen{% else %}Build a Discovery Trio{% endif %}</a>
+	      <div class="pdp-purchase-note">
+	        {% if nur_de %}Aus Originalflaschen abgefüllt, etikettiert, versiegelt und mit Tracking aus Deutschland verschickt.{% else %}Filled from original bottles, labelled, sealed, and shipped tracked from Germany.{% endif %}<br>
+	        🎁 {% if nur_de %}Gratis 1&nbsp;ml Probe ab &euro;25{% else %}Free 1&nbsp;ml sample from &euro;25{% endif %} &nbsp;&middot;&nbsp; 🚚 {% if nur_de %}Gratis DE-Versand ab &euro;39{% else %}Free DE shipping from &euro;39{% endif %}
+	      </div>
+	      <div class="klarna-line" id="klarnaLine">
+        {% if nur_de %}oder 3 &times;{% else %}or 3 &times;{% endif %} <strong id="klarnaAmt">&#x20AC;{{ preferred_variant.price | divided_by: 300.0 | round: 2 }}</strong>
+        {% if nur_de %}mit{% else %}with{% endif %} <span class="klarna-badge">Klarna</span> &mdash; {% if nur_de %}0% Zinsen{% else %}0% interest{% endif %}
+      </div>
+      <div class="guarantee-strip">
+        <div class="gs-item">&#x1F6E1; {% if nur_de %}30 Tage Geld-zurück{% else %}30-Day Money Back{% endif %}</div>
+        <div class="gs-item">&#x2713; {% if nur_de %}Echter Decant{% else %}Authentic Decant{% endif %}</div>
+        <div class="gs-item">&#x1F69A; {% if nur_de %}Versand mit Tracking{% else %}Tracked Shipping{% endif %}</div>
+      </div>
+      <button class="btn-wishlist" id="wishlistBtn" onclick="toggleWishlistBtn(this)">
+        <span class="wl-icon">&#x2661;</span> {% if nur_de %}Zur Wunschliste{% else %}Save to Wishlist{% endif %}
+      </button>
+      <div class="delivery-promise">
+        <span class="dp-icon">&#x1F69A;</span>
+        <span>{% if nur_de %}Bestelle innerhalb von{% else %}Order within{% endif %} <strong><span id="orderTimer">...</span></strong> &mdash; {% if nur_de %}Lieferung bis{% else %}delivers by{% endif %} <strong><span id="deliveryDay">Friday</span></strong></span>
+      </div>
+      <div class="trust-strip">
+        <div class="trust-item"><span class="ti-ic">&#x1F512;</span> {% if nur_de %}Sicher zur Kasse{% else %}Secure checkout{% endif %}</div>
+        <div class="trust-item"><span class="ti-ic">&#x2713;</span> {% if nur_de %}Echtheit garantiert{% else %}Authenticity guaranteed{% endif %}</div>
+        <div class="trust-item"><span class="ti-ic">&#x21A9;</span> {% if nur_de %}Einfache Rückgabe{% else %}Easy returns{% endif %}</div>
+        <div class="trust-item"><span class="ti-ic">&#x1F381;</span> {% if nur_de %}Gratisprobe ab &euro;25{% else %}Free sample from &euro;25{% endif %}</div>
+      </div>
+    </div>
+
+    <!-- PAYMENT ICONS -->
+    <div class="payment-wrap">
+      <div class="payment-label">{% if nur_de %}Sichere Zahlung &middot; Wir akzeptieren{% else %}Secure payment &middot; We accept{% endif %}</div>
+      <div class="payment-icons">
+        <div class="pay-icon"><span class="pay-txt" style="color:#1a1f71">VISA</span></div>
+        <div class="pay-icon">
+          <svg width="32" height="20" viewBox="0 0 38 24">
+            <circle cx="13" cy="12" r="11" fill="#EB001B"/>
+            <circle cx="25" cy="12" r="11" fill="#F79E1B" opacity=".9"/>
+            <path d="M19 4.8a11 11 0 0 1 0 14.4A11 11 0 0 1 19 4.8z" fill="#FF5F00"/>
+          </svg>
+        </div>
+        <div class="pay-icon"><span class="pay-txt"><span style="color:#003087">Pay</span><span style="color:#009cde">Pal</span></span></div>
+        <div class="pay-icon" style="background:#FFB3C7;border-color:#FF6B99"><span class="pay-txt" style="color:#17120E;font-size:.62rem">klarna</span></div>
+        <div class="pay-icon"><span class="pay-txt" style="color:#003399;font-size:.62rem">SEPA</span></div>
+        <div class="pay-icon" style="background:#016fd0;border-color:#0077cc"><span class="pay-txt" style="color:#fff;font-size:.55rem;letter-spacing:.02em">AMEX</span></div>
+        <div class="pay-icon"><span class="pay-txt" style="font-size:.52rem;color:rgba(245,240,232,.6)">G Pay</span></div>
+      </div>
+    </div>
+
+  </div><!-- /pdp-info -->
+</section><!-- /pdp-hero -->
+
+{% render 'nur-product-seo-at-a-glance', product: product %}
+
+<!-- WHAT YOU RECEIVE -->
+<section class="pdp-process-section" aria-label="What you receive">
+  <div class="pdp-process-inner">
+    <div class="section-label">{% if nur_de %}Was du erhältst{% else %}What You Receive{% endif %}</div>
+    <div class="section-title">{% if nur_de %}Von der Originalflasche zum versiegelten Decant{% else %}Original Bottle to Sealed Decant{% endif %}</div>
+    <p class="pdp-process-lead">{% if nur_de %}Jede NUR-Bestellung wird als unabhängiger Decant-Service vorbereitet: Original-Parfümflasche, sauberes Abfüllen von Hand, versiegeltes Fläschchen, Lieferung mit Tracking aus Deutschland.{% else %}Every NUR order is prepared as an independent decant service: original fragrance bottle, clean hand-filling, sealed vial, tracked delivery from Germany.{% endif %}</p>
+    <div class="pdp-process-grid">
+      <div class="pdp-process-card">
+        <div class="pdp-process-img">
+          <img src="{{ 'promise-sealed-bottle.jpg' | asset_url }}" alt="Original fragrance bottle used for NUR decants" width="640" height="420" loading="lazy">
+        </div>
+        <h3>{% if nur_de %}Originalflaschen{% else %}Original Bottles{% endif %}</h3>
+        <p>{% if nur_de %}Wir füllen aus echten Flaschen ab, nie aus verdünnten Ölen oder Imitaten.{% else %}We fill from authentic bottles, never diluted oils or imitation fragrance.{% endif %}</p>
+      </div>
+      <div class="pdp-process-card">
+        <div class="pdp-process-img">
+          <img src="{{ 'promise-hand-poured.jpg' | asset_url }}" alt="Hand-filled fragrance decant process" width="640" height="420" loading="lazy">
+        </div>
+        <h3>{% if nur_de %}Auf Bestellung abgefüllt{% else %}Filled to Order{% endif %}</h3>
+        <p>{% if nur_de %}Deine gewählte Größe wird nach dem Kauf vorbereitet und mit Duft und Füllmenge etikettiert.{% else %}Your selected size is prepared after purchase, then labelled with the fragrance and volume.{% endif %}</p>
+      </div>
+      <div class="pdp-process-card">
+        <div class="pdp-process-img">
+          <img src="{{ 'promise-packaged-vial.jpg' | asset_url }}" alt="Sealed NUR fragrance decant ready to ship" width="640" height="420" loading="lazy">
+        </div>
+        <h3>{% if nur_de %}Versiegelt &amp; verfolgbar{% else %}Sealed &amp; Tracked{% endif %}</h3>
+        <p>{% if nur_de %}Jedes Fläschchen wird versiegelt, sicher verpackt und mit Tracking aus Deutschland verschickt.{% else %}Each vial is sealed, packed safely, and shipped with tracking from Germany.{% endif %}</p>
+      </div>
+    </div>
+    <p class="pdp-process-note">{% if nur_de %}NUR Fragrances ist ein unabhängiger Decant-Händler. Markennamen bezeichnen nur den Originalduft; NUR ist nicht mit den genannten Dufthäusern verbunden.{% else %}NUR Fragrances is an independent decant retailer. Brand names identify the original fragrance only; NUR is not affiliated with the listed fragrance houses.{% endif %}</p>
+  </div>
+</section>
+
+<!-- SCENT STORY -->
+<div class="story-section">
+  <div class="story-inner">
+    <div class="section-label">{% if nur_de %}Die Duftgeschichte{% else %}The Scent Story{% endif %}</div>
+    {%- assign nur_story = product.metafields.custom.scent_story -%}
+    {%- if nur_de and product.metafields.custom.scent_story_de != blank -%}{%- assign nur_story = product.metafields.custom.scent_story_de -%}{%- endif -%}
+    {%- if nur_story != blank -%}
+    <p class="story-text">{{ nur_story }}</p>
+    {%- else -%}
+    <div class="story-text">{{ product.description }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+<!-- BRAND SECTION -->
+<div class="brand-section">
+  <div class="brand-inner">
+    <div class="section-label">{% if nur_de %}Über das Haus{% else %}About the House{% endif %}</div>
+    {%- case product.vendor -%}
+      {%- when 'Lattafa' -%}
+      {%- if nur_de -%}<p class="brand-text">Lattafa Perfumes hat sich zu einem der meistdiskutierten erschwinglichen arabischen Dufthäuser entwickelt und schafft reichhaltige Kompositionen, die den Einstieg in die arabische Parfümerie erleichtern. Mit Sitz in den VAE verbindet Lattafa östliche Oud- und Gewürztraditionen mit internationalem Geschmack.</p>{%- else -%}<p class="brand-text">Lattafa Perfumes has become one of the most talked-about affordable Arabic fragrance houses, producing rich compositions that make Arabian perfumery easier to explore. Based in the UAE, Lattafa blends Eastern oud and spice traditions with international taste.</p>{%- endif -%}
+      {%- when 'Armaf' -%}
+      {%- if nur_de -%}<p class="brand-text">Armaf ist eines der gefeiertsten Dufthäuser der VAE, bekannt für ausdrucksstarke, langanhaltende Düfte mit frischen, holzigen und aromatischen Profilen. Die Marke hat sich weltweit eine treue Anhängerschaft unter Duftliebhabern aufgebaut, die ein starkes Preis-Leistungs-Verhältnis suchen.</p>{%- else -%}<p class="brand-text">Armaf is one of the UAE's most celebrated fragrance houses, known for high-impact, long-lasting scents with fresh, woody and aromatic profiles. The brand has built a devoted global following among fragrance enthusiasts seeking strong value.</p>{%- endif -%}
+      {%- when 'Swiss Arabian' -%}
+      {%- if nur_de -%}<p class="brand-text">Die Swiss Arabian Perfumes Group ist ein wegweisendes Dufthaus mit Sitz in Dubai, das seit 1974 östliche und westliche Dufttraditionen vereint. Mit jahrzehntelangem Erbe und Handwerkskunst schafft Swiss Arabian luxuriöse, charaktervolle Düfte, die die reiche aromatische Kultur der Arabischen Halbinsel feiern.</p>{%- else -%}<p class="brand-text">Swiss Arabian Perfumes Group is a pioneering Dubai-based fragrance house that has been blending Eastern and Western olfactory traditions since 1974. With decades of heritage and craftsmanship, Swiss Arabian creates luxurious, characterful fragrances that celebrate the rich aromatic culture of the Arabian Peninsula.</p>{%- endif -%}
+      {%- when 'The Spirit of Dubai' -%}
+      {%- if nur_de -%}<p class="brand-text">The Spirit of Dubai ist ein luxuriöses arabisches Dufthaus, das sich der Essenz von Dubais außergewöhnlichem Charakter verschrieben hat. Jeder Duft ist ein tief durchdachtes Kunstwerk — Rohstoffe von den weltweit besten Lieferanten, komponiert von Meisterparfümeuren, um Düfte zu schaffen, die einer der faszinierendsten Städte der Welt würdig sind.</p>{%- else -%}<p class="brand-text">The Spirit of Dubai is a luxury Arabian fragrance house dedicated to capturing the essence of Dubai's extraordinary character. Each fragrance is a deeply considered work of art — raw ingredients sourced from the world's finest suppliers, composed by master perfumers to produce scents worthy of one of the world's most captivating cities.</p>{%- endif -%}
+      {%- when 'Orientica' -%}
+      {%- if nur_de -%}<p class="brand-text">Orientica ist eine moderne arabische Duftmarke, die den Reichtum der nahöstlichen Parfümerie einem globalen Publikum näherbringt. Durch die Kombination traditioneller Oud-, Rosen- und Amber-Akkorde mit zeitgenössischer Kompositionskunst schafft Orientica kräftige, langanhaltende Düfte, die zu einem erschwinglichen Preis ein selbstbewusstes Statement setzen.</p>{%- else -%}<p class="brand-text">Orientica is a modern Arabian fragrance brand bringing the richness of Middle Eastern perfumery to a global audience. Combining traditional oud, rose and amber accords with contemporary compositional expertise, Orientica produces bold, long-lasting fragrances that make a confident statement at an accessible price point.</p>{%- endif -%}
+      {%- when 'Maison Alhambra' -%}
+      {%- if nur_de -%}<p class="brand-text">Maison Alhambra ist ein raffiniertes arabisches Dufthaus, dessen Name die Erhabenheit maurischer Architektur und Kultur heraufbeschwört. Inspiriert von den großen Palästen und Gärten der arabischen Welt kreiert Maison Alhambra opulente, vielschichtige Düfte, die einen bleibenden Eindruck hinterlassen.</p>{%- else -%}<p class="brand-text">Maison Alhambra is a sophisticated Arabian fragrance house whose name evokes the grandeur of Moorish architecture and culture. Drawing inspiration from the great palaces and gardens of the Arab world, Maison Alhambra crafts opulent, richly layered scents designed to leave a lasting impression.</p>{%- endif -%}
+      {%- else -%}
+      {%- if nur_de -%}<p class="brand-text">{{ product.vendor }} ist ein renommiertes arabisches Dufthaus, dessen Kompositionen jahrhundertealte Dufttradition mit moderner Parfümeurskunst verbinden. Jeder Duft entsteht aus sorgfältig ausgewählten Zutaten und besitzt außergewöhnliche Tiefe, Haltbarkeit und Charakter.</p>{%- else -%}<p class="brand-text">{{ product.vendor }} is an acclaimed Arabian fragrance house whose compositions blend centuries of olfactory tradition with modern perfumery expertise. Each scent is crafted using carefully selected ingredients, producing fragrances of extraordinary depth, longevity, and character.</p>{%- endif -%}
+    {%- endcase -%}
+  </div>
+</div>
+
+<!-- NOTES PYRAMID + DATA TABLE -->
+<div class="section-wrap">
+  <div class="section-label">{% if nur_de %}Duftkomposition{% else %}Fragrance Composition{% endif %}</div>
+  <div class="section-title">{% if nur_de %}Die Duftpyramide{% else %}The Pyramid{% endif %}</div>
+  <div class="notes-grid">
+    <div class="note-card">
+      <div class="note-tier">{% if nur_de %}Kopfnoten &middot; Erster Eindruck{% else %}Top Notes &middot; First Impression{% endif %}</div>
+      <div class="note-items">{{ product_top_notes | replace: ' · ', '<br>' | replace: ' &middot; ', '<br>' }}</div>
+    </div>
+    <div class="note-card" style="border-color:rgba(201,168,76,.22)">
+      <div class="note-tier">{% if nur_de %}Herznoten &middot; Der Charakter{% else %}Heart Notes &middot; The Character{% endif %}</div>
+      <div class="note-items">{{ product_heart_notes | replace: ' · ', '<br>' | replace: ' &middot; ', '<br>' }}</div>
+    </div>
+    <div class="note-card">
+      <div class="note-tier">{% if nur_de %}Basisnoten &middot; Die Erinnerung{% else %}Base Notes &middot; The Memory{% endif %}</div>
+      <div class="note-items">{{ product_base_notes | replace: ' · ', '<br>' | replace: ' &middot; ', '<br>' }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- CURATOR QUOTE -->
+{%- if product.metafields.custom.curator_quote != blank -%}
+<div class="section-wrap" style="padding-top:0">
+  <div class="why-box">
+    <p class="why-text">"{{ product.metafields.custom.curator_quote }}"</p>
+  </div>
+</div>
+{%- endif -%}
+
+<!-- PRODUCT FAQ -->
+{%- liquid
+  assign faq_q1 = product.metafields.custom.faq_q1
+  assign faq_a1 = product.metafields.custom.faq_a1
+  assign faq_q2 = product.metafields.custom.faq_q2
+  assign faq_a2 = product.metafields.custom.faq_a2
+  assign faq_q3 = product.metafields.custom.faq_q3
+  assign faq_a3 = product.metafields.custom.faq_a3
+  assign faq_q4 = product.metafields.custom.faq_q4
+  assign faq_a4 = product.metafields.custom.faq_a4
+  if faq_q1 == blank
+    if nur_de
+      assign faq_q1 = 'Was ist ein NUR Duft-Decant?'
+      assign faq_a1 = 'Ein NUR-Decant ist ein kleineres Sprühfläschchen, abgefüllt aus einer Original-Parfümflasche, damit du den Duft testen kannst, bevor du dich für eine größere Flasche entscheidest.'
+    else
+      assign faq_q1 = 'What is a NUR fragrance decant?'
+      assign faq_a1 = 'A NUR decant is a smaller spray vial filled from an original fragrance bottle, so you can wear-test the scent before committing to a larger bottle.'
+    endif
+  endif
+  if faq_q2 == blank
+    if nur_de
+      assign faq_q2 = 'Welche Größe soll ich für ' | append: product.title | append: ' wählen?'
+      assign faq_a2 = 'Nimm 1 ml für einen risikoarmen ersten Hauttest, 5 ml zum mehrfachen Tragen oder 10 ml, wenn du den Duft schon kennst und den besten Preis willst.'
+    else
+      assign faq_q2 = 'Which size should I choose for ' | append: product.title | append: '?'
+      assign faq_a2 = 'Choose 1ml for a low-risk first skin test, 5ml for repeated wear, or 10ml when you already know the scent and want the best value.'
+    endif
+  endif
+  if faq_q3 == blank
+    if nur_de
+      assign faq_q3 = 'Wie riecht ' | append: product.title | append: '?'
+      assign faq_a3 = product.title | append: ' hat ein ' | append: product_profile | append: '-Profil mit Kopfnoten aus ' | append: product_top_notes | append: ', Herznoten aus ' | append: product_heart_notes | append: ' und Basisnoten aus ' | append: product_base_notes | append: '.'
+    else
+      assign faq_q3 = 'How does ' | append: product.title | append: ' smell?'
+      assign faq_a3 = product.title | append: ' has a ' | append: product_profile | append: ' profile with top notes of ' | append: product_top_notes | append: ', heart notes of ' | append: product_heart_notes | append: ', and base notes of ' | append: product_base_notes | append: '.'
+    endif
+  endif
+  if faq_q4 == blank
+    if nur_de
+      assign faq_q4 = 'Versendet ihr ' | append: product.title | append: ' in ganz Europa?'
+      assign faq_a4 = 'Ja. NUR-Bestellungen werden abgefüllt, etikettiert, versiegelt und mit Tracking aus Deutschland in ganz Europa verschickt.'
+    else
+      assign faq_q4 = 'Do you ship ' | append: product.title | append: ' across Europe?'
+      assign faq_a4 = 'Yes. NUR orders are filled, labelled, sealed, and shipped tracked from Germany across Europe.'
+    endif
+  endif
+-%}
+{%- if faq_q1 != blank -%}
+<div class="section-wrap pdp-faq-wrap" style="background:rgba(255,255,255,.01);border-top:1px solid rgba(201,168,76,.06)">
+  <div class="section-label">{% if nur_de %}Häufige Fragen{% else %}Common Questions{% endif %}</div>
+  <div class="section-title">{% if nur_de %}Alles, was du wissen musst{% else %}Everything You Need to Know{% endif %}</div>
+  <div class="faq-inner">
+    {%- if faq_q1 != blank -%}
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">{{ faq_q1 }}<span class="faq-chevron">&#9662;</span></button>
+      <div class="faq-a"><p>{{ faq_a1 }}</p></div>
+    </div>
+    {%- endif -%}
+    {%- if faq_q2 != blank -%}
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">{{ faq_q2 }}<span class="faq-chevron">&#9662;</span></button>
+      <div class="faq-a"><p>{{ faq_a2 }}</p></div>
+    </div>
+    {%- endif -%}
+    {%- if faq_q3 != blank -%}
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">{{ faq_q3 }}<span class="faq-chevron">&#9662;</span></button>
+      <div class="faq-a"><p>{{ faq_a3 }}</p></div>
+    </div>
+    {%- endif -%}
+    {%- if faq_q4 != blank -%}
+    <div class="faq-item">
+      <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">{{ faq_q4 }}<span class="faq-chevron">&#9662;</span></button>
+      <div class="faq-a"><p>{{ faq_a4 }}</p></div>
+    </div>
+    {%- endif -%}
+  </div>
+  {%- if product.metafields.custom.journal_link != blank -%}
+  <p class="faq-journal-link">
+    <a href="{{ product.metafields.custom.journal_link }}">
+      {% if nur_de %}{{ product.metafields.custom.journal_link_text | default: 'Zum vollständigen Guide' }}{% else %}{{ product.metafields.custom.journal_link_text | default: 'Read the full guide' }}{% endif %} &rarr;
+    </a>
+  </p>
+  {%- endif -%}
+</div>
+{%- liquid
+  assign faq_schema_count = 0
+  if faq_q1 != blank and faq_a1 != blank
+    assign faq_schema_count = faq_schema_count | plus: 1
+  endif
+  if faq_q2 != blank and faq_a2 != blank
+    assign faq_schema_count = faq_schema_count | plus: 1
+  endif
+  if faq_q3 != blank and faq_a3 != blank
+    assign faq_schema_count = faq_schema_count | plus: 1
+  endif
+  if faq_q4 != blank and faq_a4 != blank
+    assign faq_schema_count = faq_schema_count | plus: 1
+  endif
+-%}
+{%- if faq_schema_count > 0 -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": {{ canonical_url | append: '#product-faq' | json }},
+  "mainEntity": [
+    {%- assign faq_written = 0 -%}
+    {%- if faq_q1 != blank and faq_a1 != blank -%}
+      {%- assign faq_written = faq_written | plus: 1 -%}
+      {"@type":"Question","name":{{ faq_q1 | strip_html | json }},"acceptedAnswer":{"@type":"Answer","text":{{ faq_a1 | strip_html | json }}}}{%- if faq_written < faq_schema_count -%},{%- endif -%}
+    {%- endif -%}
+    {%- if faq_q2 != blank and faq_a2 != blank -%}
+      {%- assign faq_written = faq_written | plus: 1 -%}
+      {"@type":"Question","name":{{ faq_q2 | strip_html | json }},"acceptedAnswer":{"@type":"Answer","text":{{ faq_a2 | strip_html | json }}}}{%- if faq_written < faq_schema_count -%},{%- endif -%}
+    {%- endif -%}
+    {%- if faq_q3 != blank and faq_a3 != blank -%}
+      {%- assign faq_written = faq_written | plus: 1 -%}
+      {"@type":"Question","name":{{ faq_q3 | strip_html | json }},"acceptedAnswer":{"@type":"Answer","text":{{ faq_a3 | strip_html | json }}}}{%- if faq_written < faq_schema_count -%},{%- endif -%}
+    {%- endif -%}
+    {%- if faq_q4 != blank and faq_a4 != blank -%}
+      {%- assign faq_written = faq_written | plus: 1 -%}
+      {"@type":"Question","name":{{ faq_q4 | strip_html | json }},"acceptedAnswer":{"@type":"Answer","text":{{ faq_a4 | strip_html | json }}}}{%- if faq_written < faq_schema_count -%},{%- endif -%}
+    {%- endif -%}
+  ]
+}
+</script>
+{%- endif -%}
+{%- endif -%}
+
+<!-- FREQUENTLY BOUGHT TOGETHER -->
+{%- assign fbt1 = all_products[product.metafields.custom.fbt_1_handle] -%}
+{%- assign fbt2 = all_products[product.metafields.custom.fbt_2_handle] -%}
+{%- if fbt1 != blank or fbt2 != blank -%}
+  {%- capture fbt1_fallback_asset -%}{% render 'nur-product-fallback-asset', product: fbt1 %}{%- endcapture -%}
+  {%- assign fbt1_fallback_asset = fbt1_fallback_asset | strip -%}
+  {%- capture fbt2_fallback_asset -%}{% render 'nur-product-fallback-asset', product: fbt2 %}{%- endcapture -%}
+  {%- assign fbt2_fallback_asset = fbt2_fallback_asset | strip -%}
+  {%- assign fbt1_var = fbt1.variants | where: "title", "5ml" | first -%}
+  {%- if fbt1_var == blank -%}{%- assign fbt1_var = fbt1.variants | first -%}{%- endif -%}
+  {%- assign fbt2_var = fbt2.variants | where: "title", "5ml" | first -%}
+  {%- if fbt2_var == blank -%}{%- assign fbt2_var = fbt2.variants | first -%}{%- endif -%}
+  {%- assign base_var = product.variants | where: "title", "5ml" | first -%}
+  {%- if base_var == blank -%}{%- assign base_var = preferred_variant -%}{%- endif -%}
+<div class="fbt-section">
+  <div class="fbt-inner">
+    <div class="fbt-head">{% if nur_de %}Häufig zusammen gekauft{% else %}Frequently Bought Together{% endif %}</div>
+    <div class="fbt-products">
+      <!-- Current product -->
+      <a class="fbt-product" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+        {% render 'nur-product-image', handle: product.handle, class_name: 'fbt-product-img', alt: product.title, width: 180, height: 180, fallback_asset: fallback_primary_asset %}
+        <span class="fbt-pname">{{ product.title }}</span>
+      </a>
+      {%- if fbt1 != blank -%}
+      <span class="fbt-plus">+</span>
+      <a class="fbt-product" href="{{ fbt1.url }}" aria-label="{{ fbt1.title | escape }}">
+        {% render 'nur-product-image', handle: fbt1.handle, class_name: 'fbt-product-img', alt: fbt1.title, width: 180, height: 180, fallback_asset: fbt1_fallback_asset %}
+        <span class="fbt-pname">{{ fbt1.title }}</span>
+      </a>
+      {%- endif -%}
+      {%- if fbt2 != blank -%}
+      <span class="fbt-plus">+</span>
+      <a class="fbt-product" href="{{ fbt2.url }}" aria-label="{{ fbt2.title | escape }}">
+        {% render 'nur-product-image', handle: fbt2.handle, class_name: 'fbt-product-img', alt: fbt2.title, width: 180, height: 180, fallback_asset: fbt2_fallback_asset %}
+        <span class="fbt-pname">{{ fbt2.title }}</span>
+      </a>
+      {%- endif -%}
+    </div>
+
+    <div class="fbt-items">
+      <!-- Current product — always checked, disabled -->
+      <div class="fbt-item">
+        <input type="checkbox" id="fbtItem0" checked disabled
+               data-variant-id="{{ base_var.id }}"
+               data-price="{{ base_var.price | divided_by: 100.0 }}">
+        <span class="fbt-mini" aria-hidden="true">
+          {% render 'nur-product-image', handle: product.handle, class_name: 'fbt-mini-img', alt: product.title, width: 96, height: 96, fallback_asset: fallback_primary_asset %}
+        </span>
+        <label for="fbtItem0">
+          <span class="fbt-row-copy">
+            <span><strong>{{ product.title }}</strong> <span class="fbt-badge">{% if nur_de %}(dieser Artikel){% else %}(this item){% endif %}</span></span>
+            <span>{{ base_var.title }} &mdash; {{ base_var.price | money }}</span>
+          </span>
+        </label>
+      </div>
+      {%- if fbt1 != blank and fbt1_var != blank -%}
+      <div class="fbt-item">
+        <input type="checkbox" id="fbtItem1" checked onchange="updateFBTTotal()"
+               data-variant-id="{{ fbt1_var.id }}"
+               data-price="{{ fbt1_var.price | divided_by: 100.0 }}">
+        <a class="fbt-mini" href="{{ fbt1.url }}" aria-label="{{ fbt1.title | escape }}">
+          {% render 'nur-product-image', handle: fbt1.handle, class_name: 'fbt-mini-img', alt: fbt1.title, width: 96, height: 96, fallback_asset: fbt1_fallback_asset %}
+        </a>
+        <label for="fbtItem1">
+          <span class="fbt-row-copy">
+            <a href="{{ fbt1.url }}"><strong>{{ fbt1.title }}</strong></a>
+            <span>{{ fbt1_var.title }} &mdash; {{ fbt1_var.price | money }}</span>
+          </span>
+        </label>
+      </div>
+      {%- endif -%}
+      {%- if fbt2 != blank and fbt2_var != blank -%}
+      <div class="fbt-item">
+        <input type="checkbox" id="fbtItem2" checked onchange="updateFBTTotal()"
+               data-variant-id="{{ fbt2_var.id }}"
+               data-price="{{ fbt2_var.price | divided_by: 100.0 }}">
+        <a class="fbt-mini" href="{{ fbt2.url }}" aria-label="{{ fbt2.title | escape }}">
+          {% render 'nur-product-image', handle: fbt2.handle, class_name: 'fbt-mini-img', alt: fbt2.title, width: 96, height: 96, fallback_asset: fbt2_fallback_asset %}
+        </a>
+        <label for="fbtItem2">
+          <span class="fbt-row-copy">
+            <a href="{{ fbt2.url }}"><strong>{{ fbt2.title }}</strong></a>
+            <span>{{ fbt2_var.title }} &mdash; {{ fbt2_var.price | money }}</span>
+          </span>
+        </label>
+      </div>
+      {%- endif -%}
+    </div>
+
+    <div class="fbt-total-row">
+      <span class="fbt-total-lbl">{% if nur_de %}Summe der Auswahl{% else %}Total for selected{% endif %}</span>
+      <span class="fbt-total-price" id="fbtTotalPrice">
+        {%- assign fbt_total = base_var.price | plus: 0 -%}
+        {%- if fbt1_var != blank -%}{%- assign fbt_total = fbt_total | plus: fbt1_var.price -%}{%- endif -%}
+        {%- if fbt2_var != blank -%}{%- assign fbt_total = fbt_total | plus: fbt2_var.price -%}{%- endif -%}
+        {{ fbt_total | money }}
+      </span>
+    </div>
+    <button class="fbt-btn" id="fbtAddBtn" onclick="addFBTToCart()">{% if nur_de %}Alle in den Warenkorb &rarr;{% else %}Add All to Cart &rarr;{% endif %}</button>
+    {%- if product.metafields.custom.fbt_tip != blank -%}
+    <p class="fbt-tip">&#128161; {{ product.metafields.custom.fbt_tip }}</p>
+    {%- endif -%}
+  </div>
+</div>
+{%- endif -%}
+
+<!-- CROSS-SELL -->
+<section class="crosssell">
+  <div class="crosssell-inner">
+    <div class="section-label" style="text-align:center">{% if nur_de %}Das könnte dir auch gefallen{% else %}You Might Also Love{% endif %}</div>
+    <div class="section-title">{% if nur_de %}Mehr aus der Kollektion{% else %}More from the Collection{% endif %}</div>
+    <div class="crosssell-grid">
+      {%- assign cs_count = 0 -%}
+      {%- for cs_product in collections.all.products limit: 50 -%}
+        {%- capture cs_fallback_asset -%}{% render 'nur-product-fallback-asset', product: cs_product %}{%- endcapture -%}
+        {%- assign cs_fallback_asset = cs_fallback_asset | strip -%}
+        {%- if cs_product.handle != product.handle and cs_fallback_asset != blank and cs_count < 4 -%}
+          {%- assign cs_count = cs_count | plus: 1 -%}
+          <a href="{{ cs_product.url }}" class="cs-card">
+            <div class="cs-img" data-handle="{{ cs_product.handle }}">
+              {% render 'nur-product-image', handle: cs_product.handle, class_name: '', alt: cs_product.title, width: 400, height: 400, fallback_asset: cs_fallback_asset %}
+            </div>
+            <div class="cs-body">
+              <div class="cs-brand">{{ cs_product.vendor }}</div>
+              <div class="cs-name">{{ cs_product.title }}</div>
+              <div class="cs-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#xBD;</div>
+              <div class="cs-price">{{ cs_product.price_min | money }}</div>
+            </div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS SECTION -->
+<div class="reviews-section">
+  <div class="reviews-inner">
+    <div class="section-label">{% if product.metafields.custom.review_count != blank %}{% if nur_de %}Kundenbewertungen{% else %}Customer Reviews{% endif %}{% else %}{% if nur_de %}Duft-Sicherheit{% else %}Scent Confidence{% endif %}{% endif %}</div>
+    <div class="section-title" style="margin-bottom:2rem">{% if product.metafields.custom.review_count != blank %}{% if nur_de %}Echtes Kundenfeedback{% else %}Real Customer Feedback{% endif %}{% else %}{% if nur_de %}Erst testen, dann festlegen{% else %}Wear-Test Before You Commit{% endif %}{% endif %}</div>
+
+    {%- if product.metafields.custom.rating != blank or product.metafields.custom.review_count != blank -%}
+      <div class="reviews-summary">
+        <div class="rs-score">{% if product.metafields.custom.rating != blank %}{{ product.metafields.custom.rating }}{% else %}&mdash;{% endif %}</div>
+        <div class="rs-right">
+          {%- if product.metafields.custom.rating != blank -%}<div class="rs-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#xBD;</div>{%- endif -%}
+          <div class="rs-label">{% if product.metafields.custom.review_count != blank %}{{ product.metafields.custom.review_count }} {% if nur_de %}Kundenbewertungen{% else %}customer reviews{% endif %}{% else %}{% if nur_de %}Bewertungsscore verbunden{% else %}Review score connected{% endif %}{% endif %}</div>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="reviews-summary">
+        <div class="rs-score">NUR</div>
+        <div class="rs-right">
+          <div class="rs-label">{% if nur_de %}Keine Platzhalter-Bewertungen{% else %}No placeholder reviews{% endif %}</div>
+          <div class="rc-body">{% if nur_de %}Echte Kundenbewertungen erscheinen hier, sobald Bewertungsdaten verbunden sind. Nutze bis dahin die Duftnoten, den Größen-Guide und den Decant-Prozess oben, um sicher zu wählen.{% else %}Real customer reviews will appear here once review data is connected. Until then, use the scent notes, size guide, and decant process above to choose confidently.{% endif %}</div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="review-list">
+      <div class="review-card">
+        <div class="rc-header">
+          <div class="rc-header-left">
+            <div class="rc-avatar">1</div>
+            <div class="rc-meta">
+              <div class="rc-name">{% if nur_de %}Klein anfangen{% else %}Start small{% endif %}</div>
+              <div class="rc-verified">&#x2713; {% if nur_de %}Trage-Test-Hinweis{% else %}Wear-test guidance{% endif %}</div>
+              <div class="rc-date">{% if nur_de %}Risikoarm testen{% else %}Low-risk trial{% endif %}</div>
+            </div>
+          </div>
+        </div>
+        <div class="rc-title">{% if nur_de %}Nimm 1 ml, wenn es dein erster Test ist{% else %}Choose 1ml if this is your first test{% endif %}</div>
+        <div class="rc-body">{% if nur_de %}Ein 1-ml-Sprühfläschchen lässt dich Auftakt, Drydown und Leistung auf deiner eigenen Haut riechen, bevor du dich für einen größeren Decant oder eine ganze Flasche entscheidest.{% else %}A 1ml spray vial lets you smell the opening, drydown and performance on your own skin before committing to a larger decant or full bottle.{% endif %}</div>
+      </div>
+      <div class="review-card">
+        <div class="rc-header">
+          <div class="rc-header-left">
+            <div class="rc-avatar">5</div>
+            <div class="rc-meta">
+              <div class="rc-name">{% if nur_de %}Richtiger Trage-Test{% else %}Proper wear test{% endif %}</div>
+              <div class="rc-verified">&#x2713; {% if nur_de %}Beliebte Größe{% else %}Popular size{% endif %}</div>
+              <div class="rc-date">{% if nur_de %}Mehrfach tragen{% else %}Multiple wears{% endif %}</div>
+            </div>
+          </div>
+        </div>
+        <div class="rc-title">{% if nur_de %}Nimm 5 ml für eine echte Testwoche{% else %}Choose 5ml when you want a real week of testing{% endif %}</div>
+        <div class="rc-body">{% if nur_de %}Die 5-ml-Größe bietet genug Sprühstöße, um {{ product.title | escape }} an Arbeitstagen, Abenden und bei unterschiedlichem Wetter zu testen, bevor du entscheidest, was in deine Rotation gehört.{% else %}The 5ml size gives enough sprays to test {{ product.title | escape }} across workdays, evenings and different weather before you decide what belongs in your rotation.{% endif %}</div>
+      </div>
+      <div class="review-card">
+        <div class="rc-header">
+          <div class="rc-header-left">
+            <div class="rc-avatar">DE</div>
+            <div class="rc-meta">
+              <div class="rc-name">{% if nur_de %}Auf Bestellung abgefüllt{% else %}Filled to order{% endif %}</div>
+              <div class="rc-verified">&#x2713; {% if nur_de %}Echte Probe{% else %}Authentic sample{% endif %}</div>
+              <div class="rc-date">{% if nur_de %}Versand aus Deutschland{% else %}Tracked from Germany{% endif %}</div>
+            </div>
+          </div>
+        </div>
+        <div class="rc-title">{% if nur_de %}Jedes Fläschchen wird aus einer Originalflasche abgefüllt{% else %}Every vial is filled from an original bottle{% endif %}</div>
+        <div class="rc-body">{% if nur_de %}Dein Decant wird etikettiert, versiegelt und transportsicher verpackt, damit du den echten Duft testen kannst, ohne eine 50-ml- oder 100-ml-Flasche blind zu kaufen.{% else %}Your decant is labelled, sealed and packed for transit so you can test the real fragrance without blind-buying a 50ml or 100ml bottle.{% endif %}</div>
+      </div>
+    </div>
+    {%- if product.metafields.custom.review_count != blank -%}
+      <a class="review-load-more" href="https://judge.me/reviews/nur-fragrances.com" target="_blank" rel="noopener noreferrer">
+        {% if nur_de %}{{ product.metafields.custom.review_count }} Kundenbewertungen ansehen{% else %}See {{ product.metafields.custom.review_count }} customer reviews{% endif %} &rarr;
+      </a>
+    {%- endif -%}
+    <div class="ts-strip">
+      <span class="ts-strip-dot"></span>
+      {% if nur_de %}Bewertungsdaten werden angezeigt, sobald verfügbar &middot; Echtheits-Support verfügbar{% else %}Review data shown when available &middot; Authenticity support available{% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- STICKY BAR -->
+<div id="stickyBar" class="sticky-bar">
+  {%- if force_bundle_image and fallback_primary_asset != blank -%}
+    {%- assign sticky_image_url = fallback_primary_asset | asset_url -%}
+  {%- elsif product.featured_image -%}
+    {%- assign sticky_image_url = product.featured_image | image_url: width: 80 -%}
+  {%- elsif fallback_primary_asset != blank -%}
+    {%- assign sticky_image_url = fallback_primary_asset | asset_url -%}
+  {%- else -%}
+    {%- assign sticky_image_url = 'favicon-nur-logo.svg' | asset_url -%}
+  {%- endif -%}
+  <img id="stickyImg" class="sticky-img"
+    src="{{ sticky_image_url }}"
+    alt="{{ product.title | escape }}"
+    width="80"
+    height="80">
+  <div class="sticky-info">
+    <div class="sticky-name">{{ product.title }}</div>
+    <div class="sticky-meta">
+      <span class="sticky-size" id="stickySize">{{ preferred_variant.title }}</span>
+      <span class="sticky-price" id="stickyPrice">{{ preferred_variant.price | money }}</span>
+    </div>
+  </div>
+  <button class="sticky-cta" onclick="addToShopifyCart()">{% if nur_de %}Probe hinzufügen{% else %}Add Sample{% endif %}</button>
+</div>
+
+{%- liquid
+  assign gift_packaging_product = all_products['luxury-gift-packaging-handwritten-card']
+  assign gift_packaging_variant = gift_packaging_product.selected_or_first_available_variant
+-%}
+
+<!-- JAVASCRIPT -->
+<script>
+/* ─── Core state ────────────────────────────────────────────────── */
+var NUR_DE = {{ nur_de | json }};
+var _selectedVariantId = {{ preferred_variant.id }};
+var _selectedPrice     = {{ preferred_variant.price }};
+window.NUR_GIFT_PACKAGING_VARIANT_ID = {% if gift_packaging_variant != blank %}{{ gift_packaging_variant.id | json }}{% else %}58155455054149{% endif %};
+window.NUR_GIFT_PACKAGING_AVAILABLE = {% if gift_packaging_variant != blank %}{{ gift_packaging_variant.available | json }}{% else %}true{% endif %};
+window.NUR_CURRENT_PRODUCT_TITLE = {{ product.title | json }};
+var gallery = [
+  {%- if force_bundle_image and fallback_primary_asset != blank -%}
+    '{{ fallback_primary_asset | asset_url }}'
+  {%- elsif product.images.size > 0 -%}
+    {%- for image in product.images -%}'{{ image | image_url: width: 1200 }}'{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}
+  {%- elsif fallback_gallery_names != blank -%}
+    {%- for fallback_asset in fallback_gallery -%}'{{ fallback_asset | asset_url }}'{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}
+  {%- endif -%}
+];
+var _galIdx = 0;
+
+/* ─── Asset fallback: probe CDN for product images ──────────────── */
+(function(){
+  if (gallery.length || !window.NUR_IMG) return;
+  var h    = '{{ product.handle }}';
+  var base = window.NUR_IMG;
+  var candidates = [h+'.jpg', h+'-1.jpg', h+'-2.jpg', h+'-3.jpg',
+                    h+'-4.jpg', h+'-5.jpg', h+'-6.jpg', h+'-7.jpg', h+'-8.jpg']
+                    .map(function(n){ return base + n; });
+  var loaded = [], pending = candidates.length;
+  candidates.forEach(function(src, i){
+    var img = new Image();
+    img.onload  = function(){ loaded.push({src:src, i:i}); check(); };
+    img.onerror = function(){ check(); };
+    img.src = src;
+  });
+  function check(){
+    if (--pending > 0) return;
+    loaded.sort(function(a,b){ return a.i - b.i; });
+    gallery = loaded.map(function(x){ return x.src; });
+    if (!gallery.length) return;
+    var mainImg = document.getElementById('mainImg');
+    if (mainImg){ mainImg.src = gallery[0]; mainImg.style.display = ''; }
+    var ctr = document.getElementById('imgCounter');
+    if (ctr) ctr.textContent = '1 / ' + gallery.length;
+    var strip = document.getElementById('thumbStrip');
+    if (strip){
+      strip.innerHTML = '';
+      gallery.forEach(function(src, i){
+        var d = document.createElement('div');
+        d.className = 'thumb-item' + (i === 0 ? ' active' : '');
+        d.style.backgroundImage = 'url(' + src + ')';
+        d.onclick = (function(s, idx){ return function(){ setMain(d, s, idx); }; })(src, i);
+        strip.appendChild(d);
+      });
+    }
+    var lbStrip = document.getElementById('lbThumbs');
+    if (lbStrip){
+      lbStrip.innerHTML = '';
+      gallery.forEach(function(src, i){
+        var d = document.createElement('div');
+        d.className = 'lb-thumb' + (i === 0 ? ' active' : '');
+        d.style.backgroundImage = 'url(' + src + ')';
+        d.onclick = function(){ setLBImage(i, true); };
+        lbStrip.appendChild(d);
+      });
+    }
+    var sImg = document.getElementById('stickyImg');
+    if (sImg) sImg.src = gallery[0];
+  }
+})();
+
+/* ─── Gallery helpers ───────────────────────────────────────────── */
+function setMain(thumb, src, idx) {
+  var img = document.getElementById('mainImg');
+  if (img){ img.classList.add('fading'); setTimeout(function(){ img.src = src; img.classList.remove('fading'); }, 180); }
+  document.querySelectorAll('.thumb-item').forEach(function(t){ t.classList.remove('active'); });
+  if (thumb) thumb.classList.add('active');
+  _galIdx = (idx !== undefined) ? idx : gallery.indexOf(src);
+  var ctr = document.getElementById('imgCounter');
+  if (ctr) ctr.textContent = (_galIdx + 1) + ' / ' + (gallery.length || 1);
+}
+
+function stepImg(dir) {
+  if (!gallery.length) return;
+  _galIdx = (_galIdx + dir + gallery.length) % gallery.length;
+  var thumbs = document.querySelectorAll('.thumb-item');
+  setMain(thumbs[_galIdx] || null, gallery[_galIdx], _galIdx);
+}
+
+/* ─── Full Lightbox ─────────────────────────────────────────────── */
+var lbCur = 0, lbScale = 1, lbDragging = false;
+var lbDragStart = {x:0,y:0}, lbTranslate = {x:0,y:0}, lbLastTranslate = {x:0,y:0};
+var lbTouchStartX = null, lbTouchStartY = null;
+
+function openLB(idx) {
+  lbCur = (idx !== undefined) ? idx : _galIdx;
+  lbScale = 1; lbTranslate = {x:0,y:0}; lbLastTranslate = {x:0,y:0};
+  buildLBThumbs();
+  setLBImage(lbCur, false);
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLB() {
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow = '';
+  resetZoom();
+}
+function lbBgClick(e) {
+  if (e.target.id === 'lb' || e.target.id === 'lbMain') closeLB();
+}
+function buildLBThumbs() {
+  var bar = document.getElementById('lbThumbs');
+  if (!bar) return;
+  bar.innerHTML = gallery.map(function(src, i) {
+    return '<div class="lb-thumb' + (i===lbCur?' active':'') +
+      '" style="background-image:url(\'' + src + '\')" onclick="setLBImage(' + i + ',true)"></div>';
+  }).join('');
+}
+function setLBImage(idx, animate) {
+  lbCur = idx;
+  var img = document.getElementById('lbImg');
+  if (!img) return;
+  if (animate) img.classList.add('fading');
+  setTimeout(function(){
+    img.src = gallery[lbCur];
+    if (animate) img.classList.remove('fading');
+    resetZoom();
+  }, animate ? 160 : 0);
+  var ctr = document.getElementById('lbCounter');
+  if (ctr) ctr.textContent = (lbCur+1) + ' / ' + gallery.length;
+  document.querySelectorAll('.lb-thumb').forEach(function(t,i){ t.classList.toggle('active', i===lbCur); });
+  var el = document.querySelectorAll('.lb-thumb')[lbCur];
+  if (el) el.scrollIntoView({inline:'center', behavior:'smooth'});
+}
+function lbStep(dir) {
+  setLBImage((lbCur + dir + gallery.length) % gallery.length, true);
+}
+function resetZoom() {
+  lbScale = 1; lbTranslate = {x:0,y:0}; lbLastTranslate = {x:0,y:0};
+  applyLBTransform();
+  var img = document.getElementById('lbImg');
+  if (img){ img.classList.remove('zoomed','dragging'); img.style.cursor = ''; }
+  var zBtn = document.getElementById('lbZoomBtn');
+  if (zBtn) zBtn.innerHTML = '&#x2295;';
+  showZoomLevel();
+}
+function toggleZoom() {
+  if (lbScale === 1){ lbScale = 2.5; } else { resetZoom(); return; }
+  applyLBTransform();
+  var img = document.getElementById('lbImg');
+  if (img){ img.classList.add('zoomed'); img.style.cursor = ''; }
+  var zBtn = document.getElementById('lbZoomBtn');
+  if (zBtn) zBtn.innerHTML = '&#x2296;';
+  showZoomLevel();
+}
+function applyLBTransform() {
+  var img = document.getElementById('lbImg');
+  if (img) img.style.transform = 'translate(' + lbTranslate.x + 'px,' + lbTranslate.y + 'px) scale(' + lbScale + ')';
+  showZoomLevel();
+}
+function showZoomLevel() {
+  var el = document.getElementById('lbZoomLevel');
+  if (!el) return;
+  el.textContent = Math.round(lbScale*100) + '%';
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.classList.remove('show'); }, 1400);
+}
+
+// Click to zoom/unzoom
+document.getElementById('lbImg').addEventListener('click', function(e){
+  if (lbDragging) return;
+  if (lbScale === 1) toggleZoom(); else resetZoom();
+});
+
+// Drag to pan
+document.getElementById('lbImg').addEventListener('mousedown', function(e){
+  if (lbScale === 1) return;
+  e.preventDefault();
+  lbDragging = false;
+  lbDragStart = {x: e.clientX - lbLastTranslate.x, y: e.clientY - lbLastTranslate.y};
+  var img = document.getElementById('lbImg');
+  if (img) img.classList.add('dragging');
+  function onMove(e){
+    lbDragging = true;
+    lbTranslate = {x: e.clientX - lbDragStart.x, y: e.clientY - lbDragStart.y};
+    applyLBTransform();
+  }
+  function onUp(){
+    lbLastTranslate = {x: lbTranslate.x, y: lbTranslate.y};
+    var img = document.getElementById('lbImg');
+    if (img) img.classList.remove('dragging');
+    setTimeout(function(){ lbDragging = false; }, 50);
+    window.removeEventListener('mousemove', onMove);
+    window.removeEventListener('mouseup', onUp);
+  }
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onUp);
+});
+
+// Scroll-wheel zoom
+document.getElementById('lbMain').addEventListener('wheel', function(e){
+  e.preventDefault();
+  lbScale = Math.max(1, Math.min(4, lbScale + (e.deltaY < 0 ? 0.35 : -0.35)));
+  if (lbScale <= 1){ lbScale = 1; lbTranslate = {x:0,y:0}; lbLastTranslate = {x:0,y:0}; }
+  var img = document.getElementById('lbImg');
+  if (img){ img.classList.toggle('zoomed', lbScale > 1); img.style.cursor = ''; }
+  var zBtn = document.getElementById('lbZoomBtn');
+  if (zBtn) zBtn.innerHTML = lbScale > 1 ? '&#x2296;' : '&#x2295;';
+  applyLBTransform();
+}, {passive:false});
+
+// Touch swipe
+document.getElementById('lb').addEventListener('touchstart', function(e){
+  lbTouchStartX = e.touches[0].clientX;
+  lbTouchStartY = e.touches[0].clientY;
+}, {passive:true});
+document.getElementById('lb').addEventListener('touchend', function(e){
+  if (lbTouchStartX === null) return;
+  var dx = e.changedTouches[0].clientX - lbTouchStartX;
+  var dy = e.changedTouches[0].clientY - lbTouchStartY;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) lbStep(dx < 0 ? 1 : -1);
+  lbTouchStartX = null; lbTouchStartY = null;
+}, {passive:true});
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e){
+  if (!document.getElementById('lb').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLB();
+  else if (e.key === 'ArrowRight') lbStep(1);
+  else if (e.key === 'ArrowLeft')  lbStep(-1);
+  else if (e.key === '+' || e.key === '=') toggleZoom();
+  else if (e.key === '-') resetZoom();
+});
+
+// Hover-zoom on main image
+(function(){
+  var wrap = document.getElementById('mainWrap');
+  var img  = document.getElementById('mainImg');
+  if (!wrap || !img) return;
+  wrap.addEventListener('mousemove', function(e){
+    var r = wrap.getBoundingClientRect();
+    img.style.transformOrigin = ((e.clientX-r.left)/r.width*100).toFixed(1)+'% '+((e.clientY-r.top)/r.height*100).toFixed(1)+'%';
+  });
+  wrap.addEventListener('mouseleave', function(){ img.style.transformOrigin = 'center center'; });
+})();
+
+/* ─── Variant selector ──────────────────────────────────────────── */
+var SPRAY_SENTENCES = NUR_DE ? {
+  '1ml':  '1 ml — Tupf-Fläschchen · kein Spray · aufs Handgelenk',
+  '2ml':  '2 ml ≈ 25–35 Sprühstöße — perfekte Probengröße',
+  '5ml':  '5 ml ≈ 60–80 Sprühstöße — testen, bevor du dich festlegst',
+  '10ml': '10 ml ≈ 120–160 Sprühstöße — dein neuer Signature-Duft'
+} : {
+  '1ml':  '1 ml — dabber vial · no spray · apply to wrist',
+  '2ml':  '2 ml ≈ 25–35 sprays — perfect sample size',
+  '5ml':  '5 ml ≈ 60–80 sprays — try before you commit',
+  '10ml': '10 ml ≈ 120–160 sprays — your new signature'
+};
+
+function selectVariant(tile) {
+  document.querySelectorAll('.size-tile').forEach(function(t){ t.classList.remove('active'); });
+  tile.classList.add('active');
+  _selectedVariantId = tile.dataset.variantId;
+  _selectedPrice     = parseInt(tile.dataset.priceRaw, 10);
+
+  // Price display
+  var priceEl = document.getElementById('pdpPrice');
+  if (priceEl) priceEl.textContent = tile.dataset.price;
+
+  // Size label
+  var lblEl = document.getElementById('pdpSizeLabel');
+  if (lblEl) lblEl.textContent = tile.dataset.title;
+
+  // Per-ml price
+  var pmlEl = document.getElementById('pricePerMl');
+  if (pmlEl) pmlEl.textContent = tile.dataset.pml + (NUR_DE ? ' pro ml' : ' per ml');
+
+  // Spray sentence (lives inside .benefits as a <li>)
+  var ss = document.getElementById('spraySentence');
+  if (ss) ss.innerHTML = SPRAY_SENTENCES[tile.dataset.size] || tile.dataset.title;
+
+  // Klarna (hide if price < €10 = 1000 cents)
+  var kl = document.getElementById('klarnaLine');
+  var ka = document.getElementById('klarnaAmt');
+  if (kl) {
+    if (_selectedPrice < 1000) {
+      kl.style.display = 'none';
+    } else {
+      kl.style.display = '';
+      if (ka) ka.textContent = '€' + (Math.ceil(_selectedPrice / 3) / 100).toFixed(2);
+    }
+  }
+
+  // Sticky bar price
+  var sz = document.getElementById('stickySize');
+  if (sz) sz.textContent = tile.dataset.title;
+  var sp = document.getElementById('stickyPrice');
+  if (sp) sp.textContent = tile.dataset.price;
+
+  // Variant image switch (only when variant has a distinct image)
+  if (tile.dataset.imgIndex !== undefined && tile.dataset.imgIndex !== '' && gallery.length > 0) {
+    var imgIdx = parseInt(tile.dataset.imgIndex, 10);
+    if (!isNaN(imgIdx) && gallery[imgIdx]) {
+      var thumbEls = document.querySelectorAll('.thumb-item');
+      setMain(thumbEls[imgIdx] || null, gallery[imgIdx], imgIdx);
+    }
+  }
+}
+document.addEventListener('DOMContentLoaded', function() {
+  var activeTile = document.querySelector('.size-tile.active');
+  if (activeTile) selectVariant(activeTile);
+});
+
+/* ─── Add to Shopify Cart ────────────────────────────────────────── */
+function addToShopifyCart() {
+  var btn = document.getElementById('btnCart');
+  if (btn) { btn.textContent = NUR_DE ? 'Wird hinzugefügt…' : 'Adding…'; btn.disabled = true; }
+
+  var giftWrap = document.getElementById('giftWrap');
+  var giftWrapChecked = !!(giftWrap && giftWrap.checked);
+  var mainItem = { id: parseInt(_selectedVariantId, 10), quantity: 1 };
+  var items = [mainItem];
+
+  if (giftWrapChecked) {
+    mainItem.properties = {
+      'Gift packaging': 'Luxury gift packaging & handwritten card'
+    };
+
+    if (window.NUR_GIFT_PACKAGING_VARIANT_ID && window.NUR_GIFT_PACKAGING_AVAILABLE) {
+      items.push({
+        id: parseInt(window.NUR_GIFT_PACKAGING_VARIANT_ID, 10),
+        quantity: 1,
+        properties: {
+          '_nur_addon': 'gift_packaging',
+          'For': window.NUR_CURRENT_PRODUCT_TITLE || {{ product.title | json }}
+        }
+      });
+    }
+  }
+
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items: items })
+  })
+  .then(function(r){
+    if (!r.ok) {
+      return r.json().then(function(data){
+        throw new Error(data.description || data.message || 'Cart add failed');
+      });
+    }
+    return r.json();
+  })
+  .then(function(){
+    if (btn) {
+      btn.textContent = NUR_DE ? '✓ Zum Warenkorb hinzugefügt' : '✓ Added to Cart';
+      btn.style.background = '#4a7c59';
+      setTimeout(function(){
+        btn.textContent = NUR_DE ? 'Probe in den Warenkorb' : 'Add Sample to Cart';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 2000);
+    }
+    // Update cart count
+    return fetch('/cart.js');
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(c){
+    var badges = document.querySelectorAll('.cart-badge, #cartBadge');
+    badges.forEach(function(b){ b.textContent = c.item_count; });
+    // Open Shopify cart drawer (theme.liquid function)
+    if (typeof openCart === 'function') openCart();
+  })
+  .catch(function(err){
+    console.error('Cart error:', err);
+    if (btn) { btn.textContent = NUR_DE ? 'Fehler — bitte erneut' : 'Error — try again'; btn.disabled = false; }
+  });
+}
+
+/* ─── Wishlist toggle ────────────────────────────────────────────── */
+function toggleWishlistBtn(btn) {
+  btn.classList.toggle('saved');
+  var icon = btn.querySelector('.wl-icon');
+  if (icon) icon.textContent = btn.classList.contains('saved') ? '♥' : '♡';
+}
+
+/* ─── Delivery countdown ─────────────────────────────────────────── */
+(function(){
+  function nextBizDay(d, n){
+    var r = new Date(d);
+    for (var i = 0; i < n;){ r.setDate(r.getDate()+1); var dw = r.getDay(); if (dw!==0&&dw!==6) i++; }
+    return r;
+  }
+  var DAYS = NUR_DE ? ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'] : ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  function tick(){
+    var now    = new Date();
+    var cutoff = new Date(now); cutoff.setHours(14,0,0,0);
+    var shipFrom  = (now >= cutoff) ? nextBizDay(now, 1) : now;
+    var arrives   = nextBizDay(shipFrom, 3);
+    var dayEl = document.getElementById('deliveryDay');
+    if (dayEl) dayEl.textContent = DAYS[arrives.getDay()];
+    var tmrEl = document.getElementById('orderTimer');
+    if (tmrEl){
+      if (now < cutoff){
+        var diff = cutoff - now;
+        var h = Math.floor(diff / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        tmrEl.textContent = h + 'h ' + String(m).padStart(2,'0') + 'm';
+        setTimeout(tick, 60000);
+      } else {
+        tmrEl.textContent = NUR_DE ? 'morgen früh' : 'tomorrow morning';
+      }
+    }
+  }
+  tick();
+})();
+
+/* Live viewer count disabled until connected to real analytics data. */
+
+/* ─── Sticky bar ─────────────────────────────────────────────────── */
+(function(){
+  var sBar    = document.getElementById('stickyBar');
+  var mainBtn = document.querySelector('.btn-cart:not(.sticky-cta)');
+  if (sBar && mainBtn){
+    var io = new IntersectionObserver(function(entries){
+      sBar.classList.toggle('visible', !entries[0].isIntersecting);
+    }, {threshold: 0});
+    io.observe(mainBtn);
+  }
+})();
+
+/* Purchase toast disabled until backed by real order events. */
+
+/* ─── FBT — total & add all to cart ─────────────────────────────── */
+function updateFBTTotal() {
+  var total = 0;
+  document.querySelectorAll('.fbt-item input[type=checkbox]').forEach(function(cb) {
+    if (cb.checked) total += parseFloat(cb.dataset.price || 0);
+  });
+  var el = document.getElementById('fbtTotalPrice');
+  if (el) el.textContent = '€' + total.toFixed(2).replace('.', ',');
+}
+
+function addFBTToCart() {
+  var btn = document.getElementById('fbtAddBtn');
+  var items = [];
+  document.querySelectorAll('.fbt-item input[type=checkbox]').forEach(function(cb) {
+    if (cb.checked && cb.dataset.variantId) {
+      items.push({ id: parseInt(cb.dataset.variantId, 10), quantity: 1 });
+    }
+  });
+  if (!items.length) return;
+  if (btn) { btn.textContent = NUR_DE ? 'Wird hinzugefügt…' : 'Adding…'; btn.disabled = true; }
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items: items })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function() {
+    if (btn) {
+      btn.textContent = NUR_DE ? '✓ Zum Warenkorb hinzugefügt!' : '✓ Added to Cart!';
+      btn.style.background = 'rgba(74,180,130,.15)';
+      btn.style.borderColor = '#4ab482';
+      btn.style.color = '#4ab482';
+      setTimeout(function() {
+        btn.textContent = NUR_DE ? 'Alle in den Warenkorb →' : 'Add All to Cart →';
+        btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = '';
+        btn.disabled = false;
+      }, 2500);
+    }
+    return fetch('/cart.js');
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(c) {
+    document.querySelectorAll('.cart-badge, #cartBadge').forEach(function(b) {
+      b.textContent = c.item_count;
+    });
+    if (typeof openCart === 'function') openCart();
+  })
+  .catch(function() {
+    if (btn) { btn.textContent = NUR_DE ? 'Fehler — bitte erneut' : 'Error — try again'; btn.disabled = false; }
+  });
+}
+
+/* ─── Cross-sell CDN image fallback ─────────────────────────── */
+(function(){
+  if (!window.NUR_IMG) return;
+  document.querySelectorAll('img[data-cdn-fallback]').forEach(function(img){
+    var key = img.dataset.cdnFallback; // e.g. "khamrah-1"
+    var src = window.NUR_IMG + key + '.jpg';
+    var probe = new Image();
+    probe.onload  = function(){ img.src = src; img.style.display = ''; };
+    probe.onerror = function(){ img.style.display = 'none'; };
+    probe.src = src;
+  });
+})();
+</script>
+
+{%- schema -%}
+{
+  "name": "Product Main",
+  "settings": [],
+  "presets": [{"name": "Product Main"}]
+}
+{%- endschema -%}
+

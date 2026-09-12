@@ -5,9 +5,19 @@ previous and current Shopify themes for https://www.nur-fragrance.com/
 
 ## Status
 
-**Blocked — waiting on theme source.** This repository was empty at the start
-of the audit (no commits, no branches). No theme code has been supplied yet,
-so no analysis has been performed.
+**Root cause found and fixed in code. Not yet applied to the store.**
+See `AUDIT.md` for the full report.
+
+Short version: the theme was never the problem. Product imagery on this store
+lives in `assets/` and is mapped to products by handle. On 2026-08-27 a single
+image was uploaded to four products; the gallery treated "has any Shopify media"
+as "use only Shopify media" and discarded each product's curated 6-8 image
+gallery. 26 images were lost across `club-de-nuit-precieux`, `yulali`,
+`rose-01` and `melodie`. Fixed in `current-theme/sections/main-product.liquid`.
+
+Theme sources were pulled directly from the Shopify Admin API rather than
+uploaded by hand, so the folders below are already populated with the files
+that mattered to this audit.
 
 ## What to upload
 
