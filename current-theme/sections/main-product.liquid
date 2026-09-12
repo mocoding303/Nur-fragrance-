@@ -19,8 +19,12 @@
   if bundle_lookup contains 'arabian-introduction' or bundle_lookup contains 'arabian introduction' or bundle_lookup contains 'signature-masculine' or bundle_lookup contains 'signature masculine' or bundle_lookup contains 'oud-explorer' or bundle_lookup contains 'oud explorer'
     assign force_bundle_image = true
   endif
+  capture curated_asset_flag
+    render 'nur-product-use-assets', product: product
+  endcapture
+  assign curated_asset_flag = curated_asset_flag | strip
   assign use_fallback_gallery = false
-  if fallback_gallery_names != blank and fallback_gallery.size > product.images.size
+  if curated_asset_flag != blank
     assign use_fallback_gallery = true
   endif
   if force_bundle_image and fallback_primary_asset != blank

@@ -1,0 +1,442 @@
+{% doc %}
+Renders a Shopify-backed product card for the homepage bestseller carousel or collection grid.
+@param {product} product - The Shopify product to render.
+@param {string} card_type - Either "bestseller" or "collection".
+@param {number} product_index - Product index used for stable sorting and reveal classes.
+@example
+{% render 'nur-product-card', product: product, card_type: 'collection', product_index: forloop.index0 %}
+{% enddoc %}
+
+{%- liquid
+  assign nur_de = false
+  if request.locale.iso_code == 'de'
+    assign nur_de = true
+  endif
+  assign handle = product.handle
+  assign gender = product.metafields.custom.gender | default: 'unisex'
+  assign tag = product.metafields.custom.scent_profile | default: 'sophisticate'
+  assign tag_label = 'Sophisticate'
+  assign tag_class = 'tag-s'
+  assign badge = ''
+  assign glow = '#4a7c59'
+  assign notes_top = product.metafields.custom.top_notes | default: ''
+  assign scent_line = product.metafields.custom.scent_line | default: notes_top
+  assign best_for = product.metafields.custom.best_for | default: 'everyday wear'
+  assign occ = product.metafields.custom.occasion | default: 'everyday'
+  assign lon = product.metafields.custom.longevity | default: 4
+  assign proj = product.metafields.custom.projection | default: 3
+  assign decision = product.metafields.custom.decision_label | default: 'Office-safe'
+  assign fallback_asset = ''
+
+  case handle
+    when 'dahaab-safi'
+      assign fallback_asset = 'dahaab-safi-7.jpg'
+      assign gender = 'her'
+      assign tag = 'gourmand'
+      assign badge = 'bestseller'
+      assign glow = '#c87941'
+      assign scent_line = 'Golden sweetness, rose, vanilla'
+      assign best_for = 'sweet warmth · gifting'
+      assign notes_top = 'Date · Plum'
+      assign occ = 'everyday'
+      assign lon = 4
+      assign proj = 3
+      assign decision = 'Sweet & warm'
+    when 'club-de-nuit-precieux'
+      assign fallback_asset = 'club-de-nuit-precieux-1.jpg'
+      assign gender = 'unisex'
+      assign tag = 'connoisseur'
+      assign badge = 'bestseller'
+      assign glow = '#8a3060'
+      assign scent_line = 'Bergamot, iris, smoky woods'
+      assign best_for = 'bold oud · evenings'
+      assign notes_top = 'Bergamot · Pepper'
+      assign occ = 'evening'
+      assign lon = 5
+      assign proj = 5
+      assign decision = 'Bold oud'
+    when 'khamrah'
+      assign fallback_asset = 'khamrah-1.jpg'
+      assign gender = 'unisex'
+      assign tag = 'gourmand'
+      assign badge = 'bestseller'
+      assign glow = '#c87941'
+      assign scent_line = 'Warm amber, honey, saffron'
+      assign best_for = 'first Arabian scent · evenings'
+      assign notes_top = 'Honey · Saffron'
+      assign occ = 'datenight'
+      assign lon = 5
+      assign proj = 4
+      assign decision = 'Best first Arabian scent'
+    when 'yulali'
+      assign fallback_asset = 'yulali-1.jpg'
+      assign gender = 'her'
+      assign tag = 'sophisticate'
+      assign glow = '#4a7c59'
+      assign scent_line = 'Pear, rose, soft amber'
+      assign best_for = 'office · soft florals'
+      assign notes_top = 'Bergamot · Pear'
+      assign occ = 'office'
+      assign lon = 4
+      assign proj = 3
+      assign decision = 'Office-safe'
+    when 'club-de-nuit-intense'
+      assign fallback_asset = 'club-de-nuit-intense-1.jpg'
+      assign gender = 'him'
+      assign tag = 'sophisticate'
+      assign badge = 'bestseller'
+      assign glow = '#4a7c59'
+      assign scent_line = 'Fresh citrus, birch, musk'
+      assign best_for = 'office · everyday'
+      assign notes_top = 'Grapefruit · Birch'
+      assign occ = 'office'
+      assign lon = 4
+      assign proj = 4
+      assign decision = 'Office-safe'
+    when 'meydan'
+      assign fallback_asset = 'meydan-4.jpg'
+      assign gender = 'him'
+      assign tag = 'connoisseur'
+      assign badge = 'new'
+      assign glow = '#8a3060'
+      assign scent_line = 'Saffron, oud, leather'
+      assign best_for = 'date night · cold weather'
+      assign notes_top = 'Saffron · Cardamom'
+      assign occ = 'evening'
+      assign lon = 5
+      assign proj = 5
+      assign decision = 'Bold oud'
+    when 'rose-01'
+      assign fallback_asset = 'rose-01-1.jpg'
+      assign gender = 'her'
+      assign tag = 'connoisseur'
+      assign glow = '#8a3060'
+      assign scent_line = 'Rose, oud, soft musk'
+      assign best_for = 'rose lovers · evenings'
+      assign notes_top = 'Bergamot · Pink Pepper'
+      assign occ = 'evening'
+      assign lon = 4
+      assign proj = 3
+      assign decision = 'Bold oud'
+    when 'kismet-angel'
+      assign fallback_asset = 'kismet-angel-1.jpg'
+      assign gender = 'her'
+      assign tag = 'gourmand'
+      assign badge = 'new'
+      assign glow = '#c87941'
+      assign scent_line = 'Red fruits, vanilla, musk'
+      assign best_for = 'weekends · sweet comfort'
+      assign notes_top = 'Red Fruits · Watermelon'
+      assign occ = 'weekend'
+      assign lon = 3
+      assign proj = 3
+      assign decision = 'Sweet & warm'
+    when 'asad'
+      assign fallback_asset = 'asad-1.jpg'
+      assign gender = 'him'
+      assign tag = 'sophisticate'
+      assign badge = 'new'
+      assign glow = '#4a7c59'
+      assign scent_line = 'Citrus, cedar, amber'
+      assign best_for = 'office · first-timers'
+      assign notes_top = 'Bergamot · Citrus'
+      assign occ = 'office'
+      assign lon = 4
+      assign proj = 4
+      assign decision = 'Office-safe'
+    when 'royal-bleu'
+      assign fallback_asset = 'royal-bleu-1.jpg'
+      assign gender = 'him'
+      assign tag = 'sophisticate'
+      assign glow = '#4a7c59'
+      assign scent_line = 'Bergamot, vetiver, cedar'
+      assign best_for = 'clean daily wear · office'
+      assign notes_top = 'Lemon · Bergamot'
+      assign occ = 'everyday'
+      assign lon = 3
+      assign proj = 2
+      assign decision = 'Office-safe'
+    when 'melodie'
+      assign fallback_asset = 'melodie-1.jpg'
+      assign gender = 'her'
+      assign tag = 'gourmand'
+      assign glow = '#c87941'
+      assign scent_line = 'Raspberry, rose, praline'
+      assign best_for = 'date night · feminine sweetness'
+      assign notes_top = 'Raspberry · Saffron'
+      assign occ = 'datenight'
+      assign lon = 4
+      assign proj = 3
+      assign decision = 'Sweet & warm'
+    when 'turath'
+      assign fallback_asset = 'turath-4.jpg'
+      assign gender = 'unisex'
+      assign tag = 'connoisseur'
+      assign glow = '#8a3060'
+      assign scent_line = 'Saffron, oud, amber'
+      assign best_for = 'oud lovers · cold weather'
+      assign notes_top = 'Saffron · Oud'
+      assign occ = 'evening'
+      assign lon = 5
+      assign proj = 4
+      assign decision = 'Bold oud'
+  endcase
+
+  if fallback_asset == blank
+    capture fallback_asset_lookup
+      render 'nur-product-fallback-asset', product: product
+    endcapture
+    assign fallback_asset = fallback_asset_lookup | strip
+  endif
+  assign force_bundle_image = false
+  assign bundle_lookup = product.handle | append: ' ' | append: product.title | downcase
+  if bundle_lookup contains 'arabian-introduction' or bundle_lookup contains 'arabian introduction' or bundle_lookup contains 'signature-masculine' or bundle_lookup contains 'signature masculine' or bundle_lookup contains 'oud-explorer' or bundle_lookup contains 'oud explorer'
+    assign force_bundle_image = true
+  endif
+  capture curated_asset_flag
+    render 'nur-product-use-assets', product: product
+  endcapture
+  assign curated_asset_flag = curated_asset_flag | strip
+  assign use_asset_image = false
+  if fallback_asset != blank
+    if force_bundle_image or curated_asset_flag != blank
+      assign use_asset_image = true
+    endif
+  endif
+
+  if nur_de
+    assign decision = decision | replace: 'Best first Arabian scent', 'Bester erster arabischer Duft' | replace: 'Office-safe', 'Bürotauglich' | replace: 'Bold oud', 'Kräftiger Oud' | replace: 'Sweet & warm', 'Süß & warm'
+    assign best_for = best_for | replace: 'sweet warmth', 'süße Wärme' | replace: 'gifting', 'Geschenke' | replace: 'bold oud', 'kräftiger Oud' | replace: 'evenings', 'Abende' | replace: 'first Arabian scent', 'erster arabischer Duft' | replace: 'office', 'Büro' | replace: 'soft florals', 'sanfte Blüten' | replace: 'everyday', 'Alltag' | replace: 'date night', 'Date Night' | replace: 'cold weather', 'kaltes Wetter' | replace: 'rose lovers', 'Rosen-Fans' | replace: 'weekends', 'Wochenenden' | replace: 'sweet comfort', 'süßer Komfort' | replace: 'first-timers', 'Einsteiger' | replace: 'clean daily wear', 'klarer Alltag' | replace: 'feminine sweetness', 'feminine Süße' | replace: 'oud lovers', 'Oud-Fans'
+    case handle
+      when 'dahaab-safi'
+        assign scent_line = 'Goldene Süße, Rose, Vanille'
+      when 'club-de-nuit-precieux'
+        assign scent_line = 'Bergamotte, Iris, rauchige Hölzer'
+      when 'khamrah'
+        assign scent_line = 'Warmer Amber, Honig, Safran'
+      when 'yulali'
+        assign scent_line = 'Birne, Rose, weicher Amber'
+      when 'club-de-nuit-intense'
+        assign scent_line = 'Frische Zitrus, Birke, Moschus'
+      when 'meydan'
+        assign scent_line = 'Safran, Oud, Leder'
+      when 'rose-01'
+        assign scent_line = 'Rose, Oud, weicher Moschus'
+      when 'kismet-angel'
+        assign scent_line = 'Rote Früchte, Vanille, Moschus'
+      when 'asad'
+        assign scent_line = 'Zitrus, Zeder, Amber'
+      when 'royal-bleu'
+        assign scent_line = 'Bergamotte, Vetiver, Zeder'
+      when 'melodie'
+        assign scent_line = 'Himbeere, Rose, Praline'
+      when 'turath'
+        assign scent_line = 'Safran, Oud, Amber'
+    endcase
+  endif
+  assign best_for_chips = best_for | replace: ' · ', '|' | replace: '·', '|' | split: '|'
+
+  if product.tags contains 'bestseller'
+    assign badge = 'bestseller'
+  elsif product.tags contains 'new'
+    assign badge = 'new'
+  endif
+
+  if tag == 'gourmand'
+    assign tag_label = 'Gourmand'
+    assign tag_class = 'tag-g'
+  elsif tag == 'connoisseur'
+    assign tag_label = 'Connoisseur'
+    assign tag_class = 'tag-c'
+  endif
+
+  assign variant_1ml = blank
+  assign variant_2ml = blank
+  assign variant_5ml = blank
+  assign variant_10ml = blank
+  for variant in product.variants
+    assign variant_title = variant.title | downcase
+    if variant_title contains '1ml'
+      assign variant_1ml = variant
+    elsif variant_title contains '2ml'
+      assign variant_2ml = variant
+    elsif variant_title contains '5ml'
+      assign variant_5ml = variant
+    elsif variant_title contains '10ml'
+      assign variant_10ml = variant
+    endif
+  endfor
+
+  assign sample_variant = variant_1ml | default: product.selected_or_first_available_variant
+  assign stock = product.selected_or_first_available_variant.inventory_quantity | default: 0
+  assign rv = product_index | modulo: 4 | plus: 1
+  assign lon_num = lon | plus: 0
+  assign proj_num = proj | plus: 0
+  assign card_class = 'col-card reveal rv' | append: rv
+  if card_type == 'bestseller'
+    assign card_class = 'bs-card'
+  endif
+  assign image_alt = product.title | append: ' by ' | append: product.vendor | append: ' Arabian fragrance decant'
+  assign brand_key = product.vendor | handleize
+  if product.vendor contains 'Spirit of Dubai'
+    assign brand_key = 'spirit-of-dubai'
+  endif
+-%}
+
+<article
+  class="{{ card_class }}"
+  data-tag="{{ tag | escape }}"
+  data-occ="{{ occ | escape }}"
+  data-gender="{{ gender | escape }}"
+  data-brand="{{ brand_key }}"
+  data-idx="{{ product_index }}"
+  data-oos="{% if product.available %}false{% else %}true{% endif %}"
+  data-slug="{{ product.handle | escape }}"
+  onclick="location.href='{{ product.url }}'"
+>
+  {%- if card_type == 'bestseller' -%}
+    <div class="bs-badge">{% if nur_de %}Bestseller{% else %}Best Seller{% endif %}</div>
+    <div class="bs-img-w">
+      <button class="wish-btn" onclick="toggleWish('{{ product.handle | escape }}',this);event.stopPropagation()" aria-label="Wishlist">🤍</button>
+      <div class="bs-glow" style="background:{{ glow }}"></div>
+      {%- if use_asset_image -%}
+        <img
+          class="bs-img"
+          src="{{ fallback_asset | asset_url }}"
+          alt="{{ image_alt | escape }}"
+          width="520"
+          height="520"
+          loading="lazy">
+      {%- elsif product.featured_image -%}
+        <img
+          class="bs-img"
+          src="{{ product.featured_image | image_url: width: 520 }}"
+          srcset="{{ product.featured_image | image_url: width: 320 }} 320w, {{ product.featured_image | image_url: width: 520 }} 520w, {{ product.featured_image | image_url: width: 760 }} 760w"
+          sizes="(max-width: 700px) 80vw, 320px"
+          alt="{{ image_alt | escape }}"
+          width="520"
+          height="520"
+          loading="lazy">
+      {%- elsif fallback_asset != blank -%}
+        <img
+          class="bs-img"
+          src="{{ fallback_asset | asset_url }}"
+          alt="{{ image_alt | escape }}"
+          width="520"
+          height="520"
+          loading="lazy">
+      {%- else -%}
+        <img
+          class="bs-img"
+          src="{{ 'favicon-nur-logo.svg' | asset_url }}"
+          alt="{{ image_alt | escape }}"
+          width="520"
+          height="520"
+          loading="lazy">
+      {%- endif -%}
+    </div>
+    <div class="bs-body">
+      <span class="decision-label">{{ decision }}</span>
+      <h3 class="bs-name">{{ product.title }} <span>{% if nur_de %}von{% else %}by{% endif %} {{ product.vendor }}</span></h3>
+      <p class="card-scent-line">{{ scent_line }}</p>
+      <div class="card-best-for" aria-label="Best for">
+        <span class="card-best-label">{% if nur_de %}Ideal für{% else %}Best for{% endif %}</span>
+        {%- for chip in best_for_chips limit: 3 -%}
+          <span class="card-best-chip">{{ chip | strip }}</span>
+        {%- endfor -%}
+      </div>
+      <span class="bs-tag {{ tag_class }}">{{ tag_label }}</span>
+      <div class="card-gauges">
+        <div class="gauge"><span class="gauge-lbl">{% if nur_de %}Haltbarkeit{% else %}Longevity{% endif %}</span><div class="gauge-dots">{%- for i in (1..5) -%}<span class="gdot{% if i <= lon_num %} on{% endif %}"></span>{%- endfor -%}</div></div>
+        <div class="gauge"><span class="gauge-lbl">{% if nur_de %}Projektion{% else %}Projection{% endif %}</span><div class="gauge-dots">{%- for i in (1..5) -%}<span class="gdot{% if i <= proj_num %} on{% endif %}"></span>{%- endfor -%}</div></div>
+      </div>
+      {%- if stock > 0 and stock <= 8 -%}<div class="stock-signal"><span class="sdot"></span>{% if nur_de %}Geringer Bestand{% else %}Low stock{% endif %}</div>{%- endif -%}
+      <div class="card-sizes">
+        {%- if variant_1ml != blank -%}<button class="card-size-btn" data-vol="1ml" data-price="{{ variant_1ml.price | divided_by: 100.0 }}" data-pml="{{ variant_1ml.price | divided_by: 100.0 }}" onclick="cardSelectSize(this,event)">1ml</button>{%- endif -%}
+        {%- if variant_2ml != blank -%}<button class="card-size-btn" data-vol="2ml" data-price="{{ variant_2ml.price | divided_by: 100.0 }}" data-pml="{{ variant_2ml.price | divided_by: 200.0 }}" onclick="cardSelectSize(this,event)">2ml</button>{%- endif -%}
+        {%- if variant_5ml != blank -%}<button class="card-size-btn active" data-vol="5ml" data-price="{{ variant_5ml.price | divided_by: 100.0 }}" data-pml="{{ variant_5ml.price | divided_by: 500.0 }}" onclick="cardSelectSize(this,event)">5ml</button>{%- endif -%}
+        {%- if variant_10ml != blank -%}<button class="card-size-btn" data-vol="10ml" data-price="{{ variant_10ml.price | divided_by: 100.0 }}" data-pml="{{ variant_10ml.price | divided_by: 1000.0 }}" onclick="cardSelectSize(this,event)">10ml</button>{%- endif -%}
+      </div>
+      <div class="bs-foot">
+        <span class="bs-price card-from">{% if nur_de %}Ab{% else %}From{% endif %} {{ sample_variant.price | money }} · {% if nur_de %}1-ml-Probe{% else %}1ml sample{% endif %}</span>
+        {%- if product.available -%}
+          <button class="bs-add" onclick="addToCart('{{ product.handle | escape }}',this);event.stopPropagation()">{% if nur_de %}Probe hinzufügen{% else %}Add Sample{% endif %}</button>
+        {%- else -%}
+          <div style="text-align:right"><div class="oos-restock">{% if nur_de %}Bald wieder verfügbar{% else %}Restocking Soon{% endif %}</div><button class="notify-btn" onclick="notifyMe('{{ product.handle | escape }}','{{ product.title | escape }}',this);event.stopPropagation()">{% if nur_de %}Benachrichtigen &rarr;{% else %}Notify Me &rarr;{% endif %}</button></div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- else -%}
+    {%- if badge == 'bestseller' -%}<div class="col-badge">{% if nur_de %}Bestseller{% else %}Best Seller{% endif %}</div>{%- elsif badge == 'new' -%}<div class="col-badge new">{% if nur_de %}Neu{% else %}New{% endif %}</div>{%- endif -%}
+    <div class="col-img-w">
+      <button class="wish-btn" onclick="toggleWish('{{ product.handle | escape }}',this);event.stopPropagation()" aria-label="Wishlist">🤍</button>
+      <div class="col-glow" style="background:{{ glow }}"></div>
+      {%- if use_asset_image -%}
+        <img
+          class="col-img"
+          src="{{ fallback_asset | asset_url }}"
+          alt="{{ image_alt | escape }}"
+          loading="lazy"
+          width="520"
+          height="520">
+      {%- elsif product.featured_image -%}
+        <img
+          class="col-img"
+          src="{{ product.featured_image | image_url: width: 520 }}"
+          srcset="{{ product.featured_image | image_url: width: 320 }} 320w, {{ product.featured_image | image_url: width: 520 }} 520w, {{ product.featured_image | image_url: width: 760 }} 760w"
+          sizes="(max-width: 700px) 90vw, 360px"
+          alt="{{ image_alt | escape }}"
+          loading="lazy"
+          width="520"
+          height="520">
+      {%- elsif fallback_asset != blank -%}
+        <img
+          class="col-img"
+          src="{{ fallback_asset | asset_url }}"
+          alt="{{ image_alt | escape }}"
+          loading="lazy"
+          width="520"
+          height="520">
+      {%- else -%}
+        <img
+          class="col-img"
+          src="{{ 'favicon-nur-logo.svg' | asset_url }}"
+          alt="{{ image_alt | escape }}"
+          loading="lazy"
+          width="520"
+          height="520">
+      {%- endif -%}
+    </div>
+    <div class="col-body">
+      <span class="decision-label">{{ decision }}</span>
+      <h3 class="col-name">{{ product.title }} <span>{% if nur_de %}von{% else %}by{% endif %} {{ product.vendor }}</span></h3>
+      <p class="card-scent-line">{{ scent_line }}</p>
+      <div class="card-best-for" aria-label="Best for">
+        <span class="card-best-label">{% if nur_de %}Ideal für{% else %}Best for{% endif %}</span>
+        {%- for chip in best_for_chips limit: 3 -%}
+          <span class="card-best-chip">{{ chip | strip }}</span>
+        {%- endfor -%}
+      </div>
+      <span class="col-tag {{ tag_class }}">{{ tag_label }}</span>
+      <div class="card-gauges">
+        <div class="gauge"><span class="gauge-lbl">{% if nur_de %}Haltbarkeit{% else %}Longevity{% endif %}</span><div class="gauge-dots">{%- for i in (1..5) -%}<span class="gdot{% if i <= lon_num %} on{% endif %}"></span>{%- endfor -%}</div></div>
+        <div class="gauge"><span class="gauge-lbl">{% if nur_de %}Projektion{% else %}Projection{% endif %}</span><div class="gauge-dots">{%- for i in (1..5) -%}<span class="gdot{% if i <= proj_num %} on{% endif %}"></span>{%- endfor -%}</div></div>
+      </div>
+      {%- if stock > 0 and stock <= 8 -%}<div class="stock-signal"><span class="sdot"></span>{% if nur_de %}Geringer Bestand{% else %}Low stock{% endif %}</div>{%- endif -%}
+      <div class="card-sizes">
+        {%- if variant_1ml != blank -%}<button class="card-size-btn" data-vol="1ml" data-price="{{ variant_1ml.price | divided_by: 100.0 }}" data-pml="{{ variant_1ml.price | divided_by: 100.0 }}" onclick="cardSelectSize(this,event)">1ml</button>{%- endif -%}
+        {%- if variant_2ml != blank -%}<button class="card-size-btn" data-vol="2ml" data-price="{{ variant_2ml.price | divided_by: 100.0 }}" data-pml="{{ variant_2ml.price | divided_by: 200.0 }}" onclick="cardSelectSize(this,event)">2ml</button>{%- endif -%}
+        {%- if variant_5ml != blank -%}<button class="card-size-btn active" data-vol="5ml" data-price="{{ variant_5ml.price | divided_by: 100.0 }}" data-pml="{{ variant_5ml.price | divided_by: 500.0 }}" onclick="cardSelectSize(this,event)">5ml</button>{%- endif -%}
+        {%- if variant_10ml != blank -%}<button class="card-size-btn" data-vol="10ml" data-price="{{ variant_10ml.price | divided_by: 100.0 }}" data-pml="{{ variant_10ml.price | divided_by: 1000.0 }}" onclick="cardSelectSize(this,event)">10ml</button>{%- endif -%}
+      </div>
+      <div class="col-foot">
+        <span class="col-price card-from">{% if nur_de %}Ab{% else %}From{% endif %} {{ sample_variant.price | money }} · {% if nur_de %}1-ml-Probe{% else %}1ml sample{% endif %}</span>
+        {%- if product.available -%}
+          <button class="col-add" onclick="addToCart('{{ product.handle | escape }}',this);event.stopPropagation()">{% if nur_de %}Probe hinzufügen{% else %}Add Sample{% endif %}</button>
+        {%- else -%}
+          <div style="text-align:right"><div class="oos-restock">{% if nur_de %}Bald wieder verfügbar{% else %}Restocking Soon{% endif %}</div><button class="notify-btn" onclick="notifyMe('{{ product.handle | escape }}','{{ product.title | escape }}',this);event.stopPropagation()">{% if nur_de %}Benachrichtigen &rarr;{% else %}Notify Me &rarr;{% endif %}</button></div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+</article>

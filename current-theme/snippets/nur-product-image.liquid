@@ -1,0 +1,59 @@
+{% doc %}
+Renders a responsive Shopify product image with an optional static fallback.
+@param {string} handle - Product handle.
+@param {string} class_name - CSS class for the image.
+@param {string} alt - Image alt text.
+@param {number} width - Requested image width.
+@param {number} height - Output image height attribute.
+@param {string} fallback_asset - Theme asset fallback filename.
+@example
+{% render 'nur-product-image', handle: 'khamrah', class_name: 'trio-img', alt: 'Khamrah', width: 360, height: 360 %}
+{% enddoc %}
+
+{%- liquid
+  assign img_product = all_products[handle]
+  assign image_width = width | default: 520
+  assign image_height = height | default: image_width
+  assign image_alt = alt | default: img_product.title | default: handle
+  assign fallback = fallback_asset
+  if fallback == blank
+    capture fallback_lookup
+      render 'nur-product-fallback-asset', product: img_product, handle: handle
+    endcapture
+    assign fallback = fallback_lookup | strip
+  endif
+  if fallback == blank
+    assign fallback = 'favicon-nur-logo.svg'
+  endif
+
+  assign force_bundle_image = false
+  assign bundle_lookup = handle | append: ' ' | append: img_product.title | downcase
+  if bundle_lookup contains 'arabian-introduction' or bundle_lookup contains 'arabian introduction' or bundle_lookup contains 'signature-masculine' or bundle_lookup contains 'signature masculine' or bundle_lookup contains 'oud-explorer' or bundle_lookup contains 'oud explorer'
+    assign force_bundle_image = true
+  endif
+  capture curated_asset_flag
+    render 'nur-product-use-assets', product: img_product, handle: handle
+  endcapture
+  assign curated_asset_flag = curated_asset_flag | strip
+  assign use_asset_image = false
+  if fallback != blank
+    if force_bundle_image or curated_asset_flag != blank
+      assign use_asset_image = true
+    endif
+  endif
+-%}
+{%- if use_asset_image -%}
+  <img class="{{ class_name }}" src="{{ fallback | asset_url }}" alt="{{ image_alt | escape }}" width="{{ image_width }}" height="{{ image_height }}" loading="lazy">
+{%- elsif img_product.featured_image -%}
+  <img
+    class="{{ class_name }}"
+    src="{{ img_product.featured_image | image_url: width: image_width }}"
+    srcset="{{ img_product.featured_image | image_url: width: 320 }} 320w, {{ img_product.featured_image | image_url: width: image_width }} {{ image_width }}w, {{ img_product.featured_image | image_url: width: 900 }} 900w"
+    sizes="(max-width: 700px) 42vw, {{ image_width }}px"
+    alt="{{ image_alt | escape }}"
+    width="{{ image_width }}"
+    height="{{ image_height }}"
+    loading="lazy">
+{%- else -%}
+  <img class="{{ class_name }}" src="{{ fallback | asset_url }}" alt="{{ image_alt | escape }}" width="{{ image_width }}" height="{{ image_height }}" loading="lazy">
+{%- endif -%}

@@ -336,3 +336,56 @@ Sept 12 (preview)* → Preview.
 
 Publishing is deliberately not automated and is blocked by the tooling. Publish
 from Shopify admin once the four pages check out.
+
+---
+
+## Round 2 — the same cause on product cards (2026-09-12)
+
+Reported from the preview: several products showed a generic NUR-branded render
+instead of a real product photo. That image is the **2026-08-27 Shopify upload**
+(e.g. `yulali.png`, 1024×1024). The screenshot was a **product card**, not the
+PDP gallery — cards read `product.featured_image` directly, a path the round-1
+fix did not touch.
+
+Same root cause, second surface, same four products.
+
+| Product | Card before | Card after |
+| --- | --- | --- |
+| `club-de-nuit-precieux` | Aug 27 upload | `club-de-nuit-precieux-1.jpg` |
+| `yulali` | Aug 27 upload | `yulali-1.jpg` |
+| `rose-01` | Aug 27 upload | `rose-01-1.jpg` |
+| `melodie` | Aug 27 upload | `melodie-1.jpg` |
+| other 12 products | unchanged | unchanged |
+
+### One rule, one definition
+
+Round 1 left the rule inline in `main-product.liquid`. Copying it into three more
+files would have recreated exactly the drift that caused this bug, so it now
+lives in a single new snippet:
+
+**`snippets/nur-product-use-assets.liquid`** — returns `'1'` while a product's
+curated asset gallery is richer than its Shopify media, nothing once Shopify
+media catches up or when the product has no curated entry.
+
+Rendered by all four surfaces:
+
+| File | Surface |
+| --- | --- |
+| `sections/main-product.liquid` | PDP gallery, hero, thumbs, counter, sticky bar |
+| `snippets/nur-product-card.liquid` | homepage carousel + collection grid cards |
+| `snippets/nur-product-image.liquid` | trio / bundle imagery via `all_products` |
+| `snippets/nur-product-data-json.liquid` | `img` in the JS payload (cart drawer, quiz, wishlist) |
+
+`main-product.liquid` was refactored to use the snippet, so the inline copy is
+gone and there is exactly one definition. Verified: no other file still contains
+`fallback_gallery.size > product.images.size`.
+
+In each card file the change is one line at the branch opener — from
+`force_bundle_image and fallback_asset != blank` to `use_asset_image`. The
+existing "bundle asset" branch and "fallback asset" branch render **byte-identical
+markup**, so the 12 unaffected products produce exactly the same HTML as before;
+only which branch they enter changes.
+
+Nothing was deleted from Shopify. The four uploaded images remain in product
+media, and the theme will switch back to them automatically once each product
+has a full set.

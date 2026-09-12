@@ -1,0 +1,29 @@
+{% doc %}
+Returns '1' when a product's curated theme-asset gallery is still richer than its
+Shopify product media, meaning the curated assets remain the source of truth for
+that product's imagery. Returns nothing once Shopify media matches or exceeds the
+curated set, or when the product has no curated entry at all.
+
+This is the single definition of that rule. Every surface that picks between a
+curated asset and Shopify media renders this snippet, so the product detail
+gallery, the product cards and the JSON payload can never drift apart.
+
+@param {product} product - The product to test.
+@param {string} handle - Optional handle, used when no product object is available.
+@example
+{% capture curated %}{% render 'nur-product-use-assets', product: product %}{% endcapture %}
+{% enddoc %}
+{%- liquid
+  assign use_assets = ''
+  capture curated_names
+    render 'nur-product-fallback-gallery', product: product, handle: handle
+  endcapture
+  assign curated_names = curated_names | strip
+  if curated_names != blank
+    assign curated_list = curated_names | split: '|'
+    if curated_list.size > product.images.size
+      assign use_assets = '1'
+    endif
+  endif
+-%}
+{{- use_assets -}}
