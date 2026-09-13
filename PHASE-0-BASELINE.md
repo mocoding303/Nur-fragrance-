@@ -250,3 +250,46 @@ invisible to both shoppers and models, and several of those dormant answers fram
 products against Creed, Baccarat Rouge 540, Flowerbomb and Kayali by name — so
 switching them on without resolving C1 would push the trademark exposure into
 FAQPage structured data.
+
+## P1 closed — `additionalProperty` shipped to `/t/38`
+
+`snippets/product-json-ld.liquid` — 9,339 b, md5 `bbea04d5…`, verified by
+read-back. Live `/t/37` still at `e5d90855…` / 4,244 b, untouched.
+
+**ProductGroup** now carries up to twelve `PropertyValue` entries: Top / Heart /
+Base notes, Olfactive family, Longevity, Sillage, Best season, Occasion, and the
+Sweetness / Spiciness / Woodiness / Floralcy scores. Scores emit a **numeric**
+value with `minValue: 0` / `maxValue: 100` so a consumer can compare them
+("sweeter than 60"); text attributes emit strings. Middot separators are
+normalised to commas so values read as lists.
+
+**Each variant** carries its own `Volume` property (`unitCode: MLT`), since
+volume is the one attribute that genuinely varies by size.
+
+| Product | Attributes | Variant volumes |
+| --- | --- | --- |
+| `dahaab-safi`, `khamrah` | 12 | 1, 2, 5, 10 ml |
+| `club-de-nuit-precieux` | 11 (no `char_sweet`) | 1, 2, 5, 10 ml |
+| `club-de-nuit-intense` | 10 | 1, 2, 5, 10 ml |
+| 3 gift sets, packaging add-on | **0 — suppressed entirely** | none |
+
+### Deliberately omitted
+
+Recorded in the template so they are not "filled in" later:
+
+- **concentration, gender, launch year, perfumer** — no source of truth exists on
+  this store. `nur-product-data-json.liquid` defaults gender to `unisex` for its
+  own UI filtering; that is a convenience, not a fact about the fragrance, and
+  must not be published as structured data. Add real metafields and they wire in.
+- **`rrp` / `rrp_save`** — a pricing claim under review, not a product attribute.
+
+### Verification
+
+Simulated the template against live store data across every gating path and
+parsed the output: attribute counts as tabled, volumes resolve to 1/2/5/10,
+bundles emit neither attributes nor volume, all documents parse. Liquid control
+flow balanced (markup if 8/8, for 4/4, unless 4/4, comment 2/2; liquid-block
+if 13/13, comment 2/2).
+
+**Not verified — needs a real render.** Rich Results Test and Schema Markup
+Validator against a rendered page; I cannot fetch the domain from this session.
