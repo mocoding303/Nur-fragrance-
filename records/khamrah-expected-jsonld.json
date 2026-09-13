@@ -2,15 +2,7 @@
   "@context": "https://schema.org",
   "@type": "ProductGroup",
   "@id": "https://www.nur-fragrance.com/products/khamrah#product",
-  "productGroupID": "shopify-15894219489605",
-  "variesBy": "https://schema.org/size",
   "name": "Khamrah",
-  "url": "https://www.nur-fragrance.com/products/khamrah",
-  "description": "The legendary Khamrah by Lattafa — widely considered the best affordable alternative to Baccarat Rouge 540. Top notes of Honey & Saffron, heart of Oud & Rose, base of Vanilla & Amber. Extraordinary longevity.",
-  "brand": {
-    "@type": "Brand",
-    "name": "Lattafa"
-  },
   "image": [
     "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-1.jpg",
     "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-2.jpg",
@@ -26,69 +18,6 @@
       "@type": "PropertyValue",
       "name": "Top notes",
       "value": "Cinnamon, Cognac, Nutmeg"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "Heart notes",
-      "value": "Oud, Rose, Jasmine"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "Base notes",
-      "value": "Vanilla, Caramel, Amber, Sandalwood"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "Olfactive family",
-      "value": "Gourmand, Oriental Sweet"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "Longevity",
-      "value": "8–12 hours"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "Sillage",
-      "value": "Strong"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "Best season",
-      "value": "Autumn, Winter"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "Occasion",
-      "value": "Evening, Date Night, Special Occasion"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "Sweetness",
-      "value": 90,
-      "minValue": 0,
-      "maxValue": 100
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "Spiciness",
-      "value": 70,
-      "minValue": 0,
-      "maxValue": 100
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "Woodiness",
-      "value": 50,
-      "minValue": 0,
-      "maxValue": 100
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "Floralcy",
-      "value": 38,
-      "minValue": 0,
-      "maxValue": 100
     }
   ],
   "hasVariant": [
@@ -113,6 +42,7 @@
         "@id": "https://www.nur-fragrance.com/products/khamrah#product"
       },
       "sku": "KHAMRAH-1ML",
+      "image": "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-1.jpg",
       "offers": {
         "@type": "Offer",
         "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527493957",
@@ -120,8 +50,174 @@
         "price": "4.90",
         "availability": "https://schema.org/InStock",
         "itemCondition": "https://schema.org/NewCondition",
+        "priceValidUntil": "2027-09-14",
         "seller": {
           "@id": "https://www.nur-fragrance.com/#organization"
+        },
+        "shippingDetails": [
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 5.99,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "DE"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 3,
+                "maxValue": 7,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          },
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 5.9,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": [
+                "AT",
+                "BE",
+                "BG",
+                "HR",
+                "CY",
+                "CZ",
+                "DK",
+                "EE",
+                "FI",
+                "FR",
+                "GR",
+                "HU",
+                "IE",
+                "IT",
+                "LV",
+                "LT",
+                "LU",
+                "MT",
+                "NL",
+                "PL",
+                "PT",
+                "RO",
+                "SK",
+                "SI",
+                "ES",
+                "SE"
+              ]
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 3,
+                "maxValue": 7,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          },
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 19.99,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": [
+                "AE",
+                "AU",
+                "CA",
+                "CH",
+                "GB",
+                "HK",
+                "IL",
+                "JP",
+                "KR",
+                "MY",
+                "NO",
+                "NZ",
+                "SG",
+                "US"
+              ]
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 7,
+                "maxValue": 14,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          }
+        ],
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": [
+            "DE",
+            "AT",
+            "BE",
+            "BG",
+            "HR",
+            "CY",
+            "CZ",
+            "DK",
+            "EE",
+            "FI",
+            "FR",
+            "GR",
+            "HU",
+            "IE",
+            "IT",
+            "LV",
+            "LT",
+            "LU",
+            "MT",
+            "NL",
+            "PL",
+            "PT",
+            "RO",
+            "SK",
+            "SI",
+            "ES",
+            "SE"
+          ],
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility",
+          "merchantReturnLink": "https://www.nur-fragrance.com/pages/widerrufsrecht"
         }
       }
     },
@@ -146,6 +242,7 @@
         "@id": "https://www.nur-fragrance.com/products/khamrah#product"
       },
       "sku": "KHAMRAH-2ML",
+      "image": "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-1.jpg",
       "offers": {
         "@type": "Offer",
         "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527526725",
@@ -153,8 +250,174 @@
         "price": "7.90",
         "availability": "https://schema.org/InStock",
         "itemCondition": "https://schema.org/NewCondition",
+        "priceValidUntil": "2027-09-14",
         "seller": {
           "@id": "https://www.nur-fragrance.com/#organization"
+        },
+        "shippingDetails": [
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 5.99,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "DE"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 3,
+                "maxValue": 7,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          },
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 5.9,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": [
+                "AT",
+                "BE",
+                "BG",
+                "HR",
+                "CY",
+                "CZ",
+                "DK",
+                "EE",
+                "FI",
+                "FR",
+                "GR",
+                "HU",
+                "IE",
+                "IT",
+                "LV",
+                "LT",
+                "LU",
+                "MT",
+                "NL",
+                "PL",
+                "PT",
+                "RO",
+                "SK",
+                "SI",
+                "ES",
+                "SE"
+              ]
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 3,
+                "maxValue": 7,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          },
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 19.99,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": [
+                "AE",
+                "AU",
+                "CA",
+                "CH",
+                "GB",
+                "HK",
+                "IL",
+                "JP",
+                "KR",
+                "MY",
+                "NO",
+                "NZ",
+                "SG",
+                "US"
+              ]
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 7,
+                "maxValue": 14,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          }
+        ],
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": [
+            "DE",
+            "AT",
+            "BE",
+            "BG",
+            "HR",
+            "CY",
+            "CZ",
+            "DK",
+            "EE",
+            "FI",
+            "FR",
+            "GR",
+            "HU",
+            "IE",
+            "IT",
+            "LV",
+            "LT",
+            "LU",
+            "MT",
+            "NL",
+            "PL",
+            "PT",
+            "RO",
+            "SK",
+            "SI",
+            "ES",
+            "SE"
+          ],
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility",
+          "merchantReturnLink": "https://www.nur-fragrance.com/pages/widerrufsrecht"
         }
       }
     },
@@ -179,6 +442,7 @@
         "@id": "https://www.nur-fragrance.com/products/khamrah#product"
       },
       "sku": "KHAMRAH-5ML",
+      "image": "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-1.jpg",
       "offers": {
         "@type": "Offer",
         "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527559493",
@@ -186,8 +450,174 @@
         "price": "14.90",
         "availability": "https://schema.org/InStock",
         "itemCondition": "https://schema.org/NewCondition",
+        "priceValidUntil": "2027-09-14",
         "seller": {
           "@id": "https://www.nur-fragrance.com/#organization"
+        },
+        "shippingDetails": [
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 5.99,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "DE"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 3,
+                "maxValue": 7,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          },
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 5.9,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": [
+                "AT",
+                "BE",
+                "BG",
+                "HR",
+                "CY",
+                "CZ",
+                "DK",
+                "EE",
+                "FI",
+                "FR",
+                "GR",
+                "HU",
+                "IE",
+                "IT",
+                "LV",
+                "LT",
+                "LU",
+                "MT",
+                "NL",
+                "PL",
+                "PT",
+                "RO",
+                "SK",
+                "SI",
+                "ES",
+                "SE"
+              ]
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 3,
+                "maxValue": 7,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          },
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 19.99,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": [
+                "AE",
+                "AU",
+                "CA",
+                "CH",
+                "GB",
+                "HK",
+                "IL",
+                "JP",
+                "KR",
+                "MY",
+                "NO",
+                "NZ",
+                "SG",
+                "US"
+              ]
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 7,
+                "maxValue": 14,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          }
+        ],
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": [
+            "DE",
+            "AT",
+            "BE",
+            "BG",
+            "HR",
+            "CY",
+            "CZ",
+            "DK",
+            "EE",
+            "FI",
+            "FR",
+            "GR",
+            "HU",
+            "IE",
+            "IT",
+            "LV",
+            "LT",
+            "LU",
+            "MT",
+            "NL",
+            "PL",
+            "PT",
+            "RO",
+            "SK",
+            "SI",
+            "ES",
+            "SE"
+          ],
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility",
+          "merchantReturnLink": "https://www.nur-fragrance.com/pages/widerrufsrecht"
         }
       }
     },
@@ -212,6 +642,7 @@
         "@id": "https://www.nur-fragrance.com/products/khamrah#product"
       },
       "sku": "KHAMRAH-10ML",
+      "image": "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-1.jpg",
       "offers": {
         "@type": "Offer",
         "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527592261",
@@ -219,8 +650,174 @@
         "price": "25.90",
         "availability": "https://schema.org/InStock",
         "itemCondition": "https://schema.org/NewCondition",
+        "priceValidUntil": "2027-09-14",
         "seller": {
           "@id": "https://www.nur-fragrance.com/#organization"
+        },
+        "shippingDetails": [
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 5.99,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "DE"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 3,
+                "maxValue": 7,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          },
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 5.9,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": [
+                "AT",
+                "BE",
+                "BG",
+                "HR",
+                "CY",
+                "CZ",
+                "DK",
+                "EE",
+                "FI",
+                "FR",
+                "GR",
+                "HU",
+                "IE",
+                "IT",
+                "LV",
+                "LT",
+                "LU",
+                "MT",
+                "NL",
+                "PL",
+                "PT",
+                "RO",
+                "SK",
+                "SI",
+                "ES",
+                "SE"
+              ]
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 3,
+                "maxValue": 7,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          },
+          {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": 19.99,
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": [
+                "AE",
+                "AU",
+                "CA",
+                "CH",
+                "GB",
+                "HK",
+                "IL",
+                "JP",
+                "KR",
+                "MY",
+                "NO",
+                "NZ",
+                "SG",
+                "US"
+              ]
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 3,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 7,
+                "maxValue": 14,
+                "unitCode": "DAY"
+              }
+            },
+            "shippingSettingsLink": "https://www.nur-fragrance.com/pages/shipping-policy"
+          }
+        ],
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": [
+            "DE",
+            "AT",
+            "BE",
+            "BG",
+            "HR",
+            "CY",
+            "CZ",
+            "DK",
+            "EE",
+            "FI",
+            "FR",
+            "GR",
+            "HU",
+            "IE",
+            "IT",
+            "LV",
+            "LT",
+            "LU",
+            "MT",
+            "NL",
+            "PL",
+            "PT",
+            "RO",
+            "SK",
+            "SI",
+            "ES",
+            "SE"
+          ],
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility",
+          "merchantReturnLink": "https://www.nur-fragrance.com/pages/widerrufsrecht"
         }
       }
     }

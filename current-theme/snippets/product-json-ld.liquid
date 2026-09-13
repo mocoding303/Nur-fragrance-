@@ -174,9 +174,24 @@ Renders Product structured data for Shopify product detail pages.
         "isVariantOf": {
           "@id": {{ canonical_url | append: '#product' | json }}
         }{% if variant.sku != blank %},
-        "sku": {{ variant.sku | json }}{% endif %}{% if variant.image %},
-        "image": {{ variant.image | image_url: width: 1600 | prepend: 'https:' | json }}{% elsif product.featured_image %},
-        "image": {{ product.featured_image | image_url: width: 1600 | prepend: 'https:' | json }}{% endif %},
+        "sku": {{ variant.sku | json }}{% endif %}{%- comment -%}
+          image is REQUIRED for Google merchant listings and only recommended for
+          product snippets. Until 2026-09-14 this fell back no further than
+          product.featured_image, so the twelve products with no Shopify media
+          emitted variants with no image at all and every variant failed merchant
+          listing validation - confirmed by Rich Results Test reporting 4 invalid
+          items on a 4-variant product. The curated asset is the same source the
+          gallery, cards, JSON payload and ProductGroup image array already use.
+        {%- endcomment -%}
+        {%- if variant.image -%},
+        "image": {{ variant.image | image_url: width: 1600 | prepend: 'https:' | json }}
+        {%- elsif curated_asset_flag != blank and fallback_primary_asset != blank -%},
+        "image": {{ fallback_primary_asset | asset_url | prepend: 'https:' | json }}
+        {%- elsif product.featured_image -%},
+        "image": {{ product.featured_image | image_url: width: 1600 | prepend: 'https:' | json }}
+        {%- elsif fallback_primary_asset != blank -%},
+        "image": {{ fallback_primary_asset | asset_url | prepend: 'https:' | json }}
+        {%- endif -%},
         "offers": {
           "@type": "Offer",
           "url": {{ variant_url | json }},
@@ -184,9 +199,15 @@ Renders Product structured data for Shopify product detail pages.
           "price": {{ variant.price | money_without_currency | replace: ',', '.' | json }},
           "availability": "https://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
           "itemCondition": "https://schema.org/NewCondition",
+          {%- comment -%}
+            priceValidUntil is required by Google for merchant listings. Rolled
+            one year forward at render time rather than pinned to a date that
+            silently expires and starts throwing errors months later.
+          {%- endcomment -%}
+          "priceValidUntil": {{ 'now' | date: '%s' | plus: 31536000 | date: '%Y-%m-%d' | json }},
           "seller": {
             "@id": {{ shop.url | append: '#organization' | json }}
-          }
+          }{% render 'nur-offer-shipping-returns' %}
         }
       }{%- unless forloop.last -%},{%- endunless -%}
     {%- endfor -%}

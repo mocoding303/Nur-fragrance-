@@ -1,0 +1,98 @@
+{% doc %}
+Emits shippingDetails and hasMerchantReturnPolicy for an Offer node.
+
+Every value here is transcribed from a source NUR actually publishes — the
+delivery profiles configured in Shopify, /pages/shipping-policy, and
+/pages/widerrufsrecht. Nothing is estimated. If a rate or a window changes in
+Shopify or on those pages, change it here too; do not let the two drift.
+
+Starts with a comma and is rendered immediately after the Offer's "seller"
+object, so the caller needs no separator of its own.
+{% enddoc %}
+{%- liquid
+  comment
+    Zones exactly as configured in the "General profile" delivery profile.
+  endcomment
+  assign nur_eu_zone = 'AT,BE,BG,HR,CY,CZ,DK,EE,FI,FR,GR,HU,IE,IT,LV,LT,LU,MT,NL,PL,PT,RO,SK,SI,ES,SE' | split: ','
+  assign nur_intl_zone = 'AE,AU,CA,CH,GB,HK,IL,JP,KR,MY,NO,NZ,SG,US' | split: ','
+  assign nur_return_countries = 'DE,AT,BE,BG,HR,CY,CZ,DK,EE,FI,FR,GR,HU,IE,IT,LV,LT,LU,MT,NL,PL,PT,RO,SK,SI,ES,SE' | split: ','
+-%}
+,"shippingDetails": [
+  {%- comment -%}
+    Germany. 5.99 is the standard rate; free shipping above a threshold is a
+    promotion disclosed on the linked policy page rather than a second rate here,
+    because schema.org has no clean way to express "free over X" and quoting the
+    free rate as the default would understate what most customers pay.
+    Transit uses the EU standard window from the policy, since the policy states
+    no separate domestic figure and inventing a faster one is not an option.
+  {%- endcomment -%}
+  {
+    "@type": "OfferShippingDetails",
+    "shippingRate": {"@type": "MonetaryAmount", "value": 5.99, "currency": "EUR"},
+    "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "DE"},
+    "deliveryTime": {
+      "@type": "ShippingDeliveryTime",
+      "handlingTime": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "DAY"},
+      "transitTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 7, "unitCode": "DAY"}
+    },
+    "shippingSettingsLink": {{ shop.url | append: '/pages/shipping-policy' | json }}
+  },
+  {
+    "@type": "OfferShippingDetails",
+    "shippingRate": {"@type": "MonetaryAmount", "value": 5.90, "currency": "EUR"},
+    "shippingDestination": {"@type": "DefinedRegion", "addressCountry": [
+      {%- for c in nur_eu_zone -%}{{ c | json }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}
+    ]},
+    "deliveryTime": {
+      "@type": "ShippingDeliveryTime",
+      "handlingTime": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "DAY"},
+      "transitTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 7, "unitCode": "DAY"}
+    },
+    "shippingSettingsLink": {{ shop.url | append: '/pages/shipping-policy' | json }}
+  },
+  {
+    "@type": "OfferShippingDetails",
+    "shippingRate": {"@type": "MonetaryAmount", "value": 19.99, "currency": "EUR"},
+    "shippingDestination": {"@type": "DefinedRegion", "addressCountry": [
+      {%- for c in nur_intl_zone -%}{{ c | json }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}
+    ]},
+    "deliveryTime": {
+      "@type": "ShippingDeliveryTime",
+      "handlingTime": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "DAY"},
+      "transitTime": {"@type": "QuantitativeValue", "minValue": 7, "maxValue": 14, "unitCode": "DAY"}
+    },
+    "shippingSettingsLink": {{ shop.url | append: '/pages/shipping-policy' | json }}
+  }
+],
+{%- comment -%}
+  IMPORTANT - read before editing this block.
+
+  The 14-day window is the statutory Widerrufsrecht under section 312g BGB, and
+  it is quoted verbatim from /pages/widerrufsrecht ("binnen vierzehn Tagen").
+
+  That page ALSO excludes opened fragrances: under section 312g Abs. 2 Nr. 3 BGB
+  the right lapses for sealed goods once the seal is broken, so only UNOPENED,
+  sealed decants and gift sets are returnable. schema.org has no field for that
+  condition, which is why merchantReturnLink is mandatory here rather than
+  optional - it is the only thing disclosing the exclusion. Never remove it, and
+  never "simplify" this block into a bare 14-day claim.
+
+  returnFees is ReturnFeesCustomerResponsibility because the page states "Sie
+  tragen die unmittelbaren Kosten der Rucksendung der Waren". That enumeration
+  needs no amount, which is correct - NUR charges no return fee, the customer
+  arranges and pays their own carrier.
+
+  applicableCountry is DE plus the EU zone only. The statutory right follows EU
+  consumer law, so asserting it for the international zone would be wrong.
+{%- endcomment -%}
+"hasMerchantReturnPolicy": {
+  "@type": "MerchantReturnPolicy",
+  "applicableCountry": [
+    {%- for c in nur_return_countries -%}{{ c | json }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}
+  ],
+  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+  "merchantReturnDays": 14,
+  "returnMethod": "https://schema.org/ReturnByMail",
+  "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility",
+  "merchantReturnLink": {{ shop.url | append: '/pages/widerrufsrecht' | json }}
+}
