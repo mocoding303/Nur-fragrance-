@@ -177,3 +177,76 @@ Manual hreflang was removed 2026-08-26 because Shopify already emits it in
 4. **Review platform** — any real reviews anywhere? If none, C2 is a deletion,
    not a migration.
 5. **Legal call on C1** — keep, rewrite, or remove the two "alternative" pages.
+
+---
+
+# Batch A — applied 2026-09-13
+
+Four decision-free theme fixes on an unpublished preview, plus one data cleanup
+that went straight to production because metafields have no preview layer.
+
+| Theme | Role | Contains |
+| --- | --- | --- |
+| `NUR Gallery Fix — Sept 12 (preview)` `/t/37` `206267023685` | **MAIN** | unchanged — verified |
+| `NUR SEO Batch A — Sept 13` `/t/38` `206277181765` | UNPUBLISHED | Batch A |
+
+| File | Size | md5 | Fix |
+| --- | --- | --- | --- |
+| `layout/theme.liquid` | 46,731 | `41a2a040…` | I1 conditional robots |
+| `sections/main-product.liquid` | 84,598 | `ad606c60…` | C2 fabricated stars removed |
+| `sections/seo-landing-page.liquid` | 54,706 | `8547cbc7…` | E1 entity reference |
+| `snippets/product-json-ld.liquid` | 4,711 | `aa52bbe9…` | C2 hide-rule + P2 image source |
+
+`themeFilesUpsert` again returned an empty array with no errors; all four were
+read back and matched byte for byte.
+
+## Closed
+
+- **C2** — the hard-coded 4.5-star rating on every cross-sell tile is gone, and
+  so is the CSS rule that hid it. A **second** instance was found at the reviews
+  block: gated on `custom.rating`, which is null on all 16 products, so it is
+  dormant — but it prints 4.5 stars regardless of the real value. Kept as the
+  intended review hook, documented with a warning not to enable it until the
+  glyphs derive from the actual number.
+- **P2** — the fifth and final instance of the gallery short-circuit. All five
+  surfaces now render one shared predicate.
+- **E1** — landing-page `publisher` references `{shop}#organization` instead of
+  declaring a second, anonymous, differently-named Organization.
+- **I1** — `index,follow,max-image-preview:large` on indexable pages;
+  `noindex,follow` on internal search and tag-filtered URLs. **Pagination left
+  indexable on purpose**, against the brief: Google's guidance is that paginated
+  pages stay indexable with self-canonicals or deep inventory is stranded.
+  Reasoning is in the template so it is not reversed.
+- **Curator quotes** — five rewritten to drop claims that cannot be
+  substantiated, including "More than 5,900 reviews" on a store with zero, and
+  two products both claiming to be "our highest-rated". Originals in
+  `records/curator-quotes-original-2026-09-13.md`.
+
+## Still open
+
+| Item | Blocked on |
+| --- | --- |
+| **C1** two "alternative" landing pages naming Creed and Baccarat Rouge | legal decision |
+| **C3** robots.txt run-on line | you opening `/robots.txt` — I cannot fetch it |
+| **E2** Organization address, raster logo, `alternateName` | city, a PNG logo, GSC export |
+| **P1** `additionalProperty` from metafields | your go-ahead; data is real and ready |
+| **New:** `Save 67% vs boutique price` badge | decision — see below |
+| **New:** per-product FAQ metafields are dead code | decision — see below |
+
+### Save-% badge
+`main-product.liquid:361` renders `Full bottle €45 · Save 67% vs boutique price`
+on a decant listing. The RRP itself looks genuine and the "Full bottle" label is
+honest, but the badge compares a 5 ml decant price against a 100 ml bottle price
+and calls the difference a saving. Per millilitre the customer pays several times
+more, not less. Under UWG §5 and the Omnibus Directive's reference-price rules
+this deserves a look before it scales.
+
+### Dormant FAQ metafields
+Each product carries four well-written Q&A pairs in `custom.faq_q1..4` /
+`faq_a1..4`. They are **not rendered** — `main-product.liquid` 557–687 is wrapped
+in `{% comment %}` and `nur-product-faq.liquid` ships five generic hardcoded
+questions instead. Two consequences: the best answer content on the site is
+invisible to both shoppers and models, and several of those dormant answers frame
+products against Creed, Baccarat Rouge 540, Flowerbomb and Kayali by name — so
+switching them on without resolving C1 would push the trademark exposure into
+FAQPage structured data.
