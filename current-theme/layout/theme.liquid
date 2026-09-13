@@ -1,0 +1,737 @@
+{%- liquid
+  assign html_lang = request.locale.iso_code
+  if request.path contains '/pages/arabian-perfume-samples-germany' or request.path contains '/pages/arabische-parfuemproben' or request.path contains '/pages/lattafa-samples' or request.path contains '/blogs/journal/what-is-a-perfume-decant' or request.path contains '/blogs/journal/which-perfume-sample-size-should-you-choose' or request.path contains '/blogs/journal/best-arabic-perfumes-for-beginners' or request.path contains '/blogs/journal/best-oud-perfume-samples-for-beginners'
+    assign html_lang = 'de'
+  endif
+
+  assign nur_de = false
+  if html_lang == 'de'
+    assign nur_de = true
+  endif
+
+  assign seo_title = page_title
+  assign seo_description = page_description
+
+  comment
+    Titles below are theme-controlled, not admin SEO fields. German strings were
+    added without language branching, so the English root URLs served German
+    titles and metas — and / and /de ended up byte-identical, which risks Google
+    consolidating the pair instead of treating it as a language pair.
+    Branched on nur_de 2026-08-26. English copy mirrors the German hedging
+    ("currently available", "before buying more") — no added claims.
+    NOTE: pages/articles listed in the html_lang override at the top of this file
+    are deliberately German-only on root URLs; they are intentionally not branched.
+  endcomment
+  if request.page_type == 'index'
+    if nur_de
+      assign seo_title = 'Arabische Parfumproben & Decants in Deutschland | NUR'
+      assign seo_description = 'Teste verfügbare arabische Düfte als kleinere Probe oder Discovery Set. Vergleiche Decants, Probengrößen und Marken, bevor du mehr Duft kaufst.'
+    else
+      assign seo_title = 'Arabian Perfume Samples & Decants in Germany | NUR'
+      assign seo_description = 'Try available Arabian fragrances as a smaller sample or discovery set. Compare decants, sample sizes and brands before buying more.'
+    endif
+  elsif request.page_type == 'collection'
+    case collection.handle
+      when 'arabic-perfumes'
+        assign seo_title = 'Arabic Perfumes in Germany & Europe | NUR Fragrances'
+        assign seo_description = 'Discover authentic Arabic perfumes and fragrance samples from Lattafa, Armaf, Swiss Arabian and more. Hand-filled in Germany with tracked European shipping.'
+      when 'oud-perfumes'
+        assign seo_title = 'Oud Perfumes & Oud Samples in Europe | NUR Fragrances'
+        assign seo_description = 'Explore oud perfume samples with smoky woods, amber, leather and rose profiles. Try authentic oriental decants before buying a full bottle.'
+      when 'musk-perfumes'
+        assign seo_title = 'Musk Perfumes & Clean Arabian Samples | NUR Fragrances'
+        assign seo_description = 'Shop musk perfume samples with clean, soft and sensual Arabian scent profiles. Shipped tracked from Germany across Europe.'
+      when 'bakhoor'
+        assign seo_title = 'Bakhoor & Arabian Home Fragrance in Europe | NUR Fragrances'
+        assign seo_description = 'Discover bakhoor-inspired Arabian fragrance profiles, warm woods, amber and incense notes for a rich oriental scent experience.'
+      when 'perfume-oils'
+        assign seo_title = 'Perfume Oils & Arabian Oil Fragrances | NUR Fragrances'
+        assign seo_description = 'Explore concentrated perfume oils and oil-inspired Arabic scents with rich musk, amber, oud and floral profiles.'
+      when 'best-arabic-fragrances-germany'
+        assign seo_title = 'Best Arabic Fragrances in Germany | NUR Fragrances'
+        assign seo_description = 'Find the best Arabic fragrances to try in Germany, from beginner-friendly Lattafa samples to fresh Armaf decants and luxury oriental scents.'
+      when 'oriental-perfumes-europe'
+        assign seo_title = 'Oriental Perfumes in Europe | Arabic Fragrance Samples'
+        assign seo_description = 'Shop oriental perfume samples in Europe: oud, musk, amber, rose, sweet gourmand and fresh woody Arabic fragrances filled from original bottles.'
+      when 'all'
+        assign seo_title = 'Arabic Fragrance Samples, Oud & Oriental Perfumes | NUR'
+        assign seo_description = 'Explore all NUR fragrance samples: authentic Arabic perfumes, oud, musk, amber, gourmand and fresh woody decants shipped tracked from Germany.'
+      when 'gourmand-fragrance-samples'
+        if nur_de
+          assign seo_title = 'Gourmand-Parfumproben testen | NUR Fragrance'
+          assign seo_description = 'Vergleiche aktuell verfügbare Gourmand-Duftproben in kleinen Größen und teste deine Auswahl auf der Haut, bevor du mehr davon kaufst.'
+        else
+          assign seo_title = 'Gourmand Perfume Samples & Decants | NUR'
+          assign seo_description = 'Compare currently available gourmand fragrance samples in small sizes and test your picks on skin before buying more.'
+        endif
+      when 'fresh-office-safe-fragrance-samples'
+        if nur_de
+          assign seo_title = 'Frische Parfumproben fürs Büro testen | NUR'
+          assign seo_description = 'Entdecke aktuell verfügbare frische und fürs Büro eingeordnete Duftproben. Teste Wirkung und Dosierung selbst vor einer größeren Menge.'
+        else
+          assign seo_title = 'Fresh & Office-Safe Perfume Samples | NUR'
+          assign seo_description = 'Explore currently available fresh, office-friendly fragrance samples. Judge strength and dosage yourself before committing to more.'
+        endif
+      when 'oud-connoisseur-fragrance-samples'
+        if nur_de
+          assign seo_title = 'Oud-Parfumproben für Einsteiger & Kenner | NUR'
+          assign seo_description = 'Vergleiche aktuell verfügbare Oud- und holzorientierte Duftproben. Starte klein und prüfe jedes Profil auf deiner eigenen Haut.'
+        else
+          assign seo_title = 'Oud Perfume Samples for Beginners & Fans | NUR'
+          assign seo_description = 'Compare currently available oud and woody fragrance samples. Start small and judge each profile on your own skin.'
+        endif
+      when 'lattafa-perfume-samples'
+        if nur_de
+          assign seo_title = 'Lattafa-Proben in Deutschland bestellen | NUR'
+          assign seo_description = 'Teste aktuell verfügbare Lattafa-Düfte als kleine Decants. Vergleiche Größen und Produktangaben, bevor du mehr Duft kaufst.'
+        else
+          assign seo_title = 'Lattafa Perfume Samples & Decants | NUR'
+          assign seo_description = 'Try currently available Lattafa fragrances as small decants. Compare sizes and product details before buying more.'
+        endif
+      when 'bundle-builder-fragrances'
+        if nur_de
+          assign seo_title = 'Arabische Duftproben im Discovery Set | NUR'
+          assign seo_description = 'Kombiniere aktuell verfügbare arabische Duftproben im Discovery Set und vergleiche mehrere Richtungen mit weniger Blindkauf-Risiko.'
+        else
+          assign seo_title = 'Build Your Arabian Discovery Set | NUR'
+          assign seo_description = 'Combine currently available Arabian fragrance samples into a discovery set and compare several directions with less blind-buy risk.'
+        endif
+    endcase
+  elsif request.page_type == 'page'
+    case page.handle
+      when 'arabic-perfumes'
+        assign seo_title = 'Arabic Perfumes & Samples in Germany | NUR Fragrances'
+        assign seo_description = 'Discover authentic Arabic perfumes as sample decants from original bottles. Shop oud, musk, amber, rose and gourmand scents shipped tracked from Germany.'
+      when 'arabic-perfume-decants-europe'
+        assign seo_title = 'Arabic Perfume Samples & Decants in Europe | NUR Fragrance'
+        assign seo_description = 'Try Arabian perfume samples from Lattafa, Armaf and Swiss Arabian. Choose 1 ml, 2 ml, 5 ml or 10 ml decants, dispatched from Germany to supported European destinations.'
+      when 'arabische-parfuemproben'
+        assign seo_title = 'Arabische Parfumproben in Deutschland: Guide | NUR'
+        assign seo_description = 'Der komplette Guide zu arabischen Duftproben, Decants, Probengrößen, Discovery Sets und Hauttests vor dem Kauf einer größeren Menge.'
+      when 'lattafa-samples'
+        assign seo_title = 'Lattafa-Proben in Deutschland kaufen | NUR Fragrance'
+        assign seo_description = 'Teste verfügbare Lattafa-Düfte als 1 ml, 2 ml, 5 ml oder 10 ml Decant, bevor du mehr Duft oder einen ganzen Flakon kaufst.'
+      when 'oud-perfumes'
+        assign seo_title = 'Oud Perfumes & Arabic Oud Samples | NUR Fragrances'
+        assign seo_description = 'Learn and shop oud perfume samples with smoky, woody, rose, amber and leather profiles. Try authentic Arabic decants before a full bottle.'
+      when 'musk-perfumes'
+        assign seo_title = 'Musk Perfumes & Soft Arabic Samples | NUR Fragrances'
+        assign seo_description = 'Shop musk perfume samples with clean, powdery, floral and ambered Arabic scent profiles, filled in Germany and shipped tracked across Europe.'
+      when 'bakhoor'
+        assign seo_title = 'Bakhoor-Inspired Arabian Fragrances | NUR Fragrances'
+        assign seo_description = 'Discover bakhoor-inspired perfume samples with oud, smoke, amber, resin, woods and spice for a warm oriental scent experience.'
+      when 'perfume-oils'
+        assign seo_title = 'Perfume Oils & Oil-Inspired Arabic Scents | NUR'
+        assign seo_description = 'Explore perfume oils and oil-inspired Arabic fragrance samples with musk, amber, oud, rose and vanilla profiles.'
+      when 'best-arabic-fragrances-germany'
+        assign seo_title = 'Best Arabic Fragrances in Germany | NUR Fragrances'
+        assign seo_description = 'Find beginner-friendly Arabic fragrance samples in Germany, from Lattafa and Armaf to oud, musk, amber and oriental discovery sets.'
+      when 'oriental-perfumes-europe'
+        assign seo_title = 'Oriental Perfumes in Europe | Arabic Fragrance Samples'
+        assign seo_description = 'Shop oriental perfume samples in Europe with NUR: Arabic decants, oud, musk, amber, rose and gourmand scents shipped tracked from Germany.'
+      when 'llms'
+        assign seo_title = 'NUR Fragrances LLM Reference | Arabic Perfumes in Europe'
+        assign seo_description = 'Structured reference for AI search engines about NUR Fragrances, Arabic perfume samples, oud, musk and tracked shipping from Germany.'
+      when 'find-my-scent'
+        assign seo_title = 'Find My Scent Quiz | Arabian Perfume Samples'
+        assign seo_description = 'Take the 60-second NUR scent quiz and find beginner-friendly Arabian perfume samples based on sweetness, freshness, oud, occasion and intensity.'
+    endcase
+  elsif request.page_type == 'product' and seo_description == blank
+    assign seo_description = product.title | append: ' von ' | append: product.vendor | append: ' als unabhängigen Duft-Decant testen. Verfügbare Größen und Produktangaben direkt auf der Produktseite prüfen.'
+  elsif request.page_type == 'article'
+    if article.handle contains 'what-is-a-perfume-decant'
+      assign seo_title = 'Parfum-Decants: Bedeutung & Größen | NUR Fragrance'
+      assign seo_description = 'Was ist ein Parfum-Decant? Erfahre, wie Abfüllungen funktionieren, wie 1 ml bis 10 ml sich unterscheiden und wie Proben Blindkäufe vermeiden helfen.'
+    elsif article.handle contains 'which-perfume-sample-size-should-you-choose'
+      assign seo_title = 'Welche Parfumprobe-Größe? 1–10 ml Guide | NUR'
+      assign seo_description = 'Wähle 1 ml, 2 ml, 5 ml oder 10 ml nach deinem Testziel. Ein klarer Größenvergleich ohne pauschale Sprühzahlen.'
+    elsif article.handle contains 'best-arabic-perfumes-for-beginners'
+      assign seo_title = 'Arabische Düfte für Anfänger testen | NUR Guide'
+      assign seo_description = 'So vergleichst du arabische Duftproben als Anfänger: Richtung wählen, kleine Größen testen und Blindkäufe mit einem klaren Testplan vermeiden.'
+    elsif article.handle contains 'best-oud-perfume-samples-for-beginners'
+      assign seo_title = 'Oud für Anfänger: Proben richtig testen | NUR'
+      assign seo_description = 'Was Oud bedeutet, warum Oud-Düfte unterschiedlich wirken und wie Anfänger kleine Proben ohne Mythen oder Blindkauf vergleichen.'
+    endif
+    comment
+      These three articles had titles of 63-70 chars in BOTH languages, cut
+      mid-word in the SERP. Only the title is overridden — the registered
+      meta_description translations still flow through page_description.
+      Base text only: the length-aware suffix logic below adds the brand.
+    endcomment
+    if article.handle contains 'khamrah-vs-baccarat'
+      if nur_de
+        assign seo_title = 'Khamrah vs. Baccarat Rouge 540: Lohnt es sich?'
+      else
+        assign seo_title = 'Khamrah vs Baccarat Rouge 540: Is It Worth It?'
+      endif
+    elsif article.handle contains 'khamrah-vs-khamrah-qahwa'
+      if nur_de
+        assign seo_title = 'Khamrah vs. Khamrah Qahwa: Welche zuerst?'
+      else
+        assign seo_title = 'Khamrah vs Khamrah Qahwa: Which First?'
+      endif
+    elsif article.handle contains 'office-safe-arabian-perfume-samples'
+      if nur_de
+        assign seo_title = 'Bürotaugliche arabische Parfümproben'
+      else
+        assign seo_title = 'Office-Safe Arabian Perfume Samples'
+      endif
+    endif
+    if seo_description == blank
+      assign seo_description = article.excerpt_or_content | strip_html | truncate: 155
+    endif
+  endif
+
+  if seo_title == blank
+    assign seo_title = shop.name
+  endif
+  comment
+    Google truncates around 60 characters. The brand suffix used to be appended
+    unconditionally, pushing 12 titles to 62-87 chars and cutting several
+    mid-word. Spend the remaining budget on brand only when it actually fits.
+  endcomment
+  assign document_title = seo_title
+  unless seo_title contains 'NUR'
+    assign seo_title_len = seo_title | size
+    if seo_title_len <= 43
+      assign document_title = seo_title | append: ' | NUR Fragrances'
+    elsif seo_title_len <= 54
+      assign document_title = seo_title | append: ' | NUR'
+    endif
+  endunless
+  if seo_description == blank
+    assign seo_description = 'Entdecke arabische und orientalische Duftproben bei NUR Fragrance. Vergleiche verfügbare Decants und Größen, bevor du mehr Duft kaufst.'
+  endif
+  comment
+    Safety net. Where a page has no SEO description set in admin, Shopify falls
+    back to dumping ~320 chars of raw page body — 37 pages were doing this, and
+    Google truncates it anyway. Capping at 158 keeps the SERP snippet clean and
+    predictable. Descriptions already written under the cap are untouched.
+    This is not a substitute for real descriptions on the 13 products and 15
+    articles affected; it just stops raw content sprawling into the snippet.
+  endcomment
+  assign seo_description = seo_description | strip_html | strip | truncate: 158, '…'
+-%}
+<!DOCTYPE html>
+<html lang="{{ html_lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="{{ 'favicon-nur.svg' | asset_url }}" type="image/svg+xml">
+  <link rel="shortcut icon" href="{{ 'favicon-nur.svg' | asset_url }}" type="image/svg+xml">
+  <meta name="theme-color" content="#050403">
+  <title>{{ document_title | escape }}</title>
+  <meta name="description" content="{{ seo_description | escape }}">
+  {%- liquid
+    assign nur_hidden_product = false
+    if request.page_type == 'product'
+      if product.type == 'Add-on' or product.product_type == 'Add-on' or product.tags contains '_hidden'
+        assign nur_hidden_product = true
+      endif
+    endif
+  -%}
+  {%- liquid
+    comment
+      Conditional robots, not a blanket value.
+
+      noindex,FOLLOW - never noindex,nofollow - on surfaces that generate
+      near-duplicate text: internal search results and tag-filtered collection
+      URLs. The "follow" is deliberate. Those pages still link to real products
+      and that equity should keep flowing; the previous hidden-product rule used
+      nofollow and cut it off at the knees.
+
+      Pagination is deliberately NOT noindexed, against the usual instinct and
+      against the brief this was built from. Google's pagination guidance is that
+      paginated pages should stay indexable with self-canonicals, because they
+      are frequently the only crawl path to deeper products - noindexing them
+      strands that inventory. With 6 collections and 16 products nothing here
+      paginates today, so the correct choice is also the free one. Do not
+      "fix" this to noindex.
+
+      max-image-preview:large on every indexable page. For a fragrance catalogue
+      the bottle shot is the click, and the default preview size discards it.
+    endcomment
+    assign nur_robots = 'index,follow,max-image-preview:large'
+    if nur_hidden_product
+      assign nur_robots = 'noindex,follow'
+    elsif request.page_type == 'search'
+      assign nur_robots = 'noindex,follow'
+    elsif current_tags != blank
+      assign nur_robots = 'noindex,follow'
+    endif
+  -%}
+  <meta name="robots" content="{{ nur_robots }}">
+  {%- comment -%}
+    'arabian-perfume-samples-germany' used to carry noindex,follow AND a canonical
+    pointing at 'arabische-parfuemproben'. Google's guidance is not to combine the
+    two: they instruct opposite handling, and a noindexed page is a weak canonical
+    target. The canonical alone consolidates the duplicate and preserves any link
+    equity, so the noindex was removed 2026-08-26. Canonical is set further down.
+  {%- endcomment -%}
+
+  {%- liquid
+    assign og_type = 'website'
+    if request.page_type == 'product'
+      assign og_type = 'product'
+    elsif request.page_type == 'article'
+      assign og_type = 'article'
+    endif
+
+    assign social_image_url = ''
+    if request.page_type == 'product'
+      if product.featured_image
+        assign social_image_url = product.featured_image | image_url: width: 1200 | prepend: 'https:'
+      endif
+    elsif request.page_type == 'article'
+      if article.image
+        assign social_image_url = article.image | image_url: width: 1200 | prepend: 'https:'
+      endif
+    endif
+    if social_image_url == blank
+      if settings.share_image
+        assign social_image_url = settings.share_image | image_url: width: 1200 | prepend: 'https:'
+      endif
+    endif
+    assign twitter_handle = settings.social_twitter | default: settings.social_instagram | default: 'nurfragrances'
+    assign twitter_handle = twitter_handle | remove: '@'
+  -%}
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="{{ og_type }}">
+  <meta property="og:locale" content="{% if html_lang == 'de' %}de_DE{% else %}en_US{% endif %}">
+  <meta property="og:title" content="{{ document_title | escape }}">
+  <meta property="og:description" content="{{ seo_description | escape }}">
+  {%- if social_image_url != blank -%}
+  <meta property="og:image" content="{{ social_image_url }}">
+  <meta property="og:image:secure_url" content="{{ social_image_url }}">
+  {%- endif -%}
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:site_name" content="NUR Fragrances">
+  {%- if request.page_type == 'product' -%}
+  <meta property="product:price:amount" content="{{ product.selected_or_first_available_variant.price | money_without_currency | replace: ',', '.' }}">
+  <meta property="product:price:currency" content="{{ cart.currency.iso_code | default: 'EUR' }}">
+  <meta property="product:availability" content="{% if product.available %}in stock{% else %}out of stock{% endif %}">
+  {%- elsif request.page_type == 'article' -%}
+  <meta property="article:published_time" content="{{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' }}">
+  <meta property="article:modified_time" content="{{ article.updated_at | default: article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' }}">
+  <meta property="article:author" content="{{ article.author | default: 'NUR Fragrances' | escape }}">
+  {%- endif -%}
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="{% if social_image_url != blank %}summary_large_image{% else %}summary{% endif %}">
+  <meta name="twitter:site" content="@{{ twitter_handle }}">
+  <meta name="twitter:title" content="{{ document_title | escape }}">
+  <meta name="twitter:description" content="{{ seo_description | escape }}">
+  {%- if social_image_url != blank -%}
+  <meta name="twitter:image" content="{{ social_image_url }}">
+  {%- endif -%}
+
+  <!-- Canonical -->
+  {%- comment -%}
+    Duplicate-page consolidation. These handles are near-identical copies of a
+    primary page and were all independently indexable:
+      llms-1                  (944w) vs llms                  (949w)
+      build-your-own-bundle-1 (306w) vs build-your-own-bundle (612w)
+      bundle-custom           (323w) vs build-your-own-bundle (612w)
+    All three bundle pages even share the title "Build Your Own Bundle".
+    A 301 would be stronger, but in Shopify a redirect does not fire while a
+    page still occupies the handle — that needs the pages deleted, which is an
+    owner decision. Canonical consolidation is non-destructive and reversible.
+    routes.root_url keeps each language pointing at its own primary.
+  {%- endcomment -%}
+  {%- liquid
+    assign nur_canonical_target = ''
+    if request.page_type == 'page'
+      case page.handle
+        when 'arabian-perfume-samples-germany'
+          assign nur_canonical_target = 'arabische-parfuemproben'
+        when 'llms-1'
+          assign nur_canonical_target = 'llms'
+        when 'build-your-own-bundle-1'
+          assign nur_canonical_target = 'build-your-own-bundle'
+        when 'bundle-custom'
+          assign nur_canonical_target = 'build-your-own-bundle'
+      endcase
+    endif
+  -%}
+  {%- if nur_canonical_target != blank -%}
+  <link rel="canonical" href="{{ shop.url }}{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/{{ nur_canonical_target }}">
+  {%- else -%}
+  <link rel="canonical" href="{{ canonical_url }}">
+  {%- endif -%}
+  {%- comment -%}
+    hreflang is already emitted by Shopify inside {{ content_for_header }}.
+    This manual block duplicated every annotation — 6 tags where 3 are unique,
+    on all 73 indexable URLs. Verified across homepage, product, collection,
+    article and page templates before removal (2026-08-26). Do not re-add it.
+  {%- endcomment -%}
+
+  {% render 'organization-json-ld' %}
+  {% render 'breadcrumbs-json-ld' %}
+
+  <!-- Theme CSS -->
+  {{ 'nur.css' | asset_url | stylesheet_tag }}
+  {{ 'nur-chatbot.css' | asset_url | stylesheet_tag }}
+  {%- if request.page_type == 'index' -%}
+    {{ 'nur-home.css' | asset_url | stylesheet_tag }}
+    {{ 'nur-bundle.css' | asset_url | stylesheet_tag }}
+  {%- elsif request.page_type == 'product' -%}
+    {{ 'nur-product.css' | asset_url | stylesheet_tag }}
+  {%- elsif request.page_type == 'blog' or request.page_type == 'article' -%}
+    {{ 'nur-article.css' | asset_url | stylesheet_tag }}
+  {%- elsif request.path contains '/pages/build-your-own-bundle' -%}
+    {{ 'nur-bundle.css' | asset_url | stylesheet_tag }}
+  {%- elsif request.path contains '/pages/find-my-scent' -%}
+    {{ 'nur-scent-quiz.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
+
+	  <!-- CDN base URL — must be in <head> so section inline scripts can use it -->
+	  {%- assign nur_base = 'nur.css' | asset_url | split: 'nur.css' | first -%}
+	  <script>window.NUR_IMG = "{{ nur_base }}"; window.NUR_DE = {{ nur_de | json }};</script>
+	  {%- liquid
+	    assign nur_needs_products = false
+	    if request.page_type == 'index' or request.page_type == 'product' or request.page_type == 'collection'
+	      assign nur_needs_products = true
+	    elsif request.path contains '/pages/build-your-own-bundle' or request.path contains '/pages/bundle-'
+	      assign nur_needs_products = true
+	    endif
+	  -%}
+	  {%- if nur_needs_products -%}
+	  <script>
+	    {%- assign nur_fragrance_handles = '|dahaab-safi|club-de-nuit-precieux|khamrah|yulali|club-de-nuit-intense|meydan|rose-01|kismet-angel|asad|royal-bleu|melodie|turath|' -%}
+	    {%- assign nur_product_count = 0 -%}
+	    window.NUR_PRODUCTS = [
+      {%- for product in collections.all.products limit: 30 -%}
+        {%- if product.type == 'Add-on' or product.product_type == 'Add-on' or product.tags contains '_hidden' -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign handle_token = product.handle | prepend: '|' | append: '|' -%}
+        {%- if nur_fragrance_handles contains handle_token -%}
+          {%- if nur_product_count > 0 -%},{%- endif -%}
+          {% render 'nur-product-data-json', product: product %}
+          {%- assign nur_product_count = nur_product_count | plus: 1 -%}
+        {%- endif -%}
+	      {%- endfor -%}
+	    ];
+	  </script>
+	  {%- endif -%}
+
+  {{ content_for_header }}
+</head>
+<body>
+  {%- comment -%} German-IP language nudge: shows to German-speaking-country visitors currently on the English site {%- endcomment -%}
+  {%- assign nur_de_countries = 'DE,AT,CH,LI' | split: ',' -%}
+  {%- if request.locale.iso_code != 'de' and nur_de_countries contains localization.country.iso_code -%}
+    {%- assign nur_de_url = request.path | prepend: '/de' -%}
+    <div id="deLangNudge" class="de-lang-nudge" role="dialog" aria-label="Sprache wechseln">
+      <span class="de-lang-flag" aria-hidden="true">&#x1F1E9;&#x1F1EA;</span>
+      <span class="de-lang-txt">Diese Seite auf <strong>Deutsch</strong> ansehen?</span>
+      <a class="de-lang-go" href="{{ nur_de_url }}">Auf Deutsch anzeigen</a>
+      <button type="button" class="de-lang-x" aria-label="Schließen" onclick="nurDismissDeNudge()">&#x2715;</button>
+    </div>
+    <style>
+      .de-lang-nudge{position:fixed;left:50%;transform:translate(-50%,-140%);top:88px;z-index:9999;display:flex;align-items:center;gap:12px;max-width:calc(100vw - 24px);padding:11px 14px 11px 16px;background:#17130f;border:1px solid var(--gold,#c9a24b);border-radius:999px;box-shadow:0 10px 34px rgba(0,0,0,.45);font-size:14px;color:#f5efe6;opacity:0;transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .45s;}
+      .de-lang-nudge.show{transform:translate(-50%,0);opacity:1;}
+      .de-lang-flag{font-size:17px;line-height:1;}
+      .de-lang-txt{white-space:nowrap;}
+      .de-lang-txt strong{color:var(--gold,#c9a24b);}
+      .de-lang-go{white-space:nowrap;background:var(--gold,#c9a24b);color:#17130f;font-weight:600;text-decoration:none;padding:7px 14px;border-radius:999px;font-size:13px;letter-spacing:.02em;}
+      .de-lang-go:hover{filter:brightness(1.07);}
+      .de-lang-x{background:transparent;border:0;color:#a89b86;font-size:15px;line-height:1;cursor:pointer;padding:4px 2px;}
+      .de-lang-x:hover{color:#f5efe6;}
+      @media (max-width:560px){.de-lang-nudge{top:74px;font-size:13px;gap:9px;padding:10px 12px;}.de-lang-txt{white-space:normal;}}
+    </style>
+    <script>
+      function nurDismissDeNudge(){var n=document.getElementById('deLangNudge');if(n){n.classList.remove('show');setTimeout(function(){n.style.display='none';},450);}try{localStorage.setItem('nur_de_nudge_dismissed','1');}catch(e){}}
+      (function(){var seen;try{seen=localStorage.getItem('nur_de_nudge_dismissed');}catch(e){}if(!seen){setTimeout(function(){var n=document.getElementById('deLangNudge');if(n){n.classList.add('show');}},700);}else{var n=document.getElementById('deLangNudge');if(n){n.style.display='none';}}})();
+    </script>
+  {%- endif -%}
+	<!-- ANNOUNCE BAR -->
+<div class="announce-bar" id="announceBar">
+  <div class="ab-msg active" id="abMsg0">&#x1F69A; <strong>{% render 'nur-shipping-message' %}</strong> &nbsp;&middot;&nbsp; <a href="{{ routes.root_url }}#collection" class="ab-link">{% if nur_de %}Zu den Proben &rarr;{% else %}Shop samples &rarr;{% endif %}</a></div>
+  <div class="ab-msg hidden" id="abMsg1">🎁 <strong>{% if nur_de %}Gratis 1-ml-Probe{% else %}Free 1 ml sample{% endif %}</strong> {% if nur_de %}ab 25 € Bestellwert{% else %}on every order over €25{% endif %} &nbsp;&middot;&nbsp; <a href="{{ routes.root_url }}#discovery-trio" class="ab-link">{% if nur_de %}Entdeckungsset starten &rarr;{% else %}Start your discovery set &rarr;{% endif %}</a></div>
+</div>
+
+<nav id="navbar">
+  <a href="{{ routes.root_url }}" class="nav-logo notranslate" translate="no" data-notranslate>
+    <span class="nav-logo-en" translate="no">NUR</span>
+    <span class="nav-logo-sep" aria-hidden="true"></span>
+    <span class="nav-logo-ar" translate="no">نور</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="{{ routes.root_url }}#bestsellers">{% if nur_de %}Bestseller{% else %}Bestsellers{% endif %}</a></li>
+    <li><a href="{{ routes.root_url }}#collection">{% if nur_de %}Kollektion{% else %}Collection{% endif %}</a></li>
+    <li><a href="{{ routes.root_url }}#gift-sets" style="color:var(--gold)">{% if nur_de %}Geschenksets{% else %}Gift Sets{% endif %}</a></li>
+    <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/find-my-scent">{% if nur_de %}Duft finden{% else %}Find My Scent{% endif %}</a></li>
+    <li><a href="{{ routes.root_url }}#reviews">{% if nur_de %}Bewertungen{% else %}Reviews{% endif %}</a></li>
+    <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}blogs/journal">Journal</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-trust">{% if nur_de %}Echte Proben &nbsp;&middot;&nbsp; Deutschland{% else %}Authentic samples &nbsp;&middot;&nbsp; Germany{% endif %}</div>
+    <div class="search-wrap">
+      <button class="search-btn" id="searchBtn" aria-label="Search">&#x2315;</button>
+      <div class="search-bar" id="searchBar">
+        <input type="text" id="searchInput" placeholder="{% if nur_de %}Düfte, Noten suchen…{% else %}Search fragrances, notes…{% endif %}" autocomplete="off">
+        <button class="search-close" id="searchClose">&#x2715;</button>
+      </div>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+        <button class="nav-lang-btn" onclick="nurToggleLangBar()" title="Language pages">&#x1F310;</button>
+    <button class="cart-btn" id="cartBtn">
+      <span>🛍</span>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+    <button class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<nav class="mob-nav" id="mobNav" aria-label="Mobile navigation">
+  <a href="{{ routes.root_url }}#bestsellers" onclick="closeMob()">{% if nur_de %}Bestseller{% else %}Bestsellers{% endif %}</a>
+  <a href="{{ routes.root_url }}#collection" onclick="closeMob()">{% if nur_de %}Kollektion{% else %}Collection{% endif %}</a>
+  <a href="{{ routes.root_url }}#gift-sets" onclick="closeMob()" style="color:var(--gold)">{% if nur_de %}Geschenksets{% else %}Gift Sets{% endif %}</a>
+  <a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/find-my-scent" onclick="closeMob()">{% if nur_de %}Duft finden{% else %}Find My Scent{% endif %}</a>
+  <a href="{{ routes.root_url }}#reviews" onclick="closeMob()">{% if nur_de %}Bewertungen{% else %}Reviews{% endif %}</a>
+  <a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}blogs/journal" onclick="closeMob()">Journal</a>
+  <a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/faq" onclick="closeMob()">FAQ</a>
+</nav>
+
+<!-- CART DRAWER (Shopify AJAX) -->
+<div class="cart-veil" id="cartVeil" onclick="closeCart()"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-hd">
+    <h3>{% if nur_de %}Deine Auswahl{% else %}Your Selection{% endif %}</h3>
+    <button class="cart-x" onclick="closeCart()">&#x2715;</button>
+  </div>
+  <div id="cartShipBar" class="cart-ship-bar"></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot" id="cartFoot" style="display:none">
+    <div class="cart-upsell" id="cartUpsell"></div>
+    <div class="cart-sub-row">
+      <span class="cart-sub-lbl">{% if nur_de %}Zwischensumme{% else %}Subtotal{% endif %}</span>
+      <span class="cart-sub-val" id="cartSubtotal">€0.00</span>
+    </div>
+    <div class="cart-reassurance">{% if nur_de %}Versand aus Deutschland mit Tracking &middot; sichere Zahlung &middot; gratis 1-ml-Probe ab 25 €{% else %}Tracked from Germany &middot; secure payment &middot; free 1 ml sample from €25{% endif %}</div>
+    <button class="cart-checkout" onclick="goCheckout()">{% if nur_de %}Sicher zur Kasse →{% else %}Secure Checkout →{% endif %}</button>
+  </div>
+</aside>
+
+<main>
+  {{ content_for_layout }}
+</main>
+
+<footer>
+  <div class="ft-grid">
+    <div class="ft-brand">
+      <div class="ft-logo notranslate" translate="no" data-notranslate>NUR <span class="ft-ar">&#x646;&#x648;&#x631;</span></div>
+      <p>{% if nur_de %}Dein Duft. Dein Licht. Kuratierte arabische Düfte für das moderne Europa.{% else %}Your scent. Your light. Curated Arabian fragrances for the modern European.{% endif %}</p>
+    </div>
+    <div class="ft-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="{{ routes.root_url }}#bestsellers">{% if nur_de %}Bestseller{% else %}Bestsellers{% endif %}</a></li>
+        <li><a href="{{ routes.root_url }}#collection">{% if nur_de %}Ganze Kollektion{% else %}Full Collection{% endif %}</a></li>
+        <li><a href="{{ routes.root_url }}#gift-sets">{% if nur_de %}Geschenksets &amp; Bundles{% else %}Gift Sets &amp; Bundles{% endif %}</a></li>
+        <li><a href="{{ routes.root_url }}#collection">Arabische Parfümproben</a></li>
+        <li><a href="{{ routes.root_url }}collections/gourmand-fragrance-samples">The Gourmand</a></li>
+        <li><a href="{{ routes.root_url }}collections/fresh-office-safe-fragrance-samples">The Sophisticate</a></li>
+        <li><a href="{{ routes.root_url }}collections/oud-connoisseur-fragrance-samples">The Connoisseur</a></li>
+        <li><a href="{{ routes.root_url }}collections/lattafa-perfume-samples">{% if nur_de %}Lattafa Proben{% else %}Lattafa Samples{% endif %}</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>{% if nur_de %}Wissen{% else %}Learn{% endif %}</h4>
+      <ul>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}blogs/journal">Journal</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}blogs/journal/khamrah-vs-baccarat">Khamrah vs BR540</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}blogs/journal/arabian-dupes">{% if nur_de %}Duft-Alternativen Guide{% else %}Fragrance Alternatives Guide{% endif %}</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}blogs/journal/what-is-oud">{% if nur_de %}Was ist Oud?{% else %}What Is Oud?{% endif %}</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}blogs/journal/best-under-20">{% if nur_de %}Beste unter 20 €{% else %}Best Under €20{% endif %}</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}blogs/journal/best-for-men">{% if nur_de %}Beste für Männer{% else %}Best for Men{% endif %}</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}blogs/journal/summer-fragrances">{% if nur_de %}Sommerdüfte{% else %}Summer Fragrances{% endif %}</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/llms">{% if nur_de %}KI-Suche Referenz{% else %}AI Search Reference{% endif %}</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>{% if nur_de %}Hilfe{% else %}Support{% endif %}</h4>
+      <ul>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/faq">FAQ</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/faq#shipping">{% if nur_de %}Versand &amp; Rückgabe{% else %}Shipping &amp; Returns{% endif %}</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/affiliate">{% if nur_de %}Affiliate-Programm{% else %}Affiliate Program{% endif %}</a></li>
+        <li><a href="mailto:info@nur-fragrance.com">{% if nur_de %}Kontakt{% else %}Contact Us{% endif %}</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/datenschutz">Datenschutz</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/agb">AGB</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/widerrufsrecht">Widerrufsrecht</a></li>
+        <li><a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/impressum">Impressum</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <p class="ft-copy">&copy; 2026 NUR Fragrances &middot; &#x646;&#x648;&#x631; &middot; {% if nur_de %}Versand in ganz Europa{% else %}Ships across Europe{% endif %}</p>
+    <div class="ft-pay">
+      <span class="ft-pay-i">VISA</span><span class="ft-pay-i">MC</span>
+      <span class="ft-pay-i">PAYPAL</span><span class="ft-pay-i">KLARNA</span>
+    </div>
+    <div class="ft-social">
+      <a href="https://www.tiktok.com/@nurfragrances" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://www.instagram.com/nurfragrances" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.youtube.com/@nurfragrances" target="_blank" rel="noopener">YouTube</a>
+    </div>
+  </div>
+</footer>
+
+<!-- POPUPS & MODALS -->
+<div class="popup-veil" id="popupVeil"></div>
+<div class="popup" id="welcomePopup">
+  <button class="popup-close" onclick="closePopup()" aria-label="Close">&#x2715;</button>
+  <div class="popup-label">{% if nur_de %}Willkommen bei NUR{% else %}Welcome to NUR{% endif %}</div>
+  <h2 class="popup-title">{% if nur_de %}10% Rabatt<br>auf deine erste Bestellung{% else %}10% Off<br>Your First Order{% endif %}</h2>
+  <p class="popup-sub">{% if nur_de %}Gib deine E-Mail ein und wir senden dir sofort deinen Code — plus frühen Zugang zu neuen Drops.{% else %}Enter your email and we'll send your code immediately — plus early access to new drops.{% endif %}</p>
+  <form class="popup-form" onsubmit="handlePopup(event)">
+    <input type="email" placeholder="{% if nur_de %}Deine E-Mail-Adresse{% else %}Your email address{% endif %}" required>
+    <button type="submit">{% if nur_de %}Rabatt sichern &rarr;{% else %}Claim My Discount &rarr;{% endif %}</button>
+  </form>
+  <p class="popup-note">{% if nur_de %}Kein Spam. Jederzeit abbestellbar.{% else %}No spam. Unsubscribe anytime.{% endif %}</p>
+  <button class="popup-skip" onclick="closePopup()">{% if nur_de %}Weiter einkaufen{% else %}Continue shopping{% endif %}</button>
+</div>
+
+<!-- NOTIFY ME MODAL -->
+<div class="popup-veil" id="notifyVeil" onclick="closeNotify()"></div>
+<div class="popup" id="notifyModal" style="max-width:400px">
+  <button class="popup-close" onclick="closeNotify()" aria-label="Close">&#x2715;</button>
+  <div class="popup-label">{% if nur_de %}Wieder-verfügbar-Alarm{% else %}Back In Stock Alert{% endif %}</div>
+  <h2 class="popup-title" id="notifyTitle" style="font-size:1.6rem">{% if nur_de %}Benachrichtigen lassen{% else %}Get Notified{% endif %}</h2>
+  <p class="popup-sub" id="notifySub">{% if nur_de %}Wir mailen dir, sobald es wieder da ist — kein Spam, nur die Benachrichtigung.{% else %}We'll email you the moment this is back — no spam, just the alert.{% endif %}</p>
+  <form class="popup-form" id="notifyForm" onsubmit="submitNotify(event)">
+    <input type="email" id="notifyEmail" placeholder="{% if nur_de %}Deine E-Mail-Adresse{% else %}Your email address{% endif %}" required>
+    <button type="submit">{% if nur_de %}Benachrichtige mich &rarr;{% else %}Notify Me When Available &rarr;{% endif %}</button>
+  </form>
+  <p class="popup-note">{% if nur_de %}Nur eine E-Mail. Jederzeit abbestellbar.{% else %}One email only. Unsubscribe anytime.{% endif %}</p>
+</div>
+
+<!-- TOAST STACK -->
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- WHATSAPP FLOAT -->
+<div class="wa-float" id="waFloat" style="display:none" aria-live="polite">
+  <div class="wa-tip" id="waTip" role="dialog" aria-label="WhatsApp Kontakt">
+    <button class="wa-x" id="waClose" aria-label="Schließen">&#x2715;</button>
+    <strong>Fragen? Schreib uns.</strong>
+    <small>Wir antworten meist in unter&nbsp;10&nbsp;Min.</small>
+  </div>
+  <a class="wa-btn" id="waBtn"
+     href="https://wa.me/491754264425?text={}"
+     target="_blank" rel="noopener noreferrer"
+     aria-label="WhatsApp öffnen"
+     title="WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+      <path d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652c1.746.943 3.71 1.444 5.71 1.447h.006c6.585 0 11.946-5.336 11.949-11.896.002-3.176-1.24-6.165-3.48-8.45zM12.045 21.785h-.005c-1.774 0-3.513-.476-5.031-1.378l-.361-.214-3.741.975.999-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.893-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.892 6.994c-.003 5.45-4.437 9.887-9.889 9.891zm5.422-7.403c-.297-.149-1.758-.867-2.031-.967-.272-.099-.47-.148-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.307 1.262.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    </svg>
+  </a>
+</div>
+<script>
+(function(){
+  var float=document.getElementById('waFloat');
+  var tip=document.getElementById('waTip');
+  var btn=document.getElementById('waBtn');
+  var closeBtn=document.getElementById('waClose');
+  if(!float||!btn)return;
+  var productName=(document.querySelector('.pdp-name')||document.querySelector('h1'))?.textContent?.trim()||'';
+  var msg=productName
+    ?'Hallo! Ich interessiere mich für '+productName+' und hätte eine kurze Frage. 😊'
+    :'Hallo! Ich schaue gerade bei NUR Fragrances vorbei und hätte eine kurze Frage. 😊';
+  btn.href='https://wa.me/491754264425?text='+encodeURIComponent(msg);
+  var shown=false;
+  function show(){
+    if(shown)return; shown=true;
+    float.style.display='flex';
+    setTimeout(function(){btn.classList.add('wa-pulse');setTimeout(function(){btn.classList.remove('wa-pulse');},2000);},600);
+    setTimeout(function(){tip.classList.add('wa-vis');},1400);
+  }
+  closeBtn.addEventListener('click',function(e){
+    e.preventDefault();e.stopPropagation();
+    tip.style.display='none';
+    try{sessionStorage.setItem('waTipDismissed','1');}catch(x){}
+  });
+  try{if(sessionStorage.getItem('waTipDismissed')){tip.style.display='none';}}catch(x){}
+  setTimeout(show, 8000);
+  var scrolled=false;
+  window.addEventListener('scroll',function(){
+    if(scrolled)return;
+    if((window.scrollY||window.pageYOffset)>document.documentElement.scrollHeight*0.28){scrolled=true;show();}
+  },{passive:true});
+  document.addEventListener('mouseleave',function(e){if(e.clientY<=5)show();});
+})();
+</script>
+
+<!-- LANGUAGE BAR -->
+<div id="nurLangBar" hidden>
+  <span style="font-size:1rem;flex-shrink:0">&#x1F310;</span>
+  <span class="nlb-msg"><strong>{% if nur_de %}Sprache wählen{% else %}Choose your shopping language{% endif %}</strong></span>
+  {%- for language in localization.available_languages -%}
+    <a class="nlb-link" href="{{ language.root_url }}" hreflang="{{ language.iso_code | downcase }}"{% if language.iso_code == localization.language.iso_code %} aria-current="true" style="color:var(--gold)"{% endif %}>{{ language.endonym_name | capitalize }}</a>
+  {%- endfor -%}
+  <button class="nlb-x" onclick="nurDismiss()" aria-label="{% if nur_de %}Schließen{% else %}Dismiss{% endif %}">&#x2715;</button>
+</div>
+<script>
+(function(){
+  function langBar(){ return document.getElementById('nurLangBar'); }
+  window.nurToggleLangBar = function(){
+    var bar = langBar();
+    if(!bar) return;
+    var isVisible = bar.classList.toggle('visible');
+    bar.hidden = !isVisible;
+  };
+  window.nurDismiss = function(){
+    var bar = langBar();
+    if(bar){ bar.classList.remove('visible'); bar.hidden = true; }
+  };
+})();
+</script>
+
+<!-- Theme JS -->
+{% render 'nur-chatbot' %}
+<script src="{{ 'nur-chatbot.js' | asset_url }}" defer></script>
+<script src="{{ 'nur.js' | asset_url }}" defer></script>
+
+<!-- Tiered cart progress (overrides legacy ship bar; thresholds match live shipping + free-sample discount) -->
+<style>
+#cartShipBar{display:none;padding:.75rem 1.1rem;font-size:.72rem;line-height:1.45;border-bottom:1px solid rgba(201,168,76,.12)}
+#cartShipBar.show{display:block}
+#cartShipBar .csb-track{height:4px;background:rgba(201,168,76,.15);border-radius:3px;margin-top:.45rem;overflow:hidden}
+#cartShipBar .csb-fill{height:100%;background:var(--gold,#c9a84c);transition:width .4s ease}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var TIER_SAMPLE=25, TIER_SHIP={{ settings.free_shipping_de_threshold | default: 39 | json }};
+  var NUR_DE={{ nur_de | json }};
+  function eur(n){return '€'+n.toFixed(2).replace('.',',');}
+  window.updateShipBar=function(){
+    var bar=document.getElementById('cartShipBar');
+    if(!bar) return;
+    fetch('/cart.js').then(function(r){return r.json()}).then(function(sc){
+      var t=(sc.total_price||0)/100;
+      if(!sc.item_count){bar.classList.remove('show');bar.innerHTML='';return;}
+      var msg,pct;
+      if(t<TIER_SAMPLE){
+        msg=NUR_DE?'Noch '+eur(TIER_SAMPLE-t)+' bis zur <strong>gratis 1-ml-Probe</strong> 🎁':'Add '+eur(TIER_SAMPLE-t)+' to unlock a <strong>free 1 ml sample</strong> 🎁';
+        pct=t/TIER_SAMPLE*50;
+      }else if(t<TIER_SHIP){
+        msg=NUR_DE?'Gratis-Probe freigeschaltet ✓ — leg eine 1 ml-Probe in den Warenkorb. Noch '+eur(TIER_SHIP-t)+' bis zum <strong>Gratisversand</strong> (DE)':'Free sample unlocked ✓ — add any 1 ml to your cart. '+eur(TIER_SHIP-t)+' to <strong>free shipping</strong> (DE)';
+        pct=50+(t-TIER_SAMPLE)/(TIER_SHIP-TIER_SAMPLE)*50;
+      }else{
+        msg=NUR_DE?'🎉 <strong>Gratisversand freigeschaltet</strong> — deine gratis 1 ml-Probe wird an der Kasse berücksichtigt':'🎉 <strong>Free shipping unlocked</strong> — your free 1 ml sample applies at checkout';
+        pct=100;
+      }
+      bar.innerHTML='<div class="csb-text">'+msg+'</div><div class="csb-track"><div class="csb-fill" style="width:'+Math.min(100,pct)+'%"></div></div>';
+      bar.classList.add('show');
+    }).catch(function(){});
+  };
+  window.updateShipBar();
+});
+</script>
+
+</body>
+</html>

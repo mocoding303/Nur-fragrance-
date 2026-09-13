@@ -1,0 +1,636 @@
+{%- liquid
+  assign nur_de = false
+  if request.locale.iso_code == 'de'
+    assign nur_de = true
+  endif
+  assign img_base = 'nur.css' | asset_url | split: 'nur.css' | first
+  assign landing_handle = section.settings.landing_handle
+  if landing_handle == blank
+    assign landing_handle = page.handle
+  endif
+  if landing_handle == blank
+    assign landing_handle = template.suffix
+  endif
+
+  case landing_handle
+    when 'lattafa-samples'
+      assign landing_title = 'Lattafa Samples & Decants'
+      assign landing_desc = 'Try Lattafa fragrances as 1ml, 2ml, 5ml or 10ml decants before buying a full bottle.'
+      assign landing_image = img_base | append: 'khamrah-1.jpg'
+    when 'armaf-decants'
+      assign landing_title = 'Armaf Decants'
+      assign landing_desc = 'Explore Armaf fragrance samples including Club de Nuit Intense and Club de Nuit Précieux.'
+      assign landing_image = img_base | append: 'club-de-nuit-intense-1.jpg'
+    when 'arabian-perfume-samples-germany'
+      assign landing_title = 'Arabische Parfümproben aus Deutschland'
+      assign landing_desc = 'Teste arabische Düfte als 1ml, 2ml, 5ml oder 10ml Probe mit Versand aus Deutschland.'
+      assign landing_image = img_base | append: 'dahaab-safi-7.jpg'
+    when 'arabische-parfuemproben'
+      assign landing_title = 'Arabische Parfümproben testen, bevor du den Flakon kaufst'
+      assign landing_desc = 'Teste authentische arabische Düfte von Lattafa, Armaf, Swiss Arabian und weiteren Häusern als 1 ml, 2 ml, 5 ml oder 10 ml Decant. Jede Probe wird aus Originalflakons abgefüllt, sauber etikettiert und mit Sendungsverfolgung aus Deutschland verschickt.'
+      assign landing_image = img_base | append: 'dahaab-safi-7.jpg'
+    when 'arabic-perfume-decants-europe'
+      assign landing_title = 'Arabic Perfume Samples & Decants Shipped from Germany'
+      assign landing_desc = 'Try Arabian fragrances from houses such as Lattafa, Armaf and Swiss Arabian as 1 ml, 2 ml, 5 ml or 10 ml decants before purchasing a full bottle. Orders are prepared in Germany and shipped to supported European destinations with tracking.'
+      assign landing_image = img_base | append: 'khamrah-1.jpg'
+    when 'baccarat-rouge-alternative'
+      assign landing_title = 'Baccarat Rouge Fragrance Alternatives: Warm Amber Samples'
+      assign landing_desc = 'Compare warm amber, saffron and gourmand Arabian fragrances as decants before buying a full bottle.'
+      assign landing_image = img_base | append: 'khamrah-4.jpg'
+    when 'creed-aventus-alternative'
+      assign landing_title = 'Creed Aventus Fragrance Alternatives: Fresh Woody Samples'
+      assign landing_desc = 'Try fresh woody Arabian decants with citrus, birch and musk profiles before committing to a full bottle.'
+      assign landing_image = img_base | append: 'club-de-nuit-intense-2.jpg'
+    when 'arabic-perfumes'
+      assign landing_title = 'Arabic Perfumes & Fragrance Samples'
+      assign landing_desc = 'Discover authentic Arabic perfumes, oud, musk, amber, rose and gourmand oriental scents as smaller decants filled from original bottles and shipped tracked from Germany across Europe.'
+      assign landing_image = img_base | append: 'khamrah-1.jpg'
+    when 'oud-perfumes'
+      assign landing_title = 'Oud Perfumes & Oriental Oud Samples'
+      assign landing_desc = 'Explore oud perfumes and oud-inspired Arabic fragrances with smoky woods, amber, rose, leather and incense-like depth before buying a full bottle.'
+      assign landing_image = img_base | append: 'club-de-nuit-precieux-3.jpg'
+    when 'musk-perfumes'
+      assign landing_title = 'Musk Perfumes & Soft Arabian Samples'
+      assign landing_desc = 'Try musk perfumes with clean, powdery, floral, ambered and skin-like profiles as elegant Arabic fragrance samples shipped tracked from Germany.'
+      assign landing_image = img_base | append: 'yulali-1.jpg'
+    when 'bakhoor'
+      assign landing_title = 'Bakhoor-Inspired Arabian Fragrances'
+      assign landing_desc = 'Discover bakhoor-inspired perfume directions: warm smoke, oud, amber, resins, woods and spice in wearable fragrance samples for Europe.'
+      assign landing_image = img_base | append: 'royal-bleu-hero.jpg'
+    when 'perfume-oils'
+      assign landing_title = 'Perfume Oils & Oil-Inspired Arabic Scents'
+      assign landing_desc = 'Explore intimate perfume oil profiles, soft musk, amber, oud, rose and vanilla-inspired Arabic fragrances as sample sizes for daily wear.'
+      assign landing_image = img_base | append: 'rose-01-1.jpg'
+    when 'best-arabic-fragrances-germany'
+      assign landing_title = 'Best Arabic Fragrances in Germany'
+      assign landing_desc = 'A beginner-friendly guide to Arabic fragrance samples in Germany: warm amber, fresh woods, musk, oud, florals and giftable discovery sets.'
+      assign landing_image = img_base | append: 'dahaab-safi-7.jpg'
+    when 'oriental-perfumes-europe'
+      assign landing_title = 'Oriental Perfumes in Europe'
+      assign landing_desc = 'Shop oriental perfume samples across Europe with NUR: authentic Arabic decants, helpful scent guidance and tracked shipping from Germany.'
+      assign landing_image = img_base | append: 'kismet-angel-1.jpg'
+    else
+      assign landing_title = page.title | default: 'Arabian Perfume Samples'
+      assign landing_desc = page.content | strip_html | truncate: 160 | default: 'Explore authentic Arabian fragrance samples from NUR Fragrances.'
+      assign landing_image = img_base | append: 'khamrah-1.jpg'
+  endcase
+
+  case landing_handle
+    when 'lattafa-samples'
+      assign faq_q1 = 'What are Lattafa samples?'
+      assign faq_a1 = 'Lattafa samples are smaller spray vials filled from original Lattafa bottles so you can wear-test a fragrance before buying a full bottle.'
+      assign faq_q2 = 'Which Lattafa sample should I try first?'
+      assign faq_a2 = 'Khamrah is the warm amber starting point, Dahaab Safi is softer and golden, and Asad is a clean woody choice for everyday wear.'
+      assign faq_q3 = 'Where do NUR samples ship from?'
+      assign faq_a3 = 'Every order is filled, labelled, sealed, and shipped tracked from Germany.'
+    when 'armaf-decants'
+      assign faq_q1 = 'What are Armaf decants?'
+      assign faq_a1 = 'Armaf decants are smaller spray samples filled from original Armaf bottles, useful for testing longevity, projection, and dry-down before a full bottle.'
+      assign faq_q2 = 'Which Armaf decant is best for first-time buyers?'
+      assign faq_a2 = 'Club de Nuit Intense is the easiest everyday fresh-woody option, while Club de Nuit Précieux is darker and better for evenings.'
+      assign faq_q3 = 'Can I build an Armaf sample bundle?'
+      assign faq_a3 = 'Yes. You can combine Armaf decants with other fragrances in the build-your-own bundle page.'
+    when 'arabian-perfume-samples-germany', 'arabische-parfuemproben'
+      assign faq_q1 = 'Was ist eine arabische Parfümprobe?'
+      assign faq_a1 = 'Eine Parfümprobe ist ein kleiner Spray-Vial, der aus einer Originalflasche abgefüllt wird, damit du den Duft im Alltag testen kannst.'
+      assign faq_q2 = 'Versendet NUR aus Deutschland?'
+      assign faq_a2 = 'Ja. Bestellungen werden in Deutschland vorbereitet, etikettiert, versiegelt und mit Sendungsverfolgung verschickt.'
+      assign faq_q3 = 'Welche Größen gibt es?'
+      assign faq_a3 = 'Je nach Duft kannst du 1ml, 2ml, 5ml oder 10ml testen, bevor du dich für eine große Flasche entscheidest.'
+    when 'arabic-perfume-decants-europe'
+      assign faq_q1 = 'What is an Arabic perfume decant?'
+      assign faq_a1 = 'An Arabic perfume decant is a smaller spray sample filled from an original fragrance bottle so you can test the scent on skin before purchasing a full bottle.'
+      assign faq_q2 = 'Which sample size should I choose?'
+      assign faq_a2 = 'Choose 1 ml for a first impression, 2 ml for several tests, 5 ml for a fuller wear test or 10 ml when you already know the fragrance. Available sizes vary by product.'
+      assign faq_q3 = 'Does NUR ship perfume samples across Europe?'
+      assign faq_a3 = 'NUR dispatches from Germany to supported European destinations with tracking. Shipping availability and cost are confirmed for the delivery address in checkout.'
+    when 'baccarat-rouge-alternative'
+      assign faq_q1 = 'Are these Baccarat Rouge copies?'
+      assign faq_a1 = 'No. These are Arabian fragrances in a similar warm amber, saffron, sweet-musky scent direction. Sampling helps you compare the profile on your own skin.'
+      assign faq_q2 = 'Which warm amber sample should I try first?'
+      assign faq_a2 = 'Start with Khamrah if you want a rich gourmand amber, then compare Dahaab Safi for a softer golden sweetness.'
+      assign faq_q3 = 'Why sample instead of blind buying?'
+      assign faq_a3 = 'A sample lets you test sweetness, projection, longevity, and dry-down across real days before committing to a larger bottle.'
+    when 'creed-aventus-alternative'
+      assign faq_q1 = 'Are these Creed Aventus copies?'
+      assign faq_a1 = 'No. These are fresh woody Arabian fragrances in a similar scent direction, with citrus, birch, musk, or polished woods depending on the product.'
+      assign faq_q2 = 'Which fresh woody decant should I start with?'
+      assign faq_a2 = 'Club de Nuit Intense is the boldest fresh-woody option, Royal Bleu is smoother for office wear, and Asad adds warmer woods.'
+      assign faq_q3 = 'Can I compare several fresh woody scents together?'
+      assign faq_a3 = 'Yes. Build a fresh trio to compare the scents side by side on skin.'
+    when 'arabic-perfumes'
+      assign faq_q1 = 'Where can I buy Arabic perfumes in Germany?'
+      assign faq_a1 = 'You can buy Arabic perfume samples from NUR Fragrances online. Orders are filled from original bottles in Germany, labelled, sealed and shipped tracked across Europe.'
+      assign faq_q2 = 'What are the best Arabic fragrances for beginners?'
+      assign faq_a2 = 'Beginner-friendly Arabic fragrances include Khamrah for warm sweetness, Club de Nuit Intense for fresh woods, Dahaab Safi for soft golden amber and Yulali for floral musk.'
+      assign faq_q3 = 'Are Arabic perfumes long-lasting?'
+      assign faq_a3 = 'Many Arabic perfumes are long-lasting, especially oud, amber, musk and gourmand styles. Sampling first helps you test performance on your own skin.'
+    when 'oud-perfumes'
+      assign faq_q1 = 'What is oud perfume?'
+      assign faq_a1 = 'Oud perfume is built around an agarwood-inspired note that can smell woody, smoky, resinous, leathery, sweet or animalic depending on the blend.'
+      assign faq_q2 = 'Is oud perfume good for daily wear?'
+      assign faq_a2 = 'Softer oud and amber-oud scents can work daily, while smoky or leathery oud perfumes are usually better for evenings and cold weather.'
+      assign faq_q3 = 'Which oud perfume should beginners try first?'
+      assign faq_a3 = 'Start with a smaller sample of a smooth amber-oud, rose-oud or woody oud fragrance before trying darker and more intense profiles.'
+    when 'musk-perfumes'
+      assign faq_q1 = 'What does musk perfume smell like?'
+      assign faq_a1 = 'Musk can smell clean, soft, powdery, warm, skin-like or sensual. In Arabic perfumes it is often blended with rose, amber, vanilla and woods.'
+      assign faq_q2 = 'Are musk perfumes good for the office?'
+      assign faq_a2 = 'Yes. Clean and soft musk perfumes are among the easiest Arabic fragrance profiles for office wear and everyday use.'
+      assign faq_q3 = 'Do musk perfumes last long?'
+      assign faq_a3 = 'Musk often lasts well close to the skin, especially when layered with amber, woods or floral notes.'
+    when 'bakhoor'
+      assign faq_q1 = 'What is bakhoor?'
+      assign faq_a1 = 'Bakhoor traditionally refers to scented wood chips or incense burned to perfume rooms, clothing and special occasions.'
+      assign faq_q2 = 'Can a perfume smell like bakhoor?'
+      assign faq_a2 = 'Yes. Oud, amber, resin, spice and smoky notes can create a bakhoor-like feeling in a wearable perfume.'
+      assign faq_q3 = 'Are bakhoor-style perfumes strong?'
+      assign faq_a3 = 'They can be bold and long-lasting, so starting with a sample is the safest way to find the right intensity.'
+    when 'perfume-oils'
+      assign faq_q1 = 'What is perfume oil?'
+      assign faq_a1 = 'Perfume oil is a fragrance format based around aromatic oils. It often feels smoother, richer and closer to the skin than an alcohol-forward spray.'
+      assign faq_q2 = 'What is the difference between perfume oil and spray perfume?'
+      assign faq_a2 = 'Sprays often project more at first, while oils usually sit closer to the skin and develop more softly during the dry-down.'
+      assign faq_q3 = 'Are perfume oils good for gifts?'
+      assign faq_a3 = 'Yes, especially soft musk, amber, rose or vanilla oil profiles. A sample or discovery set keeps the gift low-risk.'
+    when 'best-arabic-fragrances-germany'
+      assign faq_q1 = 'What are the best Arabic fragrances in Germany?'
+      assign faq_a1 = 'Popular starting points include Khamrah, Club de Nuit Intense, Asad, Dahaab Safi and Yulali, depending on whether you prefer sweet, fresh, spicy, golden or floral musk profiles.'
+      assign faq_q2 = 'Can I test Arabic perfumes before buying a full bottle?'
+      assign faq_a2 = 'Yes. NUR sells smaller decants so you can wear-test Arabic perfumes before committing to a 50ml or 100ml bottle.'
+      assign faq_q3 = 'Do you ship Arabic perfume samples from Germany?'
+      assign faq_a3 = 'Yes. Orders are prepared in Germany, labelled, sealed and shipped tracked across Europe.'
+    when 'oriental-perfumes-europe'
+      assign faq_q1 = 'Where can I buy oriental perfumes in Europe?'
+      assign faq_a1 = 'NUR Fragrances ships oriental perfume samples from Germany across Europe, including Arabic fragrances, oud, musk, amber, rose and gourmand scents.'
+      assign faq_q2 = 'Which oriental perfume is best as a gift?'
+      assign faq_a2 = 'Soft amber, clean musk, warm vanilla and curated discovery trios are the safest gift choices because they are easy to enjoy and compare.'
+      assign faq_q3 = 'What makes oriental perfumes different?'
+      assign faq_a3 = 'Oriental perfumes often emphasize warm, rich notes such as amber, musk, oud, resins, spice, vanilla and deep florals.'
+    else
+      assign faq_q1 = 'What is a decant?'
+      assign faq_a1 = 'A decant is a smaller spray vial filled from an original fragrance bottle, so you can wear-test the scent before buying a larger bottle.'
+      assign faq_q2 = 'Where does NUR ship from?'
+      assign faq_a2 = 'NUR orders are filled, labelled, sealed, and shipped tracked from Germany.'
+      assign faq_q3 = 'What size should I start with?'
+      assign faq_a3 = 'Start with 1ml for a low-risk trial, or choose 5ml when you want enough sprays for repeated wear.'
+  endcase
+
+  if nur_de
+    case landing_handle
+      when 'lattafa-samples'
+        assign landing_title = 'Lattafa Proben & Decants'
+        assign landing_desc = 'Teste Lattafa-Düfte als 1-ml-, 2-ml-, 5-ml- oder 10-ml-Decant, bevor du eine ganze Flasche kaufst.'
+        assign faq_q1 = 'Was sind Lattafa-Proben?'
+        assign faq_a1 = 'Lattafa-Proben sind kleinere Sprühfläschchen, abgefüllt aus Original-Lattafa-Flaschen, damit du einen Duft auf der Haut testen kannst, bevor du eine ganze Flasche kaufst.'
+        assign faq_q2 = 'Welche Lattafa-Probe sollte ich zuerst testen?'
+        assign faq_a2 = 'Khamrah ist der warme Amber-Einstieg, Dahaab Safi ist weicher und golden, und Asad ist eine klare, holzige Wahl für den Alltag.'
+        assign faq_q3 = 'Von wo versendet NUR die Proben?'
+        assign faq_a3 = 'Jede Bestellung wird abgefüllt, etikettiert, versiegelt und mit Sendungsverfolgung aus Deutschland verschickt.'
+      when 'armaf-decants'
+        assign landing_title = 'Armaf Decants'
+        assign landing_desc = 'Entdecke Armaf-Duftproben, darunter Club de Nuit Intense und Club de Nuit Précieux.'
+        assign faq_q1 = 'Was sind Armaf-Decants?'
+        assign faq_a1 = 'Armaf-Decants sind kleinere Sprühproben, abgefüllt aus Original-Armaf-Flaschen — ideal, um Haltbarkeit, Projektion und Dry-down vor dem Kauf einer ganzen Flasche zu testen.'
+        assign faq_q2 = 'Welcher Armaf-Decant eignet sich am besten für Erstkäufer?'
+        assign faq_a2 = 'Club de Nuit Intense ist die einfachste frisch-holzige Option für jeden Tag, während Club de Nuit Précieux dunkler und besser für Abende ist.'
+        assign faq_q3 = 'Kann ich ein Armaf-Proben-Bundle zusammenstellen?'
+        assign faq_a3 = 'Ja. Du kannst Armaf-Decants auf der Bundle-selbst-zusammenstellen-Seite mit anderen Düften kombinieren.'
+      when 'arabic-perfume-decants-europe'
+        assign landing_title = 'Arabische Parfümproben & Decants mit Versand aus Deutschland'
+        assign landing_desc = 'Teste arabische Düfte von Häusern wie Lattafa, Armaf und Swiss Arabian als 1-ml-, 2-ml-, 5-ml- oder 10-ml-Decant, bevor du eine ganze Flasche kaufst. Bestellungen werden in Deutschland vorbereitet und mit Sendungsverfolgung in unterstützte europäische Länder verschickt.'
+        assign faq_q1 = 'Was ist ein arabischer Parfüm-Decant?'
+        assign faq_a1 = 'Ein arabischer Parfüm-Decant ist eine kleinere Sprühprobe, abgefüllt aus einer Original-Duftflasche, damit du den Duft auf der Haut testen kannst, bevor du eine ganze Flasche kaufst.'
+        assign faq_q2 = 'Welche Probengröße soll ich wählen?'
+        assign faq_a2 = 'Wähle 1 ml für einen ersten Eindruck, 2 ml für mehrere Tests, 5 ml für einen ausführlicheren Tragetest oder 10 ml, wenn du den Duft bereits kennst. Die verfügbaren Größen variieren je nach Produkt.'
+        assign faq_q3 = 'Versendet NUR Parfümproben in ganz Europa?'
+        assign faq_a3 = 'NUR versendet aus Deutschland mit Sendungsverfolgung in unterstützte europäische Länder. Verfügbarkeit und Versandkosten werden für die Lieferadresse an der Kasse bestätigt.'
+      when 'baccarat-rouge-alternative'
+        assign landing_title = 'Baccarat Rouge Duft-Alternativen: Warme Amber-Proben'
+        assign landing_desc = 'Vergleiche warme Amber-, Safran- und Gourmand-Düfte aus Arabien als Decants, bevor du eine ganze Flasche kaufst.'
+        assign faq_q1 = 'Sind das Baccarat-Rouge-Kopien?'
+        assign faq_a1 = 'Nein. Das sind arabische Düfte in einer ähnlichen warmen Amber-, Safran- und süß-moschusartigen Richtung. Das Testen hilft dir, das Profil auf deiner eigenen Haut zu vergleichen.'
+        assign faq_q2 = 'Welche warme Amber-Probe sollte ich zuerst testen?'
+        assign faq_a2 = 'Starte mit Khamrah, wenn du einen reichen Gourmand-Amber möchtest, und vergleiche dann Dahaab Safi für eine weichere goldene Süße.'
+        assign faq_q3 = 'Warum testen statt blind kaufen?'
+        assign faq_a3 = 'Mit einer Probe kannst du Süße, Projektion, Haltbarkeit und Dry-down über echte Tage hinweg testen, bevor du dich für eine größere Flasche entscheidest.'
+      when 'creed-aventus-alternative'
+        assign landing_title = 'Creed Aventus Duft-Alternativen: Frisch-holzige Proben'
+        assign landing_desc = 'Teste frisch-holzige arabische Decants mit Zitrus-, Birken- und Moschus-Profilen, bevor du dich für eine ganze Flasche entscheidest.'
+        assign faq_q1 = 'Sind das Creed-Aventus-Kopien?'
+        assign faq_a1 = 'Nein. Das sind frisch-holzige arabische Düfte in einer ähnlichen Richtung, mit Zitrus, Birke, Moschus oder polierten Hölzern, je nach Produkt.'
+        assign faq_q2 = 'Mit welchem frisch-holzigen Decant sollte ich anfangen?'
+        assign faq_a2 = 'Club de Nuit Intense ist die kräftigste frisch-holzige Option, Royal Bleu ist geschmeidiger fürs Büro, und Asad bringt wärmere Hölzer.'
+        assign faq_q3 = 'Kann ich mehrere frisch-holzige Düfte zusammen vergleichen?'
+        assign faq_a3 = 'Ja. Stelle ein frisches Trio zusammen, um die Düfte direkt auf der Haut zu vergleichen.'
+      when 'arabic-perfumes'
+        assign landing_title = 'Arabische Parfums & Duftproben'
+        assign landing_desc = 'Entdecke authentische arabische Parfums, Oud, Moschus, Amber, Rose und orientalische Gourmand-Düfte als kleinere Decants, abgefüllt aus Originalflaschen und mit Sendungsverfolgung aus Deutschland in ganz Europa verschickt.'
+        assign faq_q1 = 'Wo kann ich arabische Parfums in Deutschland kaufen?'
+        assign faq_a1 = 'Arabische Parfümproben kannst du online bei NUR Fragrances kaufen. Bestellungen werden in Deutschland aus Originalflaschen abgefüllt, etikettiert, versiegelt und mit Sendungsverfolgung in ganz Europa verschickt.'
+        assign faq_q2 = 'Was sind die besten arabischen Düfte für Einsteiger?'
+        assign faq_a2 = 'Einsteigerfreundliche arabische Düfte sind Khamrah für warme Süße, Club de Nuit Intense für frische Hölzer, Dahaab Safi für weichen goldenen Amber und Yulali für blumigen Moschus.'
+        assign faq_q3 = 'Sind arabische Parfums langanhaltend?'
+        assign faq_a3 = 'Viele arabische Parfums sind langanhaltend, besonders Oud-, Amber-, Moschus- und Gourmand-Stile. Vorher zu testen hilft dir, die Performance auf deiner eigenen Haut zu prüfen.'
+      when 'oud-perfumes'
+        assign landing_title = 'Oud-Parfums & orientalische Oud-Proben'
+        assign landing_desc = 'Entdecke Oud-Parfums und oud-inspirierte arabische Düfte mit rauchigen Hölzern, Amber, Rose, Leder und weihrauchartiger Tiefe, bevor du eine ganze Flasche kaufst.'
+        assign faq_q1 = 'Was ist Oud-Parfum?'
+        assign faq_a1 = 'Oud-Parfum baut auf einer von Adlerholz inspirierten Note auf, die je nach Komposition holzig, rauchig, harzig, ledrig, süß oder animalisch riechen kann.'
+        assign faq_q2 = 'Eignet sich Oud-Parfum für den Alltag?'
+        assign faq_a2 = 'Weichere Oud- und Amber-Oud-Düfte funktionieren im Alltag, während rauchige oder ledrige Oud-Parfums meist besser für Abende und kaltes Wetter geeignet sind.'
+        assign faq_q3 = 'Welches Oud-Parfum sollten Einsteiger zuerst testen?'
+        assign faq_a3 = 'Starte mit einer kleineren Probe eines weichen Amber-Oud, Rosen-Oud oder holzigen Oud, bevor du dunklere und intensivere Profile ausprobierst.'
+      when 'musk-perfumes'
+        assign landing_title = 'Moschus-Parfums & sanfte arabische Proben'
+        assign landing_desc = 'Teste Moschus-Parfums mit klaren, pudrigen, blumigen, ambrierten und hautnahen Profilen als elegante arabische Duftproben, verschickt mit Sendungsverfolgung aus Deutschland.'
+        assign faq_q1 = 'Wie riecht Moschus-Parfum?'
+        assign faq_a1 = 'Moschus kann klar, sanft, pudrig, warm, hautnah oder sinnlich riechen. In arabischen Parfums wird er oft mit Rose, Amber, Vanille und Hölzern kombiniert.'
+        assign faq_q2 = 'Eignen sich Moschus-Parfums fürs Büro?'
+        assign faq_a2 = 'Ja. Klare und sanfte Moschus-Parfums gehören zu den einfachsten arabischen Duftprofilen fürs Büro und den Alltag.'
+        assign faq_q3 = 'Halten Moschus-Parfums lange?'
+        assign faq_a3 = 'Moschus hält oft gut hautnah, besonders in Kombination mit Amber, Hölzern oder blumigen Noten.'
+      when 'bakhoor'
+        assign landing_title = 'Bakhoor-inspirierte arabische Düfte'
+        assign landing_desc = 'Entdecke bakhoor-inspirierte Duftrichtungen: warmer Rauch, Oud, Amber, Harze, Hölzer und Gewürze in tragbaren Duftproben für Europa.'
+        assign faq_q1 = 'Was ist Bakhoor?'
+        assign faq_a1 = 'Bakhoor bezeichnet traditionell duftende Holzspäne oder Weihrauch, die verbrannt werden, um Räume, Kleidung und besondere Anlässe zu beduften.'
+        assign faq_q2 = 'Kann ein Parfum nach Bakhoor riechen?'
+        assign faq_a2 = 'Ja. Oud-, Amber-, Harz-, Gewürz- und Rauchnoten können in einem tragbaren Parfum ein bakhoor-artiges Gefühl erzeugen.'
+        assign faq_q3 = 'Sind Parfums im Bakhoor-Stil intensiv?'
+        assign faq_a3 = 'Sie können kräftig und langanhaltend sein, daher ist der Start mit einer Probe der sicherste Weg, die richtige Intensität zu finden.'
+      when 'perfume-oils'
+        assign landing_title = 'Parfümöle & öl-inspirierte arabische Düfte'
+        assign landing_desc = 'Entdecke intime Parfümöl-Profile, sanften Moschus, Amber, Oud, Rose und vanille-inspirierte arabische Düfte in Probengrößen für den Alltag.'
+        assign faq_q1 = 'Was ist Parfümöl?'
+        assign faq_a1 = 'Parfümöl ist eine Duftform auf Basis aromatischer Öle. Es wirkt oft geschmeidiger, reicher und hautnäher als ein alkoholbetontes Spray.'
+        assign faq_q2 = 'Was ist der Unterschied zwischen Parfümöl und Sprühparfum?'
+        assign faq_a2 = 'Sprays projizieren anfangs oft stärker, während Öle meist hautnäher sitzen und sich im Dry-down sanfter entwickeln.'
+        assign faq_q3 = 'Eignen sich Parfümöle als Geschenk?'
+        assign faq_a3 = 'Ja, besonders sanfte Moschus-, Amber-, Rosen- oder Vanille-Öl-Profile. Eine Probe oder ein Entdeckungsset hält das Geschenk risikoarm.'
+      when 'best-arabic-fragrances-germany'
+        assign landing_title = 'Die besten arabischen Düfte in Deutschland'
+        assign landing_desc = 'Ein einsteigerfreundlicher Guide zu arabischen Duftproben in Deutschland: warmer Amber, frische Hölzer, Moschus, Oud, Blüten und verschenkbare Entdeckungssets.'
+        assign faq_q1 = 'Was sind die besten arabischen Düfte in Deutschland?'
+        assign faq_a1 = 'Beliebte Einstiegspunkte sind Khamrah, Club de Nuit Intense, Asad, Dahaab Safi und Yulali — je nachdem, ob du süße, frische, würzige, goldene oder blumig-moschusartige Profile bevorzugst.'
+        assign faq_q2 = 'Kann ich arabische Parfums testen, bevor ich eine ganze Flasche kaufe?'
+        assign faq_a2 = 'Ja. NUR verkauft kleinere Decants, damit du arabische Parfums auf der Haut testen kannst, bevor du dich für eine 50-ml- oder 100-ml-Flasche entscheidest.'
+        assign faq_q3 = 'Versendet ihr arabische Parfümproben aus Deutschland?'
+        assign faq_a3 = 'Ja. Bestellungen werden in Deutschland vorbereitet, etikettiert, versiegelt und mit Sendungsverfolgung in ganz Europa verschickt.'
+      when 'oriental-perfumes-europe'
+        assign landing_title = 'Orientalische Parfums in Europa'
+        assign landing_desc = 'Kaufe orientalische Parfümproben in ganz Europa bei NUR: authentische arabische Decants, hilfreiche Duftberatung und Versand mit Sendungsverfolgung aus Deutschland.'
+        assign faq_q1 = 'Wo kann ich orientalische Parfums in Europa kaufen?'
+        assign faq_a1 = 'NUR Fragrances versendet orientalische Parfümproben aus Deutschland in ganz Europa, darunter arabische Düfte, Oud, Moschus, Amber, Rose und Gourmand-Düfte.'
+        assign faq_q2 = 'Welches orientalische Parfum eignet sich am besten als Geschenk?'
+        assign faq_a2 = 'Sanfter Amber, klarer Moschus, warme Vanille und kuratierte Entdeckungs-Trios sind die sichersten Geschenkoptionen, weil sie leicht zu genießen und zu vergleichen sind.'
+        assign faq_q3 = 'Was macht orientalische Parfums besonders?'
+        assign faq_a3 = 'Orientalische Parfums betonen oft warme, reiche Noten wie Amber, Moschus, Oud, Harze, Gewürze, Vanille und tiefe Blüten.'
+    endcase
+  endif
+-%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": {{ canonical_url | append: '#webpage' | json }},
+  "name": {{ landing_title | json }},
+  "description": {{ landing_desc | json }},
+  "url": {{ canonical_url | json }},
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "NUR Fragrances",
+    "url": {{ shop.url | json }}
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "Arabian perfume samples"
+  },
+  "publisher": {
+    "@id": {{ shop.url | append: '#organization' | json }}
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": {{ canonical_url | append: '#faq' | json }},
+  "mainEntity": [
+    {"@type":"Question","name":{{ faq_q1 | json }},"acceptedAnswer":{"@type":"Answer","text":{{ faq_a1 | json }}}},
+    {"@type":"Question","name":{{ faq_q2 | json }},"acceptedAnswer":{"@type":"Answer","text":{{ faq_a2 | json }}}},
+    {"@type":"Question","name":{{ faq_q3 | json }},"acceptedAnswer":{"@type":"Answer","text":{{ faq_a3 | json }}}}
+  ]
+}
+</script>
+
+<section class="seo-landing">
+  <div class="seo-landing-hero">
+    <div class="seo-landing-copy">
+      <span class="seo-kicker">NUR Fragrances</span>
+      <h1>{{ landing_title }}</h1>
+      <p>{{ landing_desc }}</p>
+      <div class="seo-actions">
+        <a class="seo-primary" href="{{ routes.all_products_collection_url }}">{% if nur_de %}Proben ansehen &rarr;{% else %}Shop samples &rarr;{% endif %}</a>
+        <a class="seo-secondary" href="/pages/build-your-own-bundle">{% if nur_de %}Bundle erstellen &rarr;{% else %}Build a bundle &rarr;{% endif %}</a>
+      </div>
+    </div>
+    <div class="seo-landing-media">
+      <img src="{{ landing_image }}" alt="{{ landing_title | escape }}" width="900" height="900" loading="eager">
+    </div>
+  </div>
+
+  <div class="seo-content">
+    {%- case landing_handle -%}
+      {%- when 'lattafa-samples' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Warum mit Lattafa-Proben starten?{% else %}Why start with Lattafa samples?{% endif %}</h2>
+            <p>{% if nur_de %}Lattafa ist einer der einfachsten Wege, moderne arabische Parfümerie zu entdecken: warme Amber, süße Gourmands, Hölzer, Gewürze und starke Alltagstauglichkeit. Mit einem Decant kannst du den Duft über mehrere Trageeinheiten auf der Haut testen, bevor du eine ganze Flasche kaufst.{% else %}Lattafa is one of the easiest ways to discover modern Arabian perfumery: warm ambers, sweet gourmands, woods, spice and strong everyday wearability. A decant lets you test the fragrance on skin for several wears before buying a full bottle.{% endif %}</p>
+          </article>
+          <article>
+            <h2>{% if nur_de %}Beste Lattafa-Decants für den Anfang{% else %}Best Lattafa decants to try first{% endif %}</h2>
+            <p>{% if nur_de %}<a href="/de/products/khamrah">Khamrah</a> ist der warme Amber-Einstieg, <a href="/de/products/dahaab-safi">Dahaab Safi</a> ist weich und golden, und <a href="/de/products/asad">Asad</a> ist klar, holzig und bürotauglich.{% else %}<a href="/products/khamrah">Khamrah</a> is the warm amber starting point, <a href="/products/dahaab-safi">Dahaab Safi</a> is soft and golden, and <a href="/products/asad">Asad</a> is clean, woody and office-friendly.{% endif %}</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="/products/khamrah">Khamrah by Lattafa</a>
+          <a href="/products/dahaab-safi">Dahaab Safi by Lattafa</a>
+          <a href="/products/asad">Asad by Lattafa</a>
+          <a href="/#discovery-trio">Discovery Trio</a>
+        </div>
+      {%- when 'armaf-decants' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Armaf-Decants für frische und kräftige Profile{% else %}Armaf decants for fresh and bold profiles{% endif %}</h2>
+            <p>{% if nur_de %}Armaf ist bekannt für ausdrucksstarke Düfte mit frischen, holzigen, rauchigen und oud-betonten Profilen. Vorher zu testen hilft dir, die richtige Konzentration, den Anlass und die Jahreszeit für deine eigene Haut zu wählen.{% else %}Armaf is known for high-impact fragrances with fresh, woody, smoky and oud-leaning profiles. Sampling first helps you choose the right concentration, occasion and season for your own skin.{% endif %}</p>
+          </article>
+          <article>
+            <h2>{% if nur_de %}Wähle deine Armaf-Richtung{% else %}Choose your Armaf direction{% endif %}</h2>
+            <p>{% if nur_de %}<a href="/de/products/club-de-nuit-intense">Club de Nuit Intense</a> ist frisch, zitrisch und vielseitig. <a href="/de/products/club-de-nuit-precieux">Club de Nuit Précieux</a> ist dunkler, reicher und besser für Abende geeignet.{% else %}<a href="/products/club-de-nuit-intense">Club de Nuit Intense</a> is fresh, citrusy and versatile. <a href="/products/club-de-nuit-precieux">Club de Nuit Précieux</a> is darker, richer and better suited to evenings.{% endif %}</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="/products/club-de-nuit-intense">Club de Nuit Intense</a>
+          <a href="/products/club-de-nuit-precieux">Club de Nuit Précieux</a>
+          <a href="/pages/creed-aventus-alternative">Fresh woody comparison</a>
+          <a href="/pages/build-your-own-bundle">Build an Armaf bundle</a>
+        </div>
+      {%- when 'arabian-perfume-samples-germany' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>Arabische Düfte testen, bevor du eine große Flasche kaufst</h2>
+            <p>NUR Fragrances füllt arabische Parfümproben aus Originalflaschen in kleinere Vials ab. So kannst du Lattafa, Armaf, Swiss Arabian und weitere Duftprofile im Alltag testen, bevor du dich für 50ml oder 100ml entscheidest.</p>
+          </article>
+          <article>
+            <h2>Versand aus Deutschland nach DACH</h2>
+            <p>Bestellungen werden in Deutschland vorbereitet, etikettiert, versiegelt und mit Sendungsverfolgung verschickt. Für Kundinnen und Kunden in Deutschland, Österreich und der Schweiz ist das die klare Alternative zum Blindkauf.</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="/products/khamrah">Khamrah Probe</a>
+          <a href="/products/club-de-nuit-intense">Armaf Probe</a>
+          <a href="/pages/build-your-own-bundle">3er Bundle erstellen</a>
+          <a href="/blogs/journal/what-is-oud">Oud Guide lesen</a>
+        </div>
+      {%- when 'baccarat-rouge-alternative' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Warme Amber-Düfte zum Vergleichen{% else %}Warm amber fragrances to compare{% endif %}</h2>
+            <p>{% if nur_de %}Wenn du luftige Amber-, Safran- und süß-moschusartige Profile magst, können arabische Düfte wie <a href="/de/products/khamrah">Khamrah</a> einen Test wert sein. Er ist keine Kopie von Baccarat Rouge 540; er ist reicher, süßer und gourmandiger.{% else %}If you enjoy airy amber, saffron and sweet musky profiles, Arabian fragrances such as <a href="/products/khamrah">Khamrah</a> can be worth testing. It is not a copy of Baccarat Rouge 540; it is richer, sweeter and more gourmand.{% endif %}</p>
+          </article>
+          <article>
+            <h2>{% if nur_de %}Testen, bevor du dich entscheidest{% else %}Sample before you decide{% endif %}</h2>
+            <p>{% if nur_de %}Trage einen 1-ml- oder 5-ml-Decant an verschiedenen Tagen, bei unterschiedlichen Temperaturen und Outfits. Das gibt dir ein realistisches Gefühl für Süße, Projektion und Dry-down vor jedem Kauf einer ganzen Flasche.{% else %}Wear a 1ml or 5ml decant across different days, temperatures and outfits. That gives you a realistic sense of sweetness, projection and dry-down before any full-bottle purchase.{% endif %}</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="/products/khamrah">Try Khamrah</a>
+          <a href="/products/dahaab-safi">Try Dahaab Safi</a>
+          <a href="/blogs/journal/khamrah-vs-baccarat">Read the comparison</a>
+          <a href="/pages/build-your-own-bundle">Build an amber trio</a>
+        </div>
+      {%- when 'creed-aventus-alternative' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Frisch-holzige Düfte mit Zitrus, Birke und Moschus{% else %}Fresh woody fragrances with citrus, birch and musk{% endif %}</h2>
+            <p>{% if nur_de %}Wenn dir die frisch-holzige Richtung von Aventus-artigen Düften gefällt, ist <a href="/de/products/club-de-nuit-intense">Club de Nuit Intense</a> ein nützlicher arabischer Decant zum Testen. Erwarte Zitrus, rauchige Birke und Moschus statt einer Eins-zu-eins-Kopie.{% else %}If you like the fresh woody direction of Aventus-style scents, <a href="/products/club-de-nuit-intense">Club de Nuit Intense</a> is a useful Arabian decant to test. Expect citrus, smoky birch and musk rather than a one-to-one copy.{% endif %}</p>
+          </article>
+          <article>
+            <h2>{% if nur_de %}Stelle ein Vergleichsset zusammen{% else %}Build a comparison set{% endif %}</h2>
+            <p>{% if nur_de %}Vergleiche frisch-holzige Profile direkt nebeneinander mit einem individuellen Bundle: Club de Nuit Intense für Frische, Royal Bleu für elegantes Büro-Tragen und Asad für wärmere Hölzer.{% else %}Compare fresh-woody profiles side by side with a custom bundle: Club de Nuit Intense for brightness, Royal Bleu for polished office wear, and Asad for warmer woods.{% endif %}</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="/products/club-de-nuit-intense">Try Club de Nuit Intense</a>
+          <a href="/products/royal-bleu">Try Royal Bleu</a>
+          <a href="/products/asad">Try Asad</a>
+          <a href="/pages/build-your-own-bundle">Build a fresh trio</a>
+        </div>
+      {%- when 'arabic-perfumes' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Authentische arabische Parfums, erst getestet{% else %}Authentic Arabic perfumes, sampled first{% endif %}</h2>
+            <p>{% if nur_de %}Arabische Parfums werden für warmen Amber, Oud, Moschus, Rose, Vanille, Gewürze und reiche Gourmand-Profile geliebt. NUR macht das Entdecken einfacher mit kleineren Sprüh-Decants, abgefüllt aus Originalflaschen, damit du einen Duft auf der Haut testen kannst, bevor du eine größere Größe wählst.{% else %}Arabic perfumes are loved for warm amber, oud, musk, rose, vanilla, spice and rich gourmand profiles. NUR makes discovery easier by offering smaller spray decants filled from original bottles, so you can test a scent on skin before choosing a larger size.{% endif %}</p>
+          </article>
+          <article>
+            <h2>{% if nur_de %}Für Einsteiger und Sammler{% else %}For beginners and collectors{% endif %}</h2>
+            <p>{% if nur_de %}Starte mit <a href="/de/products/khamrah">Khamrah</a> für warme Süße, <a href="/de/products/club-de-nuit-intense">Club de Nuit Intense</a> für frische Hölzer, oder stelle ein individuelles Trio zusammen, um mehrere arabische Duftfamilien direkt zu vergleichen.{% else %}Start with <a href="/products/khamrah">Khamrah</a> for warm sweetness, <a href="/products/club-de-nuit-intense">Club de Nuit Intense</a> for fresh woods, or build a custom trio to compare several Arabic scent families side by side.{% endif %}</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="{{ routes.all_products_collection_url }}">Shop all samples</a>
+          <a href="/pages/build-your-own-bundle">Build your own trio</a>
+          <a href="{{ routes.all_products_collection_url }}?nur_brand=lattafa#nurCollectionProducts">Lattafa samples</a>
+          <a href="{{ routes.all_products_collection_url }}#nurCollectionProducts">German guide</a>
+        </div>
+      {%- when 'oud-perfumes' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Verstehe Oud, bevor du kaufst{% else %}Understand oud before you buy{% endif %}</h2>
+            <p>{% if nur_de %}Oud kann je nach Duft weich, rauchig, harzig, ledrig, süß oder blumig sein. Durch das Testen lernst du, welche Oud-Richtung zu deinem Geschmack, deiner Jahreszeit und deinem Anlass passt, ohne dich für eine ganze Flasche zu entscheiden.{% else %}Oud can be smooth, smoky, resinous, leathery, sweet or floral depending on the fragrance. Sampling lets you learn which oud direction fits your taste, season and occasion without committing to a full bottle.{% endif %}</p>
+          </article>
+          <article>
+            <h2>{% if nur_de %}Stelle einen Oud-Vergleich zusammen{% else %}Build an oud comparison{% endif %}</h2>
+            <p>{% if nur_de %}Vergleiche oud-betonte und dunklere Duftrichtungen mit <a href="/de/products/club-de-nuit-precieux">Club de Nuit Précieux</a>, <a href="/de/products/rose-01">Rose 01</a> oder einem individuellen Bundle rund um Abend- und Kaltwetter-Profile.{% else %}Compare oud-leaning and darker scent directions with <a href="/products/club-de-nuit-precieux">Club de Nuit Précieux</a>, <a href="/products/rose-01">Rose 01</a> or a custom bundle built around evening and cold-weather profiles.{% endif %}</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="{{ routes.collections_url }}/oud-perfumes">Shop oud perfumes</a>
+          <a href="/blogs/journal/what-is-oud">Read the oud guide</a>
+          <a href="/pages/build-your-own-bundle">Build an oud trio</a>
+          <a href="{{ routes.collections_url }}/oriental-perfumes-europe">Oriental perfumes</a>
+        </div>
+      {%- when 'musk-perfumes' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Sanft, klar und hautnah{% else %}Soft, clean and close to skin{% endif %}</h2>
+            <p>{% if nur_de %}Moschus-Parfums sind ideal, wenn du einen Duft möchtest, der elegant, intim und leicht zu tragen wirkt. In der arabischen Parfümerie unterstützt Moschus oft Rose, Amber, Vanille und Hölzer für eine weiche, langanhaltende Sillage.{% else %}Musk perfumes are ideal when you want a fragrance that feels polished, intimate and easy to wear. In Arabic perfumery, musk often supports rose, amber, vanilla and woods for a smooth long-lasting trail.{% endif %}</p>
+          </article>
+          <article>
+            <h2>{% if nur_de %}Am besten für den Alltag{% else %}Best for everyday wear{% endif %}</h2>
+            <p>{% if nur_de %}Wähle Moschus-Proben fürs Büro, den ersten Kauf eines arabischen Dufts, zum Verschenken und für den Alltag. Wenn du unsicher bist, mach das Duftquiz oder vergleiche ein Moschus-Profil in einem Trio.{% else %}Choose musk samples for office wear, first Arabic fragrance purchases, gifting and daily routines. If you are unsure, take the scent quiz or compare a musk profile inside a trio.{% endif %}</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="{{ routes.collections_url }}/musk-perfumes">Shop musk perfumes</a>
+          <a href="/products/yulali">Try Yulali</a>
+          <a href="/pages/build-your-own-bundle">Build a soft trio</a>
+          <a href="{{ routes.root_url | append: "/" | replace: "//", "/" }}pages/find-my-scent">Take the scent quiz</a>
+        </div>
+      {%- when 'bakhoor' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Bakhoor-Wärme in tragbarer Parfümform{% else %}Bakhoor warmth in wearable perfume form{% endif %}</h2>
+            <p>{% if nur_de %}Bakhoor ist traditionell ein Raumduft-Ritual, doch die Duftrichtung findet sich auch in tragbaren Parfums durch Oud, Amber, Rauch, Harz und Gewürze wieder. Diese Proben helfen dir, die richtige Intensität zu finden.{% else %}Bakhoor is traditionally a home-fragrance ritual, but the scent direction also appears in wearable perfumes through oud, amber, smoke, resin and spice. These samples help you find the right level of intensity.{% endif %}</p>
+          </article>
+          <article>
+            <h2>{% if nur_de %}Am besten für Abende und Atmosphäre{% else %}Best for evenings and atmosphere{% endif %}</h2>
+            <p>{% if nur_de %}Bakhoor-inspirierte Düfte wirken am natürlichsten an Abenden, bei kälterem Wetter und zu besonderen Anlässen. Starte mit einem kleineren Fläschchen, um zu testen, ob du rauchige, süße oder holzige Wärme bevorzugst.{% else %}Bakhoor-inspired scents feel most natural in evenings, colder weather and special occasions. Start with a smaller vial to test whether you prefer smoky, sweet or woody warmth.{% endif %}</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="{{ routes.collections_url }}/bakhoor">Shop bakhoor-inspired scents</a>
+          <a href="{{ routes.collections_url }}/oud-perfumes">Oud perfumes</a>
+          <a href="/pages/build-your-own-bundle">Build a warm trio</a>
+          <a href="/blogs/journal/what-is-oud">Oud and incense guide</a>
+        </div>
+      {%- when 'perfume-oils' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Ölige Weichheit und anhaltender Komfort{% else %}Oil-like softness and lasting comfort{% endif %}</h2>
+            <p>{% if nur_de %}Parfümöle und öl-inspirierte arabische Düfte werden für ihre geschmeidige Textur, Wärme und einen hautnahen Dry-down geschätzt. Sie eignen sich besonders für Moschus-, Amber-, Rosen-, Vanille- und sanfte Oud-Profile.{% else %}Perfume oils and oil-inspired Arabic scents are chosen for smooth texture, warmth and a close-to-skin dry-down. They are especially useful for musk, amber, rose, vanilla and soft oud profiles.{% endif %}</p>
+          </article>
+          <article>
+            <h2>{% if nur_de %}Teste den Dry-down{% else %}Sample the dry-down{% endif %}</h2>
+            <p>{% if nur_de %}Die Schönheit öliger Düfte zeigt sich oft erst nach der ersten Stunde. Eine Probe gibt dir genug Zeit, um zu testen, wie der Duft auf deiner Haut, Kleidung und im Alltag sitzt.{% else %}The beauty of oil-like fragrances often appears after the first hour. A sample gives you enough time to test how the scent sits on your skin, clothing and daily routine.{% endif %}</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="{{ routes.collections_url }}/perfume-oils">Shop perfume oils</a>
+          <a href="{{ routes.collections_url }}/musk-perfumes">Musk perfumes</a>
+          <a href="{{ routes.collections_url }}/oriental-perfumes-europe">Oriental perfumes</a>
+          <a href="/pages/build-your-own-bundle">Build a soft trio</a>
+        </div>
+      {%- when 'best-arabic-fragrances-germany' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Die besten arabischen Düfte zum Testen in Deutschland{% else %}Best Arabic fragrances to try in Germany{% endif %}</h2>
+            <p>{% if nur_de %}Für Erstkäufer in Deutschland ist ein Proben-Set der sicherste Weg: warmer Amber, frisch-holzig, sanfter Moschus und ein reicherer Abendduft. So zeigt sich, wie arabische Düfte bei echtem Wetter und im Alltag performen.{% else %}For first-time buyers in Germany, the safest route is a sample set: warm amber, fresh woody, soft musk and a richer evening scent. This shows how Arabic fragrances perform in real weather and daily routines.{% endif %}</p>
+          </article>
+          <article>
+            <h2>{% if nur_de %}Einkaufserlebnis mit Deutschland zuerst{% else %}Germany-first buying experience{% endif %}</h2>
+            <p>{% if nur_de %}NUR bereitet Bestellungen in Deutschland mit etikettierten, versiegelten Fläschchen und Versand mit Sendungsverfolgung in ganz Europa vor. Das sorgt für ein klares Erlebnis für Kundinnen und Kunden, die arabische Parfümproben vor einem größeren Kauf vergleichen.{% else %}NUR prepares orders in Germany with labelled, sealed vials and tracked shipping across Europe. That keeps the experience clear for customers comparing Arabic perfume samples before a larger purchase.{% endif %}</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="/products/khamrah">Try Khamrah</a>
+          <a href="/products/club-de-nuit-intense">Try Club de Nuit Intense</a>
+          <a href="/products/asad">Try Asad</a>
+          <a href="/pages/build-your-own-bundle">Build a beginner trio</a>
+        </div>
+      {%- when 'oriental-perfumes-europe' -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Orientalische Parfümproben für Europa{% else %}Oriental perfume samples for Europe{% endif %}</h2>
+            <p>{% if nur_de %}Europäische Käufer brauchen oft einen risikoarmen Weg, um reiche orientalische Profile zu entdecken. NUR bietet Decants aus den Duftfamilien Oud, Moschus, Amber, Rose, Vanille, Gourmand und frisch-holzig mit Versand mit Sendungsverfolgung aus Deutschland.{% else %}European shoppers often need a low-risk way to discover rich oriental profiles. NUR offers decants across oud, musk, amber, rose, vanilla, gourmand and fresh woody scent families with tracked shipping from Germany.{% endif %}</p>
+          </article>
+          <article>
+            <h2>{% if nur_de %}Hilfreich zum Verschenken und für erste Entdeckungen{% else %}Helpful for gifting and first discoveries{% endif %}</h2>
+            <p>{% if nur_de %}Nutze Proben, um Duftfamilien zu vergleichen, ein kuratiertes Trio zusammenzustellen oder ein sichereres Geschenk zu wählen. Die Produktseiten erklären Noten, Anlässe, Haltbarkeit, Projektion und ideale Einsatzmöglichkeiten.{% else %}Use samples to compare scent families, build a curated trio or choose a safer gift. The product pages explain notes, occasions, longevity, projection and best-fit use cases.{% endif %}</p>
+          </article>
+        </div>
+        <div class="seo-card-row">
+          <a href="{{ routes.all_products_collection_url }}">Shop all oriental samples</a>
+          <a href="/pages/build-your-own-bundle">Build a discovery set</a>
+          <a href="{{ routes.collections_url }}/oud-perfumes">Oud perfumes</a>
+          <a href="{{ routes.collections_url }}/musk-perfumes">Musk perfumes</a>
+        </div>
+      {%- else -%}
+        <div class="seo-grid">
+          <article>
+            <h2>{% if nur_de %}Arabische Duftproben entdecken{% else %}Explore Arabian fragrance samples{% endif %}</h2>
+            <p>{{ page.content | default: landing_desc }}</p>
+          </article>
+        </div>
+    {%- endcase -%}
+	  </div>
+	  <div class="seo-faq" aria-label="Frequently asked questions">
+	    <h2>{% if nur_de %}Häufig gestellte Fragen{% else %}Frequently Asked Questions{% endif %}</h2>
+	    <details open>
+	      <summary>{{ faq_q1 }}</summary>
+	      <p>{{ faq_a1 }}</p>
+	    </details>
+	    <details>
+	      <summary>{{ faq_q2 }}</summary>
+	      <p>{{ faq_a2 }}</p>
+	    </details>
+	    <details>
+	      <summary>{{ faq_q3 }}</summary>
+	      <p>{{ faq_a3 }}</p>
+	    </details>
+	  </div>
+	</section>
+
+{% stylesheet %}
+.seo-landing{background:var(--dark);color:var(--cream);min-height:70vh}
+.seo-landing-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,420px);gap:4rem;align-items:center;max-width:1180px;margin:0 auto;padding:9rem 2rem 4rem}
+.seo-kicker{display:block;font-family:var(--ral);font-size:.62rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.seo-landing h1{font-family:var(--serif);font-size:clamp(2.6rem,6vw,5rem);font-weight:300;line-height:1.02;margin:0 0 1.4rem}
+.seo-landing p{font-family:var(--ral);font-size:.95rem;line-height:1.9;color:rgba(245,240,232,.68);max-width:680px}
+.seo-actions{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:2rem}
+.seo-primary,.seo-secondary,.seo-card-row a{font-family:var(--ral);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:all .22s}
+.seo-primary{background:var(--gold);color:var(--dark);padding:1rem 1.35rem}
+.seo-secondary{border:1px solid rgba(201,168,76,.35);color:var(--gold);padding:1rem 1.35rem}
+.seo-primary:hover,.seo-secondary:hover{transform:translateY(-2px)}
+.seo-landing-media{border:1px solid rgba(201,168,76,.16);background:rgba(255,255,255,.025);aspect-ratio:1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.seo-landing-media img{width:100%;height:100%;object-fit:contain;padding:1.3rem;filter:drop-shadow(0 18px 44px rgba(0,0,0,.48))}
+.seo-content{max-width:1120px;margin:0 auto;padding:2rem 2rem 7rem}
+.seo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem}
+.seo-grid article{border:1px solid rgba(201,168,76,.12);background:rgba(255,255,255,.02);padding:2rem}
+.seo-grid h2{font-family:var(--serif);font-size:1.8rem;font-weight:300;margin:0 0 .8rem;color:var(--cream)}
+.seo-grid a{color:var(--gold)}
+.seo-card-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;margin-top:1rem}
+	.seo-card-row a{border:1px solid rgba(201,168,76,.2);color:var(--gold);padding:1rem;min-height:74px;display:flex;align-items:center}
+	.seo-card-row a:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.45)}
+	.seo-faq{max-width:900px;margin:3rem auto 0;border-top:1px solid rgba(201,168,76,.16)}
+	.seo-faq h2{font-family:var(--serif);font-size:2rem;font-weight:300;margin:2rem 0 1rem;color:var(--cream)}
+	.seo-faq details{border-bottom:1px solid rgba(201,168,76,.12);padding:1rem 0}
+	.seo-faq summary{cursor:pointer;font-family:var(--ral);font-size:.95rem;color:var(--cream)}
+	.seo-faq summary:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+	.seo-faq p{margin:.8rem 0 0;max-width:760px}
+	@media(max-width:860px){.seo-landing-hero,.seo-grid,.seo-card-row{grid-template-columns:1fr}.seo-landing-hero{padding-top:7rem;gap:2rem}.seo-landing-media{max-width:420px}.seo-actions{flex-direction:column}.seo-primary,.seo-secondary{text-align:center}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SEO landing page",
+  "settings": [
+    {
+      "type": "select",
+      "id": "landing_handle",
+      "label": "Landing page content",
+      "options": [
+        {"value": "lattafa-samples", "label": "Lattafa samples"},
+        {"value": "armaf-decants", "label": "Armaf decants"},
+        {"value": "arabian-perfume-samples-germany", "label": "Arabian perfume samples Germany"},
+        {"value": "baccarat-rouge-alternative", "label": "Baccarat Rouge fragrance alternatives"},
+        {"value": "creed-aventus-alternative", "label": "Creed Aventus fragrance alternatives"},
+        {"value": "arabic-perfumes", "label": "Arabic perfumes"},
+        {"value": "oud-perfumes", "label": "Oud perfumes"},
+        {"value": "musk-perfumes", "label": "Musk perfumes"},
+        {"value": "bakhoor", "label": "Bakhoor"},
+        {"value": "perfume-oils", "label": "Perfume oils"},
+        {"value": "best-arabic-fragrances-germany", "label": "Best Arabic fragrances Germany"},
+        {"value": "oriental-perfumes-europe", "label": "Oriental perfumes Europe"}
+      ],
+      "default": "lattafa-samples"
+    }
+  ],
+  "presets": [
+    {"name": "SEO landing page"}
+  ]
+}
+{% endschema %}

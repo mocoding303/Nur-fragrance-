@@ -812,7 +812,16 @@
             <div class="cs-body">
               <div class="cs-brand">{{ cs_product.vendor }}</div>
               <div class="cs-name">{{ cs_product.title }}</div>
-              <div class="cs-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#xBD;</div>
+              {%- comment -%}
+                No rating is rendered here. This card previously hard-coded a
+                fixed 4.5-star rating on every cross-sell tile for products that
+                have no reviews at all, and it was suppressed with a CSS rule
+                that lived in product-json-ld.liquid. Both are removed: an
+                invented rating is not a display bug to hide, and hiding it left
+                a fabricated claim one deleted stylesheet away from reappearing.
+                Reinstate stars only when a real review source exists, and emit
+                AggregateRating alongside them.
+              {%- endcomment -%}
               <div class="cs-price">{{ cs_product.price_min | money }}</div>
             </div>
           </a>
@@ -832,6 +841,17 @@
       <div class="reviews-summary">
         <div class="rs-score">{% if product.metafields.custom.rating != blank %}{{ product.metafields.custom.rating }}{% else %}&mdash;{% endif %}</div>
         <div class="rs-right">
+          {%- comment -%}
+            WARNING: these stars are hard-coded at 4.5 and do NOT reflect
+            custom.rating. The block is gated, and custom.rating is currently
+            null on all 16 products, so nothing renders today. But the moment a
+            real rating is set - say 3.1 - this still prints 4.5 stars, which is
+            a fabricated rating on a page that also claims to show real feedback.
+            Before enabling any review source: derive the glyphs from the actual
+            value, and emit AggregateRating in product-json-ld.liquid at the same
+            time. Left in place rather than deleted because it is the intended
+            hook for a genuine review integration.
+          {%- endcomment -%}
           {%- if product.metafields.custom.rating != blank -%}<div class="rs-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#xBD;</div>{%- endif -%}
           <div class="rs-label">{% if product.metafields.custom.review_count != blank %}{{ product.metafields.custom.review_count }} {% if nur_de %}Kundenbewertungen{% else %}customer reviews{% endif %}{% else %}{% if nur_de %}Bewertungsscore verbunden{% else %}Review score connected{% endif %}{% endif %}</div>
         </div>
