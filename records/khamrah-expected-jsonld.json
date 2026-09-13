@@ -1,0 +1,228 @@
+{
+  "@context": "https://schema.org",
+  "@type": "ProductGroup",
+  "@id": "https://www.nur-fragrance.com/products/khamrah#product",
+  "productGroupID": "shopify-15894219489605",
+  "variesBy": "https://schema.org/size",
+  "name": "Khamrah",
+  "url": "https://www.nur-fragrance.com/products/khamrah",
+  "description": "The legendary Khamrah by Lattafa — widely considered the best affordable alternative to Baccarat Rouge 540. Top notes of Honey & Saffron, heart of Oud & Rose, base of Vanilla & Amber. Extraordinary longevity.",
+  "brand": {
+    "@type": "Brand",
+    "name": "Lattafa"
+  },
+  "image": [
+    "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-1.jpg",
+    "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-2.jpg",
+    "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-3.jpg",
+    "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-4.jpg",
+    "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-5.jpg",
+    "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-6.jpg",
+    "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-7.jpg",
+    "https://cdn.shopify.com/s/files/1/1063/2445/9845/t/38/assets/khamrah-hero.jpg"
+  ],
+  "additionalProperty": [
+    {
+      "@type": "PropertyValue",
+      "name": "Top notes",
+      "value": "Cinnamon, Cognac, Nutmeg"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Heart notes",
+      "value": "Oud, Rose, Jasmine"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Base notes",
+      "value": "Vanilla, Caramel, Amber, Sandalwood"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Olfactive family",
+      "value": "Gourmand, Oriental Sweet"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Longevity",
+      "value": "8–12 hours"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Sillage",
+      "value": "Strong"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Best season",
+      "value": "Autumn, Winter"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Occasion",
+      "value": "Evening, Date Night, Special Occasion"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Sweetness",
+      "value": 90,
+      "minValue": 0,
+      "maxValue": 100
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Spiciness",
+      "value": 70,
+      "minValue": 0,
+      "maxValue": 100
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Woodiness",
+      "value": 50,
+      "minValue": 0,
+      "maxValue": 100
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Floralcy",
+      "value": 38,
+      "minValue": 0,
+      "maxValue": 100
+    }
+  ],
+  "hasVariant": [
+    {
+      "@type": "Product",
+      "@id": "https://www.nur-fragrance.com/products/khamrah?variant=58031527493957#product",
+      "name": "Khamrah — 1ml",
+      "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527493957",
+      "size": "1ml",
+      "additionalProperty": {
+        "@type": "PropertyValue",
+        "name": "Volume",
+        "value": "1",
+        "unitCode": "MLT",
+        "unitText": "ml"
+      },
+      "brand": {
+        "@type": "Brand",
+        "name": "Lattafa"
+      },
+      "isVariantOf": {
+        "@id": "https://www.nur-fragrance.com/products/khamrah#product"
+      },
+      "sku": "KHAMRAH-1ML",
+      "offers": {
+        "@type": "Offer",
+        "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527493957",
+        "priceCurrency": "EUR",
+        "price": "4.90",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {
+          "@id": "https://www.nur-fragrance.com/#organization"
+        }
+      }
+    },
+    {
+      "@type": "Product",
+      "@id": "https://www.nur-fragrance.com/products/khamrah?variant=58031527526725#product",
+      "name": "Khamrah — 2ml",
+      "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527526725",
+      "size": "2ml",
+      "additionalProperty": {
+        "@type": "PropertyValue",
+        "name": "Volume",
+        "value": "2",
+        "unitCode": "MLT",
+        "unitText": "ml"
+      },
+      "brand": {
+        "@type": "Brand",
+        "name": "Lattafa"
+      },
+      "isVariantOf": {
+        "@id": "https://www.nur-fragrance.com/products/khamrah#product"
+      },
+      "sku": "KHAMRAH-2ML",
+      "offers": {
+        "@type": "Offer",
+        "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527526725",
+        "priceCurrency": "EUR",
+        "price": "7.90",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {
+          "@id": "https://www.nur-fragrance.com/#organization"
+        }
+      }
+    },
+    {
+      "@type": "Product",
+      "@id": "https://www.nur-fragrance.com/products/khamrah?variant=58031527559493#product",
+      "name": "Khamrah — 5ml",
+      "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527559493",
+      "size": "5ml",
+      "additionalProperty": {
+        "@type": "PropertyValue",
+        "name": "Volume",
+        "value": "5",
+        "unitCode": "MLT",
+        "unitText": "ml"
+      },
+      "brand": {
+        "@type": "Brand",
+        "name": "Lattafa"
+      },
+      "isVariantOf": {
+        "@id": "https://www.nur-fragrance.com/products/khamrah#product"
+      },
+      "sku": "KHAMRAH-5ML",
+      "offers": {
+        "@type": "Offer",
+        "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527559493",
+        "priceCurrency": "EUR",
+        "price": "14.90",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {
+          "@id": "https://www.nur-fragrance.com/#organization"
+        }
+      }
+    },
+    {
+      "@type": "Product",
+      "@id": "https://www.nur-fragrance.com/products/khamrah?variant=58031527592261#product",
+      "name": "Khamrah — 10ml",
+      "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527592261",
+      "size": "10ml",
+      "additionalProperty": {
+        "@type": "PropertyValue",
+        "name": "Volume",
+        "value": "10",
+        "unitCode": "MLT",
+        "unitText": "ml"
+      },
+      "brand": {
+        "@type": "Brand",
+        "name": "Lattafa"
+      },
+      "isVariantOf": {
+        "@id": "https://www.nur-fragrance.com/products/khamrah#product"
+      },
+      "sku": "KHAMRAH-10ML",
+      "offers": {
+        "@type": "Offer",
+        "url": "https://www.nur-fragrance.com/products/khamrah?variant=58031527592261",
+        "priceCurrency": "EUR",
+        "price": "25.90",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {
+          "@id": "https://www.nur-fragrance.com/#organization"
+        }
+      }
+    }
+  ]
+}

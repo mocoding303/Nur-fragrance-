@@ -293,3 +293,55 @@ if 13/13, comment 2/2).
 
 **Not verified — needs a real render.** Rich Results Test and Schema Markup
 Validator against a rendered page; I cannot fetch the domain from this session.
+
+---
+
+## C1 escalation — trademark comparisons are already in live schema
+
+Found 2026-09-13 while gathering data for a Rich Results test. Two product
+descriptions carry direct comparisons to other houses' trademarks:
+
+| Product | Live `description` |
+| --- | --- |
+| `khamrah` | "widely considered the best affordable alternative to **Baccarat Rouge 540**" |
+| `club-de-nuit-intense` | "the most acclaimed alternative to **Aventus by Creed**" |
+
+The other ten descriptions are clean note lists with no comparison.
+
+This matters more than the landing pages. `product-json-ld.liquid` builds its
+`description` from `product.description`, so both strings are **already inside
+Product structured data on the live theme** — served to Google and to any model
+that reads the page. C1 is not a future risk gated on two pages; it is shipping.
+
+Fixing it is a metafield/description edit, not a code change, and it is the
+cheapest part of C1 to resolve: rewrite two sentences.
+
+## Save-% badge — the arithmetic
+
+Khamrah, using live values: `rrp` €55, `rrp_save` 51%, decants at €4.90 / €7.90 /
+€14.90 / €25.90.
+
+| | Price | Per ml |
+| --- | --- | --- |
+| Full bottle (100 ml) at stated RRP | €55.00 | **€0.55** |
+| NUR 10 ml decant | €25.90 | **€2.59** |
+| NUR 5 ml decant | €14.90 | **€2.98** |
+
+The badge reads "Save 51%" — which is roughly €55 → €25.90. But per millilitre the
+customer pays **4.7× to 5.4× more**, not 51% less. The saving is real only if the
+alternative purchase was a whole bottle; as a percentage next to a decant price it
+asserts a discount that does not exist. This is the shape of claim UWG §5 and the
+Omnibus reference-price rules are aimed at.
+
+## Data contradictions in bundle descriptions
+
+Two bundles attribute products to the wrong house, contradicting the `vendor`
+field on the products themselves:
+
+| Bundle says | Product's actual vendor |
+| --- | --- |
+| "Dahaab Safi by **Ard Al Zaafaran**" | **Lattafa** |
+| "Turath by **Oud Elite**" | **The Spirit of Dubai**  |
+
+Whichever is right, the site currently states both. A model reading the catalogue
+gets contradictory attribution for the same product.
