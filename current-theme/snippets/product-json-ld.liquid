@@ -27,6 +27,75 @@ Renders Product structured data for Shopify product detail pages.
     render 'nur-product-use-assets', product: product
   endcapture
   assign curated_asset_flag = curated_asset_flag | strip
+  comment
+    additionalProperty, built only from metafields that are actually populated.
+
+    Every entry is gated. The three gift sets and the packaging add-on carry
+    none of these fields, so they emit no additionalProperty at all rather than
+    an empty array.
+
+    Deliberately NOT emitted, because no source of truth exists for them on this
+    store and a schema field is not a place to guess: concentration (EDP/EDT/
+    Parfum), gender, launch year, perfumer. nur-product-data-json.liquid defaults
+    gender to 'unisex' for its own UI filtering - that default is a UI
+    convenience, not a fact about the fragrance, so it must not be published as
+    structured data. Add these as real metafields and they can be wired in here.
+
+    rrp / rrp_save are also excluded on purpose. They compare a decant price to a
+    full-bottle price, which is a pricing claim under review, not a product
+    attribute.
+
+    Pairs are packed as name::value::maxValue and split below. maxValue is only
+    present for the 0-100 character scores, which become PropertyValue with
+    minValue/maxValue so a consumer can read "75 out of 100" rather than "75".
+  endcomment
+  assign nur_attrs = ''
+  assign mf = product.metafields.custom
+
+  if mf.top_notes != blank
+    assign v = mf.top_notes | replace: ' · ', ', ' | replace: '·', ', '
+    assign nur_attrs = nur_attrs | append: 'Top notes::' | append: v | append: '~~'
+  endif
+  if mf.heart_notes != blank
+    assign v = mf.heart_notes | replace: ' · ', ', ' | replace: '·', ', '
+    assign nur_attrs = nur_attrs | append: 'Heart notes::' | append: v | append: '~~'
+  endif
+  if mf.base_notes != blank
+    assign v = mf.base_notes | replace: ' · ', ', ' | replace: '·', ', '
+    assign nur_attrs = nur_attrs | append: 'Base notes::' | append: v | append: '~~'
+  endif
+  if mf.profile != blank
+    assign v = mf.profile | replace: ' · ', ', ' | replace: '·', ', '
+    assign nur_attrs = nur_attrs | append: 'Olfactive family::' | append: v | append: '~~'
+  endif
+  if mf.longevity != blank
+    assign nur_attrs = nur_attrs | append: 'Longevity::' | append: mf.longevity | append: '~~'
+  endif
+  if mf.sillage != blank
+    assign nur_attrs = nur_attrs | append: 'Sillage::' | append: mf.sillage | append: '~~'
+  endif
+  if mf.best_season != blank
+    assign v = mf.best_season | replace: ' · ', ', ' | replace: '·', ', '
+    assign nur_attrs = nur_attrs | append: 'Best season::' | append: v | append: '~~'
+  endif
+  if mf.occasion != blank
+    assign v = mf.occasion | replace: ' · ', ', ' | replace: '·', ', '
+    assign nur_attrs = nur_attrs | append: 'Occasion::' | append: v | append: '~~'
+  endif
+  if mf.char_sweet != blank
+    assign nur_attrs = nur_attrs | append: 'Sweetness::' | append: mf.char_sweet | append: '::100~~'
+  endif
+  if mf.char_spicy != blank
+    assign nur_attrs = nur_attrs | append: 'Spiciness::' | append: mf.char_spicy | append: '::100~~'
+  endif
+  if mf.char_woody != blank
+    assign nur_attrs = nur_attrs | append: 'Woodiness::' | append: mf.char_woody | append: '::100~~'
+  endif
+  if mf.char_floral != blank
+    assign nur_attrs = nur_attrs | append: 'Floralcy::' | append: mf.char_floral | append: '::100~~'
+  endif
+  assign nur_attr_list = nur_attrs | split: '~~'
+
   assign force_bundle_image = false
   assign bundle_lookup = product.handle | append: ' ' | append: product.title | downcase
   if bundle_lookup contains 'arabian-introduction' or bundle_lookup contains 'arabian introduction' or bundle_lookup contains 'signature-masculine' or bundle_lookup contains 'signature masculine' or bundle_lookup contains 'oud-explorer' or bundle_lookup contains 'oud explorer'
@@ -62,6 +131,22 @@ Renders Product structured data for Shopify product detail pages.
         {{ fallback_primary_asset | asset_url | prepend: 'https:' | json }}
       {%- endif -%}
   ]{% endif %},
+{%- if nur_attr_list.size > 0 -%}
+  "additionalProperty": [
+    {%- for pair in nur_attr_list -%}
+      {%- assign kv = pair | split: '::' -%}
+      {%- comment -%}
+        Scored attributes emit value as a NUMBER alongside minValue/maxValue so a
+        consumer can actually compare them ("sweeter than 60"); text attributes
+        emit a JSON string. Mixing the two in one loop is deliberate.
+      {%- endcomment -%}
+      {"@type":"PropertyValue","name":{{ kv[0] | json }},"value":
+      {%- if kv.size > 2 -%}{{ kv[1] | plus: 0 }},"minValue":0,"maxValue":{{ kv[2] | plus: 0 }}
+      {%- else -%}{{ kv[1] | json }}{%- endif -%}}
+      {%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ],
+{%- endif %}
   "hasVariant": [
     {%- for variant in product.variants -%}
       {%- capture variant_url -%}{{ shop.url }}{{ product.url }}?variant={{ variant.id }}{%- endcapture -%}
@@ -71,6 +156,17 @@ Renders Product structured data for Shopify product detail pages.
         "name": {{ product.title | append: ' — ' | append: variant.title | json }},
         "url": {{ variant_url | json }},
         "size": {{ variant.title | json }},
+        {%- comment -%}
+          Volume is the one attribute that genuinely varies by variant, so it
+          belongs here and not on the ProductGroup. Gated on the title actually
+          carrying "ml": the gift sets and the packaging add-on use "Default
+          Title" and must not emit a volume.
+        {%- endcomment -%}
+        {%- assign nur_vt = variant.title | downcase -%}
+        {%- if nur_vt contains 'ml' -%}
+        {%- assign nur_vol = nur_vt | remove: 'ml' | strip -%}
+        "additionalProperty": {"@type":"PropertyValue","name":"Volume","value":{{ nur_vol | json }},"unitCode":"MLT","unitText":"ml"},
+        {%- endif -%}
         "brand": {
           "@type": "Brand",
           "name": {{ product.vendor | json }}
