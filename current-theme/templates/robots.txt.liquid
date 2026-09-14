@@ -1,0 +1,55 @@
+{%- comment -%}
+  Preserve Shopify's default crawler rules, then provide explicit access rules for
+  answer-engine crawlers without exposing cart, checkout, customer, or search URLs.
+{%- endcomment -%}
+{%- comment -%}
+  Whitespace control here is load-bearing and easy to break.
+
+  Shopify's default groups render one directive per value - "User-agent: *",
+  "Disallow: /cart" and so on - with no trailing newline of their own. The line
+  breaks come from the template. Until 2026-09-14 every output tag in this loop
+  used {{- x -}}, whose trailing hyphen strips the newline after it, so all of
+  Shopify's default rules collapsed onto a single unparseable line and every one
+  of them was silently void.
+
+  {{- x }} is correct: strip the indent before the value, keep the newline after
+  it. That is Shopify's own documented pattern. Do not add the trailing hyphen.
+{%- endcomment -%}
+{% for group in robots.default_groups %}
+  {{- group.user_agent }}
+  {% for rule in group.rules %}
+    {{- rule }}
+  {% endfor %}
+  {%- if group.sitemap != blank %}
+    {{- group.sitemap }}
+  {% endif %}
+{% endfor %}
+
+{%- comment -%}
+  POLICY: answer engines are allowed on purpose. Blocking GPTBot removes NUR from
+  ChatGPT retrieval; blocking Google-Extended removes it from Gemini grounding.
+  For a brand nobody searches by name yet, being retrievable is worth more than
+  being withheld. If that is ever reversed, reverse it deliberately and say why
+  here - do not "harden" this list by reflex.
+
+  ChatGPT-User (the browsing agent), Google-Extended, Applebot-Extended and
+  Bingbot were previously unnamed and fell through to the permissive "*" group.
+  They are listed now so the policy is explicit rather than incidental.
+{%- endcomment -%}
+{%- assign nur_search_crawlers = 'OAI-SearchBot|GPTBot|ChatGPT-User|PerplexityBot|ClaudeBot|Applebot|Applebot-Extended|Google-Extended|Bingbot' | split: '|' -%}
+{%- for crawler in nur_search_crawlers %}
+User-agent: {{ crawler }}
+Allow: /
+Disallow: /admin
+Disallow: /cart
+Disallow: /carts
+Disallow: /checkout
+Disallow: /checkouts
+Disallow: /account
+Disallow: /orders
+Disallow: /search
+Disallow: /recommendations/products
+Disallow: /tools/
+
+{%- endfor -%}
+Sitemap: {{ shop.url }}/sitemap.xml

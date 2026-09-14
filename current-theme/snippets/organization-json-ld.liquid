@@ -1,0 +1,103 @@
+{% doc %}
+  Renders global Organization and WebSite structured data for NUR Fragrances.
+{% enddoc %}
+
+{% capture nur_search_target %}{{ shop.url }}{{ routes.search_url }}?q={search_term_string}{% endcapture %}
+{%- liquid
+  assign instagram_url = blank
+  if settings.social_instagram != blank
+    if settings.social_instagram contains 'http'
+      assign instagram_url = settings.social_instagram
+    else
+      assign instagram_handle = settings.social_instagram | remove: '@'
+      assign instagram_url = 'https://www.instagram.com/' | append: instagram_handle
+    endif
+  endif
+  assign tiktok_url = blank
+  if settings.social_tiktok != blank
+    if settings.social_tiktok contains 'http'
+      assign tiktok_url = settings.social_tiktok
+    else
+      assign tiktok_handle = settings.social_tiktok | remove: '@'
+      assign tiktok_url = 'https://www.tiktok.com/@' | append: tiktok_handle
+    endif
+  endif
+-%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  {%- comment -%}
+    OnlineStore, not Organization and not LocalBusiness. NUR sells and ships
+    online with no premises the public can walk into, so Store/LocalBusiness
+    with openingHours would assert a shopfront that does not exist. OnlineStore
+    is a schema.org subtype of Organization, so every node already pointing at
+    #organization keeps resolving unchanged.
+  {%- endcomment -%}
+  "@type": "OnlineStore",
+  "@id": {{ shop.url | append: '#organization' | json }},
+  "name": "NUR Fragrance",
+  "alternateName": "NUR Fragrances",
+  "url": {{ shop.url | json }},
+  "description": "NUR Fragrance is a Germany-based online shop for Arabian perfume samples, decants and discovery sets, helping customers test fragrances before purchasing a full bottle.",
+  "logo": {{ 'favicon-nur-logo.svg' | asset_url | prepend: 'https:' | json }},
+  "email": "info@nur-fragrance.com",
+  {%- comment -%}
+    Locality, region and country only - no streetAddress, no postalCode.
+
+    The full postal address is published on /pages/impressum and
+    /pages/widerrufsrecht because section 5 DDG requires it of a German shop.
+    That is a legal disclosure on a legal page. It is not something to broadcast
+    into the structured data of every page on the site. City level is a genuine
+    local-relevance signal by itself, and it is the level this business actually
+    operates at. Owner asked for Berlin only on 2026-09-14; honour that.
+
+    Deliberately absent, and not to be added without a real source:
+    - telephone - the only number NUR publishes is a personal mobile on a legal
+      page. Owner's call, and the answer so far is no.
+    - aggregateRating / review - NUR has no reviews at all. One invented rating
+      would discredit every other claim in this graph.
+    - foundingDate, numberOfEmployees, vatID - no source of truth exists.
+  {%- endcomment -%}
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Berlin",
+    "addressRegion": "Berlin",
+    "addressCountry": "DE"
+  },
+  {%- comment -%}
+    de-DE for the German storefront, but plain "en" for the English one. The
+    English version serves the EU and fourteen international markets including
+    the US, GB and AU, so regionalising it to en-DE would be a worse signal than
+    leaving it unregionalised. This is a decision, not an oversight.
+  {%- endcomment -%}
+  "inLanguage": ["de-DE", "en"],
+  "sameAs": [{% if instagram_url != blank %}{{ instagram_url | json }}{% endif %}{% if instagram_url != blank and tiktok_url != blank %},{% endif %}{% if tiktok_url != blank %}{{ tiktok_url | json }}{% endif %}],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "email": "info@nur-fragrance.com",
+    "areaServed": ["DE", "AT", "CH", "NL", "BE", "FR", "IT", "ES", "EU"],
+    "availableLanguage": ["English", "German"]
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": {{ shop.url | append: '#website' | json }},
+  "name": "NUR Fragrance",
+  "url": {{ shop.url | json }},
+  "publisher": {
+    "@id": {{ shop.url | append: '#organization' | json }}
+  },
+  "inLanguage": ["de-DE", "en"],
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {{ nur_search_target | strip | json }},
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
